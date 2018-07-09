@@ -11,12 +11,12 @@ namespace Projects.Controllers
     [Route("api/[controller]")]
     public class RetrosController : Controller
     {
-        public RetrosController()
-        {
-            GetRetroInteractor = new GetRetrosInteractor();
-        }
+        private readonly IInteractor<GetRetrosRequest, OperationResult<IEnumerable<Retro>>> GetRetroInteractor;
 
-        public IInteractor<GetRetrosRequest, OperationResult<IEnumerable<Retro>>> GetRetroInteractor { get; }
+        public RetrosController(IInteractor<GetRetrosRequest, OperationResult<IEnumerable<Retro>>> getRetroInteractor)
+        {
+            GetRetroInteractor = getRetroInteractor;
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetAsync()

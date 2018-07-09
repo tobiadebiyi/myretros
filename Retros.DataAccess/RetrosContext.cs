@@ -6,15 +6,15 @@ namespace Retros.DataAccess
 {
     public class RetrosContext : DbContext
     {
+        public RetrosContext(DbContextOptions<RetrosContext> options) :
+        base(options)
+        {
+            
+        }
 
         public DbSet<Retro> Retros {get; set;}
-        public DbSet<Group> RetroGroups {get; set;}
+        public DbSet<Group> Groups {get; set;}
         public DbSet<Comment> Comments {get; set;}
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=retros.db");
-        }
 
         protected override void OnModelCreating(ModelBuilder builder) 
         {

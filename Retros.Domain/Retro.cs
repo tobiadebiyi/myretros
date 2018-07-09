@@ -6,6 +6,10 @@ namespace Retros.Domain
 {
     public class Retro : Entity
     {
+        protected Retro()
+        {
+            
+        }
         public Retro(string name)
         {
             Name = name;

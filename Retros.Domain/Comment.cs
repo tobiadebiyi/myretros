@@ -1,6 +1,10 @@
 namespace Retros.Domain {
     public class Comment : Entity
     {
+        protected Comment()
+        {
+            
+        }
         public Comment(string text)
         {
             Text = text;
