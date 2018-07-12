@@ -5,20 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="client\**" />
+    <Content Remove="client\**" />
+    <EmbeddedResource Remove="client\**" />
+    <None Remove="client\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Retros.Domain\Retros.Domain.csproj" />
     <ProjectReference Include="..\Retros.DataAccess\Retros.DataAccess.csproj" />
+    <ProjectReference Include="..\Retros.Domain\Retros.Domain.csproj" />
   </ItemGroup>
 
 </Project>
