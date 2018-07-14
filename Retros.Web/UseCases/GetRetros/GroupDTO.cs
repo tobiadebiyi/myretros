@@ -7,6 +7,10 @@ namespace Retros.Web.UseCases.GetRetros
 {
     public class GroupDTO
     {
+        public GroupDTO()
+        {
+
+        }
         public GroupDTO(Group group)
         {
             this.Id = group.Id;
@@ -14,8 +18,8 @@ namespace Retros.Web.UseCases.GetRetros
             this.Comments = group.Comments.Select(c => new CommentDTO(c));
         }
 
-        public Guid Id { get; }
-        public string Name { get; }
-        public IEnumerable<CommentDTO> Comments { get; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public IEnumerable<CommentDTO> Comments { get; set; }
     }
 }

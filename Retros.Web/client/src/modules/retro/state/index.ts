@@ -37,11 +37,11 @@ export interface RetroState {
 
 export interface Retro {
   id: string;
-  groups: CommentGroup[];
+  groups: Group[];
   name: string;
 }
 
-export interface CommentGroup {
+export interface Group {
   id: string;
   name: string;
   comments: Comment[];

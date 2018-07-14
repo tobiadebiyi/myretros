@@ -2,42 +2,26 @@ import { Grid, Table, TableBody, TableRow, TableCell, Typography } from "materia
 import * as React from "react";
 import { Retro } from "../../retro";
 import * as styles from "./styles.css";
-import { HubConnectionBuilder, HubConnection } from "@aspnet/signalr";
 
 export interface RetroListProps {
   retros: Retro[];
   classes?: any;
   handleOnCreateRetro: (retroName: string) => void;
-  showRetro: (retroId: string) => void;
+  gotoRetro: (retroId: string) => void;
   fetchRetros: () => void;
 }
 
 export class RetroList extends React.Component<RetroListProps> {
-  hubConnection: HubConnection;
   constructor(props: RetroListProps, context?: any) {
     super(props);
-
-    this.hubConnection = new HubConnectionBuilder()
-    .withUrl("http://localhost:50880/retrohub")
-    .build();
   }
 
   componentDidMount() {
     this.props.fetchRetros();
-
-    this.hubConnection.on("Connected", (message: string) => {
-      alert(message);
-    });
-
-    this.hubConnection.start();
-  }
-
-  componentWillUnmount() {
-    this.hubConnection.stop();
   }
 
   render() {
-    const { retros, showRetro } = this.props;
+    const { retros, gotoRetro } = this.props;
     return (
       <div className={styles.root}>
         <Grid container={true} alignContent={"center"} justify={"center"}>
@@ -57,7 +41,7 @@ export class RetroList extends React.Component<RetroListProps> {
               <Table>
                 <TableBody>
                   {retros.map((retro, index) => (
-                    <TableRow key={index} hover={true} onClick={() => showRetro(retro.id)}>
+                    <TableRow key={index} hover={true} onClick={() => gotoRetro(retro.id)}>
                       <TableCell>
                         {retro.name}
                       </TableCell>

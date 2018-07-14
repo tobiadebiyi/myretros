@@ -1,3 +1,5 @@
+using System;
+
 namespace Retros.Domain {
     public class Comment : Entity
     {
@@ -7,6 +9,7 @@ namespace Retros.Domain {
         }
         public Comment(string text)
         {
+            this.Id = Guid.NewGuid();
             Text = text;
         }
 

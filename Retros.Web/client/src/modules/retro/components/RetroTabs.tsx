@@ -7,7 +7,7 @@ import {
   Typography,
 } from "material-ui";
 
-import { CommentGroup, Retro, Comment } from "..";
+import { Group, Retro, Comment } from "..";
 // import CommentGroupComponent from "./CommentGroupComponent";
 import Slide from "material-ui/transitions/Slide";
 
@@ -20,7 +20,8 @@ import * as classNames from "classnames";
 import { EditCommentDialog } from "./EditCommentDialog";
 import { ScreenActionButton } from "../../../components/ScreenActionButton";
 
-import * as io from "socket.io-client";
+import { HubConnectionBuilder, HubConnection } from "../../../../node_modules/@aspnet/signalr";
+import CommentGroup from "./CommentGroupComponent";
 
 interface TabContainerProps {
   classes?: any;
@@ -97,6 +98,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       icon: <AddIcon />,
     }
   ];
+  hubConnection: HubConnection;
 
   constructor(props: RetroTabsProps, context: any) {
     super(props);
@@ -109,14 +111,26 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
         comment: {},
       } as EditCommentState,
     };
+
+    this.hubConnection = new HubConnectionBuilder()
+    .withUrl("http://localhost:50880/retrohub")
+    .build();
   }
 
   componentDidMount() {
     this.props.fetchRetro(this.props.retroId);
-    var socket = io.connect("http://localhost:8080");
-    socket.on("message", function (message: any) {
-      alert("The server has a message for you: " + message);
+    
+    this.hubConnection.on("ReceiveRetro", (retro: Retro) => {
+      alert(retro.id);
     });
+
+    this.hubConnection.start().then(() => {
+    this.hubConnection.invoke("JoinRetro", this.props.retroId);
+    });
+  }
+
+  componentWillUnmount() {
+    this.hubConnection.stop();
   }
 
   handleOpenCommentDialog = (groupId: string, comment: Comment) => {
@@ -152,27 +166,36 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       text: text,
       isActiveUser: true,
     } as Comment;
-    this.props.saveComment(comment, state.editCommentState.commentGroupId);
+    // this.props.saveComment(comment, state.editCommentState.commentGroupId);
+    this.hubConnection
+      .invoke("AddComment", {
+        retroId: this.props.retroId, 
+        groupId: state.editCommentState.commentGroupId,
+        comment,
+      });
   }
 
   handleOnEditComment = (commentId: string) => {
-    // const comment = this.props.retro.comments.find(c => c.id === commentId);
-    // if (!comment) return;
+    const group = this.props.retro.groups
+      .filter(g => g.comments.some(c => c.id === commentId))[0];
 
-    // const groupId = this.props.retro.groups.find(g => g.commentIds.some(c => c === commentId))!.id;
-    // this.handleOpenCommentDialog(groupId, comment);
+    const comment = group.comments.find(c => c.id === commentId);
+
+    if (!comment) return;
+
+    this.handleOpenCommentDialog(group.id, comment);
   }
 
-  renderCommentGroup = (group: CommentGroup, index: number) => {
+  renderCommentGroup = (group: Group, index: number) => {
     if (group === undefined) { return; }
 
     return (
       <Slide key={index} direction="right" in={this.state.tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
         <TabContainer>
-          {/* <CommentGroupComponent
-            // comments={this.props.retro.comments.filter(c => group.commentIds.some(id => id === c.id))}
+          <CommentGroup
+            comments={group.comments}
             handleOnEditComment={this.handleOnEditComment}
-          /> */}
+          />
         </TabContainer>
       </Slide>
     );

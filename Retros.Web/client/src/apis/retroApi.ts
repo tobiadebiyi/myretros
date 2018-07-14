@@ -9,8 +9,8 @@ const getRetros = (): Promise<OperationResult<Retro[]>> => {
 };
 
 const getRetro = (retroId: string): Promise<OperationResult<Retro>> => {
-  return get(`http://localhost:50880/api/retros/${retroId}`).then((retro) => {
-    return retro;
+  return get(`http://localhost:50880/api/retros/${retroId}`).then((result) => {
+    return result;
   });
 };
 

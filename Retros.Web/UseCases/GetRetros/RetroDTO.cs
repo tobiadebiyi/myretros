@@ -7,14 +7,20 @@ namespace Retros.Web.UseCases.GetRetros
 {
     public class RetroDTO
     {
-        public RetroDTO(Retro domainRetro)
+        public RetroDTO()
         {
-            this.Name = domainRetro.Name;
-            this.Groups = domainRetro.Groups.Select(g => new GroupDTO(g));
+
+        }
+        public RetroDTO(Retro retro)
+        {
+            this.Id = retro.Id;
+            this.Name = retro.Name;
+            this.Groups = retro.Groups.Select(g => new GroupDTO(g));
 
         }
 
-        public string Name { get; }
-        public IEnumerable<GroupDTO> Groups { get; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public IEnumerable<GroupDTO> Groups { get; set; }
     }
 }

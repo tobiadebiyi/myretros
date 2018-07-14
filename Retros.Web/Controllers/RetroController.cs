@@ -6,24 +6,34 @@ using Microsoft.AspNetCore.Mvc;
 using Projects.UseCases.GetRetros;
 using Retros.Domain;
 using Retros.Web.Application;
+using Retros.Web.UseCases.AddComment;
 using Retros.Web.UseCases.GetRetros;
 
-namespace Projects.Controllers
+namespace Retros.Web.Controllers
 {
     [Route("api/[controller]")]
     public class RetrosController : Controller
     {
-        private readonly IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> GetRetroInteractor;
+        readonly IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetroInteractor;
 
         public RetrosController(IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetroInteractor)
         {
-            GetRetroInteractor = getRetroInteractor;
+            this.getRetroInteractor = getRetroInteractor;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        [Route("")]
+        public async Task<IActionResult> GetRetros()
         {
-            return Ok(await GetRetroInteractor.Handle(new GetRetrosRequest()));
+            return Ok(await getRetroInteractor.Handle(new GetRetrosRequest()));
+        }
+
+        [HttpGet]
+        [Route("{retroId}")]
+        public async Task<IActionResult> GetRetro(Guid retroId)
+        {
+            var retros = await getRetroInteractor.Handle(new GetRetrosRequest());
+            return Ok(retros.Value.Retros.FirstOrDefault(r => r.Id == retroId));
         }
     }
 }
