@@ -12,7 +12,7 @@ export const RetroListActionCreators = {
   fetchRetros: () => {
     return (dispatch: any) => {
       dispatch({ type: FETCH_RETROS_STARTED });
-      RetroApi.getRetros().then(retros => dispatch({ type: FETCH_RETROS_SUCCESS, retros }));
+      RetroApi.getRetros().then(response => dispatch({ type: FETCH_RETROS_SUCCESS, retros: response.value }));
     };
   },
   saveRetro: (retro: Retro) => {

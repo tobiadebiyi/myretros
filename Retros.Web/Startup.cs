@@ -7,6 +7,7 @@ using Projects.Repositories;
 using Projects.UseCases.GetRetros;
 using Retros.DataAccess;
 using Retros.Domain;
+using Retros.Web.Hubs;
 using System.Collections.Generic;
 
 namespace Retros.Web
@@ -27,6 +28,13 @@ namespace Retros.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder =>
+                        builder.WithOrigins("http://localhost:3000")
+                        .AllowCredentials()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+            
+            app.UseSignalR(routes => routes.MapHub<RetroHub>("/retrohub"));
             app.UseMvc();
         }
 
@@ -39,6 +47,8 @@ namespace Retros.Web
 
             services.AddDbContext<RetrosContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("RetrosContext")));
+
+            services.AddSignalR();
         }
     }
 }

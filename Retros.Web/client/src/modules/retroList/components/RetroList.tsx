@@ -2,6 +2,7 @@ import { Grid, Table, TableBody, TableRow, TableCell, Typography } from "materia
 import * as React from "react";
 import { Retro } from "../../retro";
 import * as styles from "./styles.css";
+import { HubConnectionBuilder, HubConnection } from "@aspnet/signalr";
 
 export interface RetroListProps {
   retros: Retro[];
@@ -12,12 +13,27 @@ export interface RetroListProps {
 }
 
 export class RetroList extends React.Component<RetroListProps> {
+  hubConnection: HubConnection;
   constructor(props: RetroListProps, context?: any) {
     super(props);
+
+    this.hubConnection = new HubConnectionBuilder()
+    .withUrl("http://localhost:50880/retrohub")
+    .build();
   }
 
   componentDidMount() {
     this.props.fetchRetros();
+
+    this.hubConnection.on("Connected", (message: string) => {
+      alert(message);
+    });
+
+    this.hubConnection.start();
+  }
+
+  componentWillUnmount() {
+    this.hubConnection.stop();
   }
 
   render() {

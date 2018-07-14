@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Retros.Web", "Retros.Web\Retros.Web.csproj", "{F125DAD2-06E2-474D-8E1D-433291E4080D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Retros.Web", "Retros.Web\Retros.Web.csproj", "{F125DAD2-06E2-474D-8E1D-433291E4080D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Retros.DataAccess", "Retros.DataAccess\Retros.DataAccess.csproj", "{61B33027-5CA7-4E2A-9B6B-E765B4D9AC26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Retros.DataAccess", "Retros.DataAccess\Retros.DataAccess.csproj", "{61B33027-5CA7-4E2A-9B6B-E765B4D9AC26}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Retros.Domain", "Retros.Domain\Retros.Domain.csproj", "{ED00830F-66B5-4210-ADBF-55ED770A456F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Retros.Domain", "Retros.Domain\Retros.Domain.csproj", "{ED00830F-66B5-4210-ADBF-55ED770A456F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
