@@ -10,7 +10,7 @@ namespace Retros.Domain {
             Text = text;
         }
 
-        public string Text { get; }
-        public Group Retro { get; }
+        public string Text { get; protected set; }
+        public Group Group { get; protected set; }
     }
 }

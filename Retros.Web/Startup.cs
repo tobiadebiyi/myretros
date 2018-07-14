@@ -8,6 +8,7 @@ using Projects.UseCases.GetRetros;
 using Retros.DataAccess;
 using Retros.Domain;
 using Retros.Web.Hubs;
+using Retros.Web.UseCases.GetRetros;
 using System.Collections.Generic;
 
 namespace Retros.Web
@@ -43,7 +44,7 @@ namespace Retros.Web
             services.AddMvc();
 
             services.AddTransient<IRetroReposirotory, RetroReposirotory>();
-            services.AddTransient<IInteractor<GetRetrosRequest, OperationResult<IEnumerable<Retro>>>, GetRetrosInteractor>();
+            services.AddTransient<IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>>, GetRetrosInteractor>();
 
             services.AddDbContext<RetrosContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("RetrosContext")));

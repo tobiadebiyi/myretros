@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Projects.UseCases.GetRetros;
 using Retros.Domain;
+using Retros.Web.UseCases.GetRetros;
 
 namespace Projects.Controllers
 {
     [Route("api/[controller]")]
     public class RetrosController : Controller
     {
-        private readonly IInteractor<GetRetrosRequest, OperationResult<IEnumerable<Retro>>> GetRetroInteractor;
+        private readonly IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> GetRetroInteractor;
 
-        public RetrosController(IInteractor<GetRetrosRequest, OperationResult<IEnumerable<Retro>>> getRetroInteractor)
+        public RetrosController(IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetroInteractor)
         {
             GetRetroInteractor = getRetroInteractor;
         }

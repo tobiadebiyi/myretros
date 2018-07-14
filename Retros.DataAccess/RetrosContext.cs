@@ -14,10 +14,10 @@ namespace Retros.DataAccess
         public DbSet<Group> Groups { get; set; }
         public DbSet<Retro> Retros { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            builder.Entity<Retro>().HasMany(r => r.Groups);
-            builder.Entity<Group>().HasMany(g => g.Comments);
+            modelBuilder.Entity<Retro>().HasMany(r => r.Groups).WithOne(g => g.Retro);
+            modelBuilder.Entity<Group>().HasMany(g => g.Comments).WithOne(c => c.Group);
         }
     }
 }

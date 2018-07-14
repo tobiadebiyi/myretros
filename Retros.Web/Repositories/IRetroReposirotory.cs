@@ -21,7 +21,10 @@ namespace Projects.Repositories
         }
         public async Task<IEnumerable<Retro>> Get()
         {
-            return await this.context.Retros.ToListAsync();
+            return await this.context.Retros
+                             .Include(r => r.Groups)
+                             .ThenInclude(g => g.Comments)
+                             .ToListAsync();
         }
     }
 }

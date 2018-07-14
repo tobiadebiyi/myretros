@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Retros.DataAccess;
+using Retros.Web.Data;
 using System;
+using System.Linq;
 
 namespace Retros.Web
 {
@@ -26,6 +28,12 @@ namespace Retros.Web
                 {
                     var context = services.GetRequiredService<RetrosContext>();
                     context.Database.EnsureCreated();
+
+                    if(!context.Retros.Any())
+                    {
+                        new RetroContextDbSeeder(context).Initialize().GetAwaiter().GetResult();
+                    }
+
                 }
                 catch (Exception ex)
                 {

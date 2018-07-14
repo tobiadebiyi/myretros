@@ -3,8 +3,8 @@ import { get } from "../services/HttpService";
 import { OperationResult } from "../models/OperationResult";
 
 const getRetros = (): Promise<OperationResult<Retro[]>> => {
-  return get("http://localhost:50880/api/retros").then((retros) => {
-    return retros;
+  return get("http://localhost:50880/api/retros").then((result) => {
+    return result.value.retros;
   });
 };
 

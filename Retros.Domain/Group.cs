@@ -5,10 +5,17 @@ namespace Retros.Domain
 {
     public class Group : Entity
     {
-        public string Name { get; set; }
-        public Retro Retro { get; set; }
-        
-        public ICollection<Comment> Comments { get; private set; }
+        protected Group(){}
+
+        public Group(string name)
+        {
+            this.Id = Guid.NewGuid();
+            this.Name = name;
+        }
+
+        public string Name { get; protected set; }
+        public Retro Retro { get; protected set; }
+        public ICollection<Comment> Comments { get; protected set; } = new List<Comment>();
 
         internal void AddComment(Comment comment)
         {

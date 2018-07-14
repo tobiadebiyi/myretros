@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Projects.Repositories;
 using Retros.Domain;
+using Retros.Web.UseCases.GetRetros;
 
 namespace Projects.UseCases.GetRetros
 {
-    public class GetRetrosInteractor : IInteractor<GetRetrosRequest, OperationResult<IEnumerable<Retro>>>
+    public class GetRetrosInteractor : IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>>
     {
         private readonly IRetroReposirotory retroRepository;
 
@@ -14,14 +16,15 @@ namespace Projects.UseCases.GetRetros
             this.retroRepository = retroRepository;
         }
 
-        public async Task<OperationResult<IEnumerable<Retro>>> Handle(GetRetrosRequest request)
+        public async Task<OperationResult<GetRetrosResponse>> Handle(GetRetrosRequest request)
         {
             var result = await this.retroRepository.Get();
+            var response = new GetRetrosResponse(result.Select(r => new RetroDTO(r)));
 
-            return new OperationResult<IEnumerable<Retro>>
+            return new OperationResult<GetRetrosResponse>
             {
                 Succeded = true,
-                Value = result
+                Value = response
             };
         }
     }

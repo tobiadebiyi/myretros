@@ -15,9 +15,16 @@ namespace Retros.Domain
             Name = name;
         }
 
-        public string Name { get; }
+        public string Name { get; protected set; }
+        public ICollection<Group> Groups { get; protected set; } = new List<Group>();
 
-        public ICollection<Group> Groups { get; set; }
+        public void AddGroup(Group group)
+        {
+            if(this.Groups.Any(g => g.Name == group.Name))
+                throw new InvalidOperationException($"There is already a group with this name: {group.Name}");
+            
+            this.Groups.Add(group);
+        }
 
         public void AddComment(Guid groupId, Comment comment)
         {
