@@ -1,16 +1,15 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using Projects.UseCases.GetRetros;
-using Retros.Domain;
+using Retros.Web.Application;
+using Retros.Web.UseCases.GetRetros;
 
 namespace Retros.Web.Hubs 
 {
     public class RetroHub : Hub
     {
-        readonly IInteractor<GetRetrosRequest, OperationResult<IEnumerable<Retro>>> getRetros;
+        readonly IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetros;
 
-        public RetroHub(IInteractor<GetRetrosRequest, OperationResult<IEnumerable<Retro>>> getRetros)
+        public RetroHub(IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetros)
         {
             this.getRetros = getRetros;
         }

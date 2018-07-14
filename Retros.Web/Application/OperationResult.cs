@@ -1,4 +1,4 @@
-namespace Projects.UseCases.GetRetros
+namespace Retros.Web.Application
 {
     public class OperationResult
     {
