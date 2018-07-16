@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Retros.Domain;
 
-namespace Projects.Repositories
+namespace Retros.Application.Interfaces
 {
     public interface IRetroReposirotory
     {

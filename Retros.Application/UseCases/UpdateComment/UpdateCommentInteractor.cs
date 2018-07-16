@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Projects.Repositories;
-using Retros.Domain;
+using Retros.Application.DTOs;
+using Retros.Application.Interfaces;
 using Retros.Web.Application;
-using Retros.Web.UseCases.GetRetros;
 
-namespace Retros.Web.UseCases.UpdateComment
+namespace Retros.Application.UseCases.UpdateComment
 {
     public class UpdateCommentInteractor : IInteractor<UpdateCommentRequest, OperationResult<CommentDTO>>
     {

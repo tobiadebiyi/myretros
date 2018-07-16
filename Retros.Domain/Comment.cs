@@ -5,9 +5,9 @@ namespace Retros.Domain {
     {
         protected Comment()
         {
-            
+            WhenAdded = DateTime.UtcNow;
         }
-        public Comment(string text)
+        public Comment(string text) : this()
         {
             this.Id = Guid.NewGuid();
             Text = text;
@@ -15,5 +15,6 @@ namespace Retros.Domain {
 
         public string Text { get; protected set; }
         public Group Group { get; protected set; }
+        public DateTime WhenAdded { get; protected set; }
     }
 }

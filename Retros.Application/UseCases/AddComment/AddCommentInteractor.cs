@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Projects.Repositories;
+using Retros.Application.DTOs;
+using Retros.Application.Interfaces;
 using Retros.Domain;
 using Retros.Web.Application;
-using Retros.Web.UseCases.GetRetros;
 
-namespace Retros.Web.UseCases.AddComment
+namespace Retros.Application.UseCases.AddComment
 {
     public class AddCommentInteractor : IInteractor<AddCommentRequest, OperationResult<CommentDTO>>
     {

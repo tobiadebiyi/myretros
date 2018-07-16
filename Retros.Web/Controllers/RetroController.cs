@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Projects.UseCases.GetRetros;
-using Retros.Domain;
+using Retros.Application.Interfaces;
+using Retros.Application.UseCases.GetRetros;
 using Retros.Web.Application;
-using Retros.Web.UseCases.AddComment;
-using Retros.Web.UseCases.GetRetros;
 
 namespace Retros.Web.Controllers
 {

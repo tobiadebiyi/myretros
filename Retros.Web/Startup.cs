@@ -4,14 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Projects.Repositories;
-using Projects.UseCases.GetRetros;
+using Retros.Application.DTOs;
+using Retros.Application.Interfaces;
+using Retros.Application.UseCases.AddComment;
+using Retros.Application.UseCases.GetRetros;
 using Retros.DataAccess;
-using Retros.Domain;
 using Retros.Web.Application;
 using Retros.Web.Hubs;
-using Retros.Web.UseCases.AddComment;
-using Retros.Web.UseCases.GetRetros;
-using System.Collections.Generic;
 
 namespace Retros.Web
 {

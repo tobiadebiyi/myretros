@@ -1,7 +1,7 @@
 ﻿using System;
 using Retros.Domain;
 
-namespace Retros.Web.UseCases.GetRetros
+namespace Retros.Application.DTOs
 {
     public class CommentDTO
     {

@@ -13,9 +13,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
-    <Folder Include="Application\" />
-    <Folder Include="UseCases\AddComment\" />
-    <Folder Include="UseCases\UpdateComment\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Retros.DataAccess\Retros.DataAccess.csproj" />
     <ProjectReference Include="..\Retros.Domain\Retros.Domain.csproj" />
+    <ProjectReference Include="..\Retros.Application\Retros.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Retros.Domain;
 
-namespace Retros.Web.UseCases.GetRetros
+namespace Retros.Application.DTOs
 {
     public class GroupDTO
     {

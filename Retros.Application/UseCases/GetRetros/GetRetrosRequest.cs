@@ -1,4 +1,4 @@
-namespace Retros.Web.UseCases.GetRetros
+namespace Retros.Application.UseCases.GetRetros
 {
     public class GetRetrosRequest
     {

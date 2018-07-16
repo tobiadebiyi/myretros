@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Retros.Application.DTOs;
 
-namespace Retros.Web.UseCases.GetRetros
+namespace Retros.Application.UseCases.GetRetros
 {
     public class GetRetrosResponse
     {

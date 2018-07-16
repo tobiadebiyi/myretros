@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Retros.Web.Application
+namespace Retros.Application.Interfaces
 {
     public interface IInteractor<TRequest, TResponse>
     {

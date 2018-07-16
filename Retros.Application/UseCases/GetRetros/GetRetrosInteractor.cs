@@ -1,12 +1,10 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Projects.Repositories;
-using Retros.Domain;
+using Retros.Application.DTOs;
+using Retros.Application.Interfaces;
 using Retros.Web.Application;
-using Retros.Web.UseCases.GetRetros;
 
-namespace Projects.UseCases.GetRetros
+namespace Retros.Application.UseCases.GetRetros
 {
     public class GetRetrosInteractor : IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>>
     {

@@ -1,9 +1,9 @@
 ﻿using System;
-using Retros.Web.UseCases.GetRetros;
+using Retros.Application.DTOs;
 
-namespace Retros.Web.UseCases.UpdateComment
+namespace Retros.Application.UseCases.AddComment
 {
-    public class UpdateCommentRequest
+    public class AddCommentRequest
     {
         public Guid RetroId { get; set; }
         public Guid GroupId { get; set; }
