@@ -1,31 +1,24 @@
-import { RetroApi } from "../../../apis/retroApi";
-
 export const FETCH_COMMENTS_START: string = "FETCH_COMMENTS_START";
 export const FETCH_COMMENTS_SUCCESS: string = "FETCH_COMMENTS_SUCCESS";
 export const FETCH_COMMENTS_FAILURE: string = "FETCH_COMMENTS_FAILURE";
 
-export const SAVE_COMMENT_STARTED: string = "SAVE_COMMENT_STARTED";
-export const SAVE_COMMENT_SUCCESS: string = "SAVE_COMMENT_SUCCESS";
+export const ADD_COMMENT_STARTED: string = "ADD_COMMENT_STARTED";
+export const ADD_COMMENT_SUCCESS: string = "ADD_COMMENT_SUCCESS";
 
-export const FETCH_RETRO_START: string = "FETCH_RETRO_START";
-export const FETCH_RETRO_SUCCESS: string = "FETCH_RETRO_SUCCESS";
-export const FETCH_RETRO_FAILURE: string = "FETCH_RETRO_FAILURE";
+export const UPDATE_RETRO_START: string = "UPDATE_RETRO_START";
+export const UPDATE_RETRO_SUCCESS: string = "UPDATE_RETRO_SUCCESS";
 
 export const RetroActionCreators = {
-  saveComment: (comment: Comment, groupId: string) => {
+  addCommentToRetro: (comment: Comment, groupId: string) => {
     return (dispatch: any) => {
-      dispatch({ type: SAVE_COMMENT_STARTED });
-      if (!comment.id) {
-        comment.id = `newCommentId-${Math.random()}`;
-      }
-
-      dispatch({ type: SAVE_COMMENT_SUCCESS, comment, groupId });
+      dispatch({ type: ADD_COMMENT_STARTED });
+      dispatch({ type: ADD_COMMENT_SUCCESS, comment, groupId });
     };
   },
-  fetchRetro: (retroId: string) => {
+  updateRetro: (retro: Retro) => {
     return (dispatch: any) => {
-      dispatch({ type: FETCH_RETRO_START });
-      RetroApi.getRetro(retroId).then((retro => dispatch({ type: FETCH_RETRO_SUCCESS, retro })));
+      dispatch({ type: UPDATE_RETRO_START });
+      dispatch({ type: UPDATE_RETRO_SUCCESS, retro });
     };
   },
 };
@@ -60,20 +53,13 @@ const initialState: RetroState = {
 
 export const RetroReducer = (state: RetroState = initialState, action: any) => {
   switch (action.type) {
-    case SAVE_COMMENT_SUCCESS:
-      const retro = state.retro;
-      // const existingCommentIndex = retro!.comments.findIndex(c => c.id === action.comment.id);
-
-      // if (existingCommentIndex === -1) {
-      //   retro!.comments.push(action.comment);
-      //   retro!.groups.find(g => g.id === action.groupId)!.commentIds.push(action.comment.id);
-      // } else {
-      //   retro!.comments[existingCommentIndex] = action.comment;
-      // }
-
-      return { ...state, retro };
-    case FETCH_RETRO_SUCCESS:
+    case UPDATE_RETRO_SUCCESS:
       return { ...state, retro: action.retro };
+    case ADD_COMMENT_SUCCESS:
+      const retro = Object.assign({}, state.retro);
+      var groupIndex = retro!.groups.findIndex(g => g.id === action.groupId);
+      retro!.groups[groupIndex].comments.push(action.comment);
+      return {...state, retro};
     default:
       return state;
   }

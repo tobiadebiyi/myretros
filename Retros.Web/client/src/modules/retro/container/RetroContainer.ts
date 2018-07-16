@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { ApplicationState } from "../../../store";
 import RetroTabs, { RetroTabsProps } from "../components/RetroTabs";
-import { RetroActionCreators, Comment } from "../state";
+import { RetroActionCreators, Comment, Retro } from "../state";
 import { RouteComponentProps } from "react-router";
 
 const mapStateToProps = (
@@ -16,8 +16,9 @@ const mapStateToProps = (
 
 const mapDispatchToProps = (dispatch, ownProps): Partial<RetroTabsProps> => {
   return {
-    saveComment: (comment: Comment, groupId: string) => dispatch(RetroActionCreators.saveComment(comment, groupId)),
-    fetchRetro: (retroId: string) => dispatch(RetroActionCreators.fetchRetro(retroId), )
+    addCommentToRetro: (comment: Comment, groupId: string) => 
+      dispatch(RetroActionCreators.addCommentToRetro(comment, groupId)),
+    updateRetro: (retro: Retro) => dispatch(RetroActionCreators.updateRetro(retro), )
   };
 };
 

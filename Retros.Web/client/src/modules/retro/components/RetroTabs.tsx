@@ -8,7 +8,6 @@ import {
 } from "material-ui";
 
 import { Group, Retro, Comment } from "..";
-// import CommentGroupComponent from "./CommentGroupComponent";
 import Slide from "material-ui/transitions/Slide";
 
 import green from "material-ui/colors/green";
@@ -59,8 +58,8 @@ export interface RetroTabsProps {
   retro: Retro;
   retroId: string;
   theme: any;
-  saveComment: (comment: Comment, groupId: string) => void;
-  fetchRetro: (retroId: string) => void;
+  updateRetro: (retro: Retro) => void;
+  addCommentToRetro: (comment: Comment, groupId: string) => void;
 }
 
 interface EditCommentState {
@@ -118,14 +117,17 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
   }
 
   componentDidMount() {
-    this.props.fetchRetro(this.props.retroId);
-    
     this.hubConnection.on("ReceiveRetro", (retro: Retro) => {
-      alert(retro.id);
+      this.props.updateRetro(retro);
     });
 
-    this.hubConnection.start().then(() => {
-    this.hubConnection.invoke("JoinRetro", this.props.retroId);
+    this.hubConnection.on("CommentAdded", (response: {comment: Comment, groupId: string}) => {
+      this.props.addCommentToRetro(response.comment, response.groupId);
+    });
+
+    this.hubConnection.start()
+      .then(() => {
+        this.hubConnection.invoke("JoinRetro", this.props.retroId);
     });
   }
 
@@ -166,7 +168,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       text: text,
       isActiveUser: true,
     } as Comment;
-    // this.props.saveComment(comment, state.editCommentState.commentGroupId);
+
     this.hubConnection
       .invoke("AddComment", {
         retroId: this.props.retroId, 
