@@ -59,6 +59,7 @@ export const RetroReducer = (state: RetroState = initialState, action: any) => {
       const retro = Object.assign({}, state.retro);
       var groupIndex = retro!.groups.findIndex(g => g.id === action.groupId);
       retro!.groups[groupIndex].comments.push(action.comment);
+      
       return {...state, retro};
     default:
       return state;
