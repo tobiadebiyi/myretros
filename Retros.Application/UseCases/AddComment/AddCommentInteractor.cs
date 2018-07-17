@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Retros.Application.DTOs;
 using Retros.Application.Interfaces;
 using Retros.Domain;
-using Retros.Web.Application;
 
 namespace Retros.Application.UseCases.AddComment
 {

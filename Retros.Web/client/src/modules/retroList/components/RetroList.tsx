@@ -18,11 +18,21 @@ interface RetroListState {
 }
 
 export class RetroList extends React.Component<RetroListProps, RetroListState> {
+  handleOnSaveRetro: (retroName: string) => void;
   constructor(props: RetroListProps, context?: any) {
     super(props);
 
     this.state = {
       showNewRetroDialog: false,
+    };
+
+    this.handleOnSaveRetro = (retroName: string) => {
+      this.props.createRetro(retroName);
+  
+      this.setState({
+        showNewRetroDialog: false, 
+        activeRetro: undefined,
+      });
     };
   }
 
@@ -46,7 +56,7 @@ export class RetroList extends React.Component<RetroListProps, RetroListState> {
         <EditTextDialog 
           open={this.state.showNewRetroDialog} 
           handleClose={() => this.setState({showNewRetroDialog: false})}
-          handleSave={(retroName: string) => this.props.createRetro(retroName)}
+          handleSave={this.handleOnSaveRetro}
           text={this.state.activeRetro!.name}
           title={this.state.activeRetro.id ? "Edit Retro" : "Create Retro"}
           message={"Retro Name"}

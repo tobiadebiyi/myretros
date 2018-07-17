@@ -1,6 +1,6 @@
 using System;
 
-namespace Retros.Web.Application
+namespace Retros.Application
 {
     public class OperationResult
     {

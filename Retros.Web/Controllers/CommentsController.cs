@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Retros.Application;
 using Retros.Application.DTOs;
 using Retros.Application.Interfaces;
 using Retros.Application.UseCases.AddComment;
-using Retros.Web.Application;
 
 namespace Retros.Web.Controllers
 {

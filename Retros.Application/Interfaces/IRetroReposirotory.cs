@@ -10,5 +10,6 @@ namespace Retros.Application.Interfaces
         Task<IEnumerable<Retro>> Get();
         Task<Retro> Get(Guid retroId);
         Task Update(Retro retro);
+        Task<Retro> Add(Retro newRetro);
     }
 }

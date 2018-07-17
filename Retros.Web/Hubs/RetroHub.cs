@@ -2,11 +2,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Retros.Application;
 using Retros.Application.DTOs;
 using Retros.Application.Interfaces;
 using Retros.Application.UseCases.AddComment;
 using Retros.Application.UseCases.GetRetros;
-using Retros.Web.Application;
 
 namespace Retros.Web.Hubs
 {

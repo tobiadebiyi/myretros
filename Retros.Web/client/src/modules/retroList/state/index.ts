@@ -18,16 +18,10 @@ export const RetroListActionCreators = {
         .then(retros => dispatch({ type: FETCH_RETROS_SUCCESS, retros }));
     };
   },
-  saveRetro: (retro: Retro) => {
-    return (dispatch: any) => {
-      // tslint:disable-next-line:no-console
-      console.log(retro);
-    };
-  },
   createRetro: (retroName: string) => {
     return (dispatch: any) => {
       dispatch({type: CREATE_RETRO_STARTED});
-      RetroApi.createRetro(retroName)
+      RetroApi.createRetro({retroName})
         .then(retro => dispatch({type: CREATE_RETRO_SUCCESS, retro}));
     };
   },
@@ -54,7 +48,7 @@ export const RetroListReducer = (state: RetroListState = getInitialState(), acti
     case CREATE_RETRO_STARTED:
       return { ...state, isCreatingRetro: true };
     case CREATE_RETRO_SUCCESS:
-      const retros = Object.assign({}, state.retros);
+      const retros = Object.assign([], state.retros);
       retros.push(action.retro);
       return { ...state, retros, isCreatingRetro: false };
     default:

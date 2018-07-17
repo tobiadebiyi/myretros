@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Projects.Repositories;
+using Retros.Application;
 using Retros.Application.DTOs;
 using Retros.Application.Interfaces;
 using Retros.Application.UseCases.AddComment;
+using Retros.Application.UseCases.CreateRetro;
 using Retros.Application.UseCases.GetRetros;
 using Retros.DataAccess;
-using Retros.Web.Application;
 using Retros.Web.Hubs;
 
 namespace Retros.Web
@@ -47,6 +48,7 @@ namespace Retros.Web
             services.AddTransient<IRetroReposirotory, RetroReposirotory>();
             services.AddTransient<IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>>, GetRetrosInteractor>();
             services.AddTransient<IInteractor<AddCommentRequest, OperationResult<CommentDTO>>, AddCommentInteractor>();
+            services.AddTransient<IInteractor<CreateRetroRequest, OperationResult<RetroDTO>>, CreateRetroInteractor>();
 
             services.AddDbContext<RetrosContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("RetrosContext")));

@@ -16,6 +16,15 @@ namespace Projects.Repositories
         {
             this.context = context;
         }
+
+        public async Task<Retro> Add(Retro newRetro)
+        {
+            var retro = await this.context.Retros.AddAsync(newRetro);
+            await this.context.SaveChangesAsync();
+
+            return retro.Entity;
+        }
+
         public async Task<IEnumerable<Retro>> Get()
         {
             return await this.context.Retros

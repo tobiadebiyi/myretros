@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Retros.Application.DTOs;
 using Retros.Application.Interfaces;
-using Retros.Web.Application;
 
 namespace Retros.Application.UseCases.GetRetros
 {

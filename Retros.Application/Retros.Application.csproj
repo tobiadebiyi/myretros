@@ -7,6 +7,7 @@
   <ItemGroup>
     <Folder Include="DTOs\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="UseCases\CreateRetro\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Class1.cs" />
