@@ -1,5 +1,5 @@
 import * as React from "react";
-import "typeface-roboto";
+import "typeface-roboto/index.css";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
 import { RetroListContainer } from "./modules/retroList";
@@ -15,10 +15,12 @@ class App extends React.Component {
       <div>
         <CssBaseline />
         <Header />
+        <div>
         <Switch>
           <Route exact={true} path="/" component={RetroListContainer} />
           <Route path="/retro/:retroId" component={RetroContainer} />
         </Switch>
+        </div>
       </div>
     );
   }

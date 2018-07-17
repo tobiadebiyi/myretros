@@ -1,47 +1,84 @@
-import { Grid, Table, TableBody, TableRow, TableCell, Typography } from "material-ui";
+import { Grid, Table, TableBody, TableRow, TableCell, Typography, Button } from "material-ui";
 import * as React from "react";
 import { Retro } from "../../retro";
 import * as styles from "./styles.css";
+import { EditTextDialog } from "../../../components/EditTextDialog";
 
 export interface RetroListProps {
   retros: Retro[];
   classes?: any;
-  handleOnCreateRetro: (retroName: string) => void;
+  createRetro: (retroName: string) => void;
   gotoRetro: (retroId: string) => void;
   fetchRetros: () => void;
 }
 
-export class RetroList extends React.Component<RetroListProps> {
+interface RetroListState {
+  showNewRetroDialog: boolean;
+  activeRetro?: Retro;
+}
+
+export class RetroList extends React.Component<RetroListProps, RetroListState> {
   constructor(props: RetroListProps, context?: any) {
     super(props);
+
+    this.state = {
+      showNewRetroDialog: false,
+    };
   }
 
   componentDidMount() {
     this.props.fetchRetros();
   }
 
+  handleCreateRetroButtonClick(retro: Retro) {
+    this.setState({
+      activeRetro: retro,
+      showNewRetroDialog: true
+    });
+    return;
+  }
+
   render() {
     const { retros, gotoRetro } = this.props;
     return (
       <div className={styles.root}>
+      {this.state.activeRetro &&
+        <EditTextDialog 
+          open={this.state.showNewRetroDialog} 
+          handleClose={() => this.setState({showNewRetroDialog: false})}
+          handleSave={(retroName: string) => this.props.createRetro(retroName)}
+          text={this.state.activeRetro!.name}
+          title={this.state.activeRetro.id ? "Edit Retro" : "Create Retro"}
+          message={"Retro Name"}
+        />
+      }
+
         <Grid container={true} alignContent={"center"} justify={"center"}>
           <Grid item={true} xs={10}>
             <Grid
               container={true}
-              direction={"row"}
+              direction={"column"}
               alignItems={"center"}
               justify={"flex-start"}
             >
+            <Button 
+              onClick={() => this.handleCreateRetroButtonClick({name: "", id: "", groups: [], })}
+              variant={"flat"}
+              style={{alignSelf: "flex-end", backgroundColor: "grey"}}
+            >
+              Add Retro
+            </Button>
               <Typography
+                style={{alignSelf: "flex-start", marginBottom: "50px"}}
                 gutterBottom={true}
                 variant="title"
               >
-                Retro List
+                My Retros
               </Typography>
               <Table>
                 <TableBody>
                   {retros.map((retro, index) => (
-                    <TableRow key={index} hover={true} onClick={() => gotoRetro(retro.id)}>
+                    <TableRow key={index} hover={true} onClick={() => gotoRetro(retro.id!)}>
                       <TableCell>
                         {retro.name}
                       </TableCell>

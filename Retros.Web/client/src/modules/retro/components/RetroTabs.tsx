@@ -19,7 +19,7 @@ import * as classNames from "classnames";
 import { EditCommentDialog } from "./EditCommentDialog";
 import { ScreenActionButton } from "../../../components/ScreenActionButton";
 
-import { HubConnectionBuilder, HubConnection } from "../../../../node_modules/@aspnet/signalr";
+import { HubConnectionBuilder, HubConnection } from "@aspnet/signalr";
 import CommentGroup from "./CommentGroupComponent";
 
 interface TabContainerProps {

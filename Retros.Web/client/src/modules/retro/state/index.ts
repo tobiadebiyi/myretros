@@ -29,7 +29,7 @@ export interface RetroState {
 }
 
 export interface Retro {
-  id: string;
+  id?: string;
   groups: Group[];
   name: string;
 }

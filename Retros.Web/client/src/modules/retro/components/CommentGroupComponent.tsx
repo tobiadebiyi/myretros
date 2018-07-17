@@ -2,7 +2,7 @@ import { Grid } from "material-ui";
 import * as React from "react";
 import { CommentCard } from "./CommentCard";
 import withStyles from "material-ui/styles/withStyles";
-import { Comment } from "../../retro";
+import { Comment } from "..";
 
 interface CommentGroupProps {
   comments: Comment[];

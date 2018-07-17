@@ -1,5 +1,5 @@
 import { Retro } from "../modules/retro";
-import { get } from "../services/HttpService";
+import { get, post } from "../services/HttpService";
 import { OperationResult } from "../models/OperationResult";
 
 const getRetros = (): Promise<OperationResult<Retro[]>> => {
@@ -14,7 +14,12 @@ const getRetro = (retroId: string): Promise<OperationResult<Retro>> => {
   });
 };
 
+const createRetro = (retroName: string): Promise<OperationResult<Retro>> => {
+  return post(`http://localhost:50880/api/retros`, retroName);
+};
+
 export const RetroApi = {
   getRetros,
   getRetro,
+  createRetro,
 };
