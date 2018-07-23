@@ -1,14 +1,18 @@
 import { Retro } from "../../retro";
 import { RetroApi } from "../../../apis/retroApi";
 
-export const SAVE_RETRO_STARTED: string = "SAVE_RETRO_STARTED";
-export const SAVE_RETRO_SUCCESS: string = "SAVE_RETRO_SUCCESS";
+export const SAVE_RETRO_STARTED: string = "retolist/SAVE_RETRO_STARTED";
+export const SAVE_RETRO_SUCCESS: string = "retolist/SAVE_RETRO_SUCCESS";
 
-export const FETCH_RETROS_STARTED: string = "FETCH_RETROS_STARTED";
-export const FETCH_RETROS_SUCCESS: string = "FETCH_RETROS_SUCCESS";
+export const FETCH_RETROS_STARTED: string = "retolist/FETCH_RETROS_STARTED";
+export const FETCH_RETROS_SUCCESS: string = "retolist/FETCH_RETROS_SUCCESS";
 
-export const CREATE_RETRO_STARTED: string = "CREATE_RETRO_STARTED";
-export const CREATE_RETRO_SUCCESS: string = "CREATE_RETRO_SUCCESS";
+export const CREATE_RETRO_STARTED: string = "retolist/CREATE_RETRO_STARTED";
+export const CREATE_RETRO_SUCCESS: string = "retolist/CREATE_RETRO_SUCCESS";
+
+export const DELETE_RETRO_STARTED: string = "retolist/DELETE_RETRO_STARTED";
+export const DELETE_RETRO_SUCCESS: string = "retolist/DELETE_RETRO_SUCCESS";
+export const DELETE_RETRO_FAILURE: string = "retolist/DELETE_RETRO_FAILURE";
 
 export const RetroListActionCreators = {
   fetchRetros: () => {
@@ -20,9 +24,20 @@ export const RetroListActionCreators = {
   },
   createRetro: (retroName: string) => {
     return (dispatch: any) => {
-      dispatch({type: CREATE_RETRO_STARTED});
-      return RetroApi.createRetro({retroName})
-        .then(retro => dispatch({type: CREATE_RETRO_SUCCESS, retro}));
+      dispatch({ type: CREATE_RETRO_STARTED });
+      return RetroApi.createRetro({ retroName })
+        .then(retro => dispatch({ type: CREATE_RETRO_SUCCESS, retro }));
+    };
+  },
+  deleteRetro: (retroId: string) => {
+    return (dispatch: any) => {
+      dispatch({ type: DELETE_RETRO_STARTED });
+      return RetroApi.deleteRetro(retroId)
+        .then(retro => dispatch({ type: DELETE_RETRO_SUCCESS, retro })).
+        catch((reason: any) => {
+          dispatch({ type: DELETE_RETRO_FAILURE });
+          alert(reason);
+        });
     };
   },
 };

@@ -25,6 +25,12 @@ namespace Projects.Repositories
             return retro.Entity;
         }
 
+        public async Task Delete(Retro retro)
+        {
+            this.context.Retros.Remove(retro);
+            await this.context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Retro>> Get()
         {
             return await this.context.Retros

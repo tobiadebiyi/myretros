@@ -15,6 +15,7 @@ const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partia
     gotoRetro: (retroId: string) => ownProps.history.push(`/retro/${retroId}`),
     fetchRetros: () => dispatch(RetroListActionCreators.fetchRetros()),
     createRetro: (retroName: string) => dispatch(RetroListActionCreators.createRetro(retroName)),
+    deleteRetro: (retroId: string) => dispatch(RetroListActionCreators.deleteRetro(retroId)),
   };
 };
 

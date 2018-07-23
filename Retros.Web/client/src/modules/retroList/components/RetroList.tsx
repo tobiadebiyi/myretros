@@ -1,8 +1,6 @@
 import {
   Table,
   TableBody,
-  TableRow,
-  TableCell,
   Typography,
   Snackbar,
   SnackbarContent,
@@ -12,13 +10,12 @@ import {
   IconButton
 } from "material-ui";
 
-import { AddCircle, ContentCopy } from "@material-ui/icons";
-
+import { AddCircle } from "@material-ui/icons";
 import * as React from "react";
 import { Retro } from "../../retro";
 import * as styles from "./styles.css";
 import { EditTextDialog } from "../../../components/EditTextDialog";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import { RetroRow } from ".";
 
 export interface RetroListProps {
   retros: Retro[];
@@ -26,6 +23,7 @@ export interface RetroListProps {
   createRetro: (retroName: string) => Promise<void>;
   gotoRetro: (retroId: string) => void;
   fetchRetros: () => void;
+  deleteRetro: (retroId: string) => Promise<void>;
 }
 
 interface RetroListState {
@@ -38,6 +36,7 @@ interface RetroListState {
 export class RetroList extends React.Component<RetroListProps,
   RetroListState> {
   handleOnSaveRetro: (retroName: string) => void;
+  handleDeleteRetro: (retroId: string) => void;
   showSnackBar: (message: string) => void;
 
   constructor(props: RetroListProps, context?: any) {
@@ -58,6 +57,14 @@ export class RetroList extends React.Component<RetroListProps,
         .then(() => this.showSnackBar("Retro Created"));
 
       this.setState({ showNewRetroDialog: false, activeRetro: undefined });
+    };
+
+    this.handleDeleteRetro = (retroId: string) => {
+      this.props.deleteRetro(retroId).
+        then(() => {
+          this.showSnackBar("Retro Deleted");
+          this.props.fetchRetros();
+        });
     };
   }
 
@@ -117,30 +124,14 @@ export class RetroList extends React.Component<RetroListProps,
           <Table>
             <TableBody>
               {retros.map((retro, index) => (
-                <TableRow key={index} hover={true} onClick={() => gotoRetro(retro.id!)}>
-                  <TableCell>
-                    <Typography>
-                      {retro.name}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>
-                      {retro.id}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Tooltip title="Copy reference">
-                      <IconButton onClick={this.handleCopyReference}>
-                        <CopyToClipboard
-                          text={retro.id}
-                          onCopy={() => this.showSnackBar("Copied")}
-                        >
-                          <ContentCopy />
-                        </CopyToClipboard>
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
+                <RetroRow
+                  key={index}
+                  id={retro.id!}
+                  name={retro.name}
+                  gotoRetro={gotoRetro}
+                  showSnackBar={this.showSnackBar}
+                  deleteRetro={this.handleDeleteRetro}
+                />
               ))}
             </TableBody>
           </Table>

@@ -11,5 +11,6 @@ namespace Retros.Application.Interfaces
         Task<Retro> Get(Guid retroId);
         Task Update(Retro retro);
         Task<Retro> Add(Retro newRetro);
+        Task Delete(Retro retro);
     }
 }

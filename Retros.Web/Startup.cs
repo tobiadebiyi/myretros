@@ -9,6 +9,7 @@ using Retros.Application.DTOs;
 using Retros.Application.Interfaces;
 using Retros.Application.UseCases.AddComment;
 using Retros.Application.UseCases.CreateRetro;
+using Retros.Application.UseCases.DeleteRetro;
 using Retros.Application.UseCases.GetRetros;
 using Retros.DataAccess;
 using Retros.Web.Hubs;
@@ -49,6 +50,7 @@ namespace Retros.Web
             services.AddTransient<IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>>, GetRetrosInteractor>();
             services.AddTransient<IInteractor<AddCommentRequest, OperationResult<CommentDTO>>, AddCommentInteractor>();
             services.AddTransient<IInteractor<CreateRetroRequest, OperationResult<RetroDTO>>, CreateRetroInteractor>();
+            services.AddTransient<IInteractor<DeleteRetroRequest, OperationResult>, DeleteRetroInteractor>();
 
             services.AddDbContext<RetrosContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("RetrosContext")));

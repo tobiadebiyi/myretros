@@ -6,6 +6,7 @@ using Retros.Application;
 using Retros.Application.DTOs;
 using Retros.Application.Interfaces;
 using Retros.Application.UseCases.CreateRetro;
+using Retros.Application.UseCases.DeleteRetro;
 using Retros.Application.UseCases.GetRetros;
 
 namespace Retros.Web.Controllers
@@ -15,14 +16,17 @@ namespace Retros.Web.Controllers
     {
         readonly IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetroInteractor;
         readonly IInteractor<CreateRetroRequest, OperationResult<RetroDTO>> createRetroInteractor;
+        private readonly IInteractor<DeleteRetroRequest, OperationResult> deleteRetroInteractor;
 
         public RetrosController(
             IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetroInteractor,
-            IInteractor<CreateRetroRequest, OperationResult<RetroDTO>> createRetroInteractor
+            IInteractor<CreateRetroRequest, OperationResult<RetroDTO>> createRetroInteractor,
+            IInteractor<DeleteRetroRequest, OperationResult> deleteRetroInteractor
         )
         {
             this.getRetroInteractor = getRetroInteractor;
             this.createRetroInteractor = createRetroInteractor;
+            this.deleteRetroInteractor = deleteRetroInteractor;
         }
 
         [HttpGet]
@@ -46,6 +50,15 @@ namespace Retros.Web.Controllers
         {
             var retro = await this.createRetroInteractor.Handle(request);
             return Ok(retro);
+        }
+        [HttpDelete]
+        [Route("{retroId}")]
+        public async Task<IActionResult> DeleteRetro(Guid retroId)
+        {
+            var request = new DeleteRetroRequest { RetroId = retroId };
+            var result = await this.deleteRetroInteractor.Handle(request);
+
+            return Ok(result);
         }
     }
 }
