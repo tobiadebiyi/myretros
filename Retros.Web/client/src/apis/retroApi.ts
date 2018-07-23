@@ -1,5 +1,6 @@
 import { Retro } from "../modules/retro";
 import { get, post, remove } from "../services/HttpService";
+import { CreateRetro } from "../modules/retroList";
 
 const getRetros = (): Promise<Retro[]> => {
   return get("http://localhost:50880/api/retros").then((result) => {
@@ -7,7 +8,7 @@ const getRetros = (): Promise<Retro[]> => {
   });
 };
 
-const createRetro = (request: { retroName: string }): Promise<Retro> => {
+const createRetro = (request: CreateRetro): Promise<Retro> => {
   return post(`http://localhost:50880/api/retros`, request).then(result => result.value);
 };
 

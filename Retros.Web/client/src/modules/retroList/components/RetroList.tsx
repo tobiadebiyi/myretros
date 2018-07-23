@@ -16,11 +16,12 @@ import { Retro } from "../../retro";
 import * as styles from "./styles.css";
 import { EditTextDialog } from "../../../components/EditTextDialog";
 import { RetroRow } from ".";
+import { CreateRetro } from "..";
 
 export interface RetroListProps {
   retros: Retro[];
   classes?: any;
-  createRetro: (retroName: string) => Promise<void>;
+  createRetro: (request: CreateRetro) => Promise<void>;
   gotoRetro: (retroId: string) => void;
   fetchRetros: () => void;
   deleteRetro: (retroId: string) => Promise<void>;
@@ -53,7 +54,7 @@ export class RetroList extends React.Component<RetroListProps,
     };
 
     this.handleOnSaveRetro = (retroName: string) => {
-      this.props.createRetro(retroName)
+      this.props.createRetro({ retroName, withDefaultGroups: true })
         .then(() => this.showSnackBar("Retro Created"));
 
       this.setState({ showNewRetroDialog: false, activeRetro: undefined });

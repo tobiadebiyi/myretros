@@ -18,6 +18,12 @@ namespace Retros.Application.UseCases.CreateRetro
         public async Task<OperationResult<RetroDTO>> Handle(CreateRetroRequest request)
         {
             var newRetro = new Retro(request.RetroName);
+
+            if(request.WithDefaultGroups)
+            {
+                newRetro.WithDefaultGroups();
+            }
+
             var retro = await this.retroReposirotory.Add(newRetro);
             return OperationResultCreator.Suceeded(new RetroDTO(retro));
         }

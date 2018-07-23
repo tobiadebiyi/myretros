@@ -22,10 +22,10 @@ export const RetroListActionCreators = {
         .then(retros => dispatch({ type: FETCH_RETROS_SUCCESS, retros }));
     };
   },
-  createRetro: (retroName: string) => {
+  createRetro: (request: CreateRetro) => {
     return (dispatch: any) => {
       dispatch({ type: CREATE_RETRO_STARTED });
-      return RetroApi.createRetro({ retroName })
+      return RetroApi.createRetro(request)
         .then(retro => dispatch({ type: CREATE_RETRO_SUCCESS, retro }));
     };
   },
@@ -46,6 +46,11 @@ export interface RetroListState {
   retros: Retro[];
   isfetchingRetros: boolean;
   isCreatingRetro: boolean;
+}
+
+export interface CreateRetro {
+  retroName: string;
+  withDefaultGroups: boolean;
 }
 
 const getInitialState = (): RetroListState => ({

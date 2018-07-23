@@ -31,5 +31,12 @@ namespace Retros.Domain
             var group = this.Groups.FirstOrDefault(g => g.Id == groupId );
             group.AddComment(comment);
         }
+
+        public void WithDefaultGroups() 
+        {
+            this.Groups.Add(new Group("What went well"));
+            this.Groups.Add(new Group("Not so well"));
+            this.Groups.Add(new Group("Actions"));
+        }
     }
 }
