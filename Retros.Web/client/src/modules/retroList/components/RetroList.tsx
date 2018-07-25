@@ -7,16 +7,18 @@ import {
   Paper,
   Toolbar,
   Tooltip,
-  IconButton
+  IconButton,
+  Avatar
 } from "material-ui";
 
-import { AddCircle } from "@material-ui/icons";
+import { AddCircle, Group } from "@material-ui/icons";
 import * as React from "react";
 import { Retro } from "../../retro";
 import * as styles from "./styles.css";
-import { EditTextDialog } from "../../../components/EditTextDialog";
+import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog";
 import { RetroRow } from ".";
 import { CreateRetro } from "..";
+import { green, orange } from "../../../../node_modules/material-ui/colors";
 
 export interface RetroListProps {
   retros: Retro[];
@@ -28,23 +30,24 @@ export interface RetroListProps {
 }
 
 interface RetroListState {
-  showNewRetroDialog: boolean;
+  dialogProps?: EditTextDialogProps;
   activeRetro?: Retro;
   showSnackBar: boolean;
   snackBarMessage?: string;
+  onSaveTextHandler?: (text: string) => void;
 }
 
-export class RetroList extends React.Component<RetroListProps,
-  RetroListState> {
+export class RetroList extends React.Component<RetroListProps, RetroListState> {
   handleOnSaveRetro: (retroName: string) => void;
   handleDeleteRetro: (retroId: string) => void;
   showSnackBar: (message: string) => void;
+  handleCloseDialog: () => void;
+  handleJoinRetro: (retroId: string) => void;
 
   constructor(props: RetroListProps, context?: any) {
     super(props);
 
     this.state = {
-      showNewRetroDialog: false,
       showSnackBar: false
     };
 
@@ -57,7 +60,7 @@ export class RetroList extends React.Component<RetroListProps,
       this.props.createRetro({ retroName, withDefaultGroups: true })
         .then(() => this.showSnackBar("Retro Created"));
 
-      this.setState({ showNewRetroDialog: false, activeRetro: undefined });
+      this.setState({ dialogProps: undefined, activeRetro: undefined });
     };
 
     this.handleDeleteRetro = (retroId: string) => {
@@ -67,21 +70,46 @@ export class RetroList extends React.Component<RetroListProps,
           this.props.fetchRetros();
         });
     };
+
+    this.handleJoinRetro = (retroId: string) => {
+      alert(retroId);
+      this.handleCloseDialog();
+    };
+
+    this.handleCloseDialog = () => {
+      this.setState({ dialogProps: undefined });
+    };
   }
 
   componentDidMount() {
-    this
-      .props
-      .fetchRetros();
+    this.props.fetchRetros();
   }
 
   handleCreateRetroButtonClick(retro: Retro) {
-    this.setState({ activeRetro: retro, showNewRetroDialog: true });
-    return;
+    this.setState({
+      activeRetro: retro,
+      dialogProps: {
+        open: true,
+        text: "",
+        message: "Name",
+        title: retro.id ? "Edit Retro" : "Create Retro",
+        handleSave: this.handleOnSaveRetro,
+        handleClose: this.handleCloseDialog,
+      },
+    });
   }
 
-  handleCopyReference(e: React.MouseEvent<HTMLElement>) {
-    e.stopPropagation();
+  handleJoinRetroButtonClick() {
+    this.setState({
+      dialogProps: {
+        message: "Retro Ref#",
+        title: "Enter reference",
+        handleSave: this.handleJoinRetro,
+        text: "",
+        handleClose: this.handleCloseDialog,
+        open: true,
+      }
+    });
   }
 
   render() {
@@ -92,33 +120,40 @@ export class RetroList extends React.Component<RetroListProps,
           <SnackbarContent message={this.state.snackBarMessage!} />
         </Snackbar>
 
-        {this.state.activeRetro && <EditTextDialog
-          open={this.state.showNewRetroDialog}
-          handleClose={() => this.setState({ showNewRetroDialog: false })}
-          handleSave={this.handleOnSaveRetro}
-          text={this.state.activeRetro.name}
-          title={this.state.activeRetro.id
-            ? "Edit Retro"
-            : "Create Retro"}
-          message={"Retro Name"}
-        />
-        }
+        {this.state.dialogProps && <EditTextDialog {...this.state.dialogProps} />}
+
         <Paper style={{ width: "800px" }}>
           <Toolbar style={{ flexDirection: "row", alignContent: "center", justifyContent: "center" }}>
             <Typography
-              style={{ flex: 1, marginTop: "20px" }}
+              style={{ flex: 10, marginTop: "20px" }}
               gutterBottom={true}
               variant="display2"
             >
               My Retros
             </Typography>
-            <Tooltip title="Create Retro">
+            <Tooltip title="Create Retro" style={{ flex: 1 }}>
               <IconButton
                 onClick={() => this.handleCreateRetroButtonClick({ name: "", id: "", groups: [], })}
                 aria-label="Create Retro"
-                style={{ backgroundColor: "grey" }}
               >
-                <AddCircle />
+                <Avatar
+                  style={{ backgroundColor: green[500] }}
+                >
+                  <AddCircle />
+                </Avatar>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Join a Retro" style={{ flex: 1 }}>
+              <IconButton
+                onClick={() => this.handleJoinRetroButtonClick()}
+                aria-label="Join Retro"
+                color="primary"
+              >
+                <Avatar
+                  style={{ backgroundColor: orange[500] }}
+                >
+                  <Group />
+                </Avatar>
               </IconButton>
             </Tooltip>
           </Toolbar>
@@ -137,7 +172,7 @@ export class RetroList extends React.Component<RetroListProps,
             </TableBody>
           </Table>
         </Paper>
-      </div>
+      </div >
     );
   }
 }
