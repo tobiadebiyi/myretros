@@ -15,10 +15,10 @@ import { AddCircle, Group } from "@material-ui/icons";
 import * as React from "react";
 import { Retro } from "../../retro";
 import * as styles from "./styles.css";
-import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog";
+import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog/EditTextDialog";
 import { RetroRow } from ".";
 import { CreateRetro } from "..";
-import { green, orange } from "../../../../node_modules/material-ui/colors";
+import { green, orange } from "material-ui/colors";
 
 export interface RetroListProps {
   retros: Retro[];
@@ -72,8 +72,7 @@ export class RetroList extends React.Component<RetroListProps, RetroListState> {
     };
 
     this.handleJoinRetro = (retroId: string) => {
-      alert(retroId);
-      this.handleCloseDialog();
+      this.props.gotoRetro(retroId);
     };
 
     this.handleCloseDialog = () => {
@@ -93,8 +92,9 @@ export class RetroList extends React.Component<RetroListProps, RetroListState> {
         text: "",
         message: "Name",
         title: retro.id ? "Edit Retro" : "Create Retro",
-        handleSave: this.handleOnSaveRetro,
+        handleSubmit: this.handleOnSaveRetro,
         handleClose: this.handleCloseDialog,
+        submitButtonName: "Save"
       },
     });
   }
@@ -104,10 +104,11 @@ export class RetroList extends React.Component<RetroListProps, RetroListState> {
       dialogProps: {
         message: "Retro Ref#",
         title: "Enter reference",
-        handleSave: this.handleJoinRetro,
+        handleSubmit: this.handleJoinRetro,
         text: "",
         handleClose: this.handleCloseDialog,
         open: true,
+        submitButtonName: "Join"
       }
     });
   }
