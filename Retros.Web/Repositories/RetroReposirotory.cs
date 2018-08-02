@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Retros.Application.Interfaces;
@@ -45,6 +46,15 @@ namespace Projects.Repositories
                        .Include(r => r.Groups)
                        .ThenInclude(r => r.Comments)
                        .FirstOrDefaultAsync(r => r.Id == retroId);
+        }
+
+        public async Task<IEnumerable<Retro>> GetByUserId(string userId)
+        {
+            return await this.context.Retros
+                        .Where(r => r.UserId == userId)
+                        .Include(r => r.Groups)
+                        .ThenInclude(r => r.Comments)
+                        .ToListAsync();
         }
 
         public async Task Update(Retro retro)

@@ -25,7 +25,7 @@ const CommentGroupComponent: React.SFC<CommentGroupProps> = (props: CommentGroup
             container={true}
             direction={"row"}
             alignItems={"center"}
-            justify={"flex-start"}
+            justify={"center"}
           >
             {props.comments.map((comment, index) => (
               <Grid key={index} item={true}>

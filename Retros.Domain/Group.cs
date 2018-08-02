@@ -9,7 +9,6 @@ namespace Retros.Domain
 
         public Group(string name)
         {
-            this.Id = Guid.NewGuid();
             this.Name = name;
         }
 

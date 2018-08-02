@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Retros.DataAccess;
@@ -19,7 +20,7 @@ namespace Retros.Web.Data
             var group2 = new Group("Not so well");
             var group3 = new Group("Actions");
 
-            var retro1 = new Retro("TestRetro");
+            var retro1 = new Retro("TestRetro", Guid.NewGuid().ToString());
             retro1.AddGroup(group1);
             retro1.AddGroup(group2);
             retro1.AddGroup(group3);

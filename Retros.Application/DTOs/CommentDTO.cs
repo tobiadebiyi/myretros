@@ -13,12 +13,10 @@ namespace Retros.Application.DTOs
         {
             this.Id = comment.Id;
             this.Text = comment.Text;
-            this.WhenAdded = comment.WhenAdded;
         }
 
         public Guid Id { get; set; }
         public string Text { get; set; }
-        public DateTime WhenAdded { get; set; }
 
         public Comment AsDomainModel()
         {

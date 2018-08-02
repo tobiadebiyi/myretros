@@ -10,12 +10,14 @@ namespace Retros.Domain
         {
             
         }
-        public Retro(string name)
+        public Retro(string name, string userId)
         {
             Name = name;
+            UserId = userId;
         }
 
         public string Name { get; protected set; }
+        public string UserId { get; protected set; }
         public ICollection<Group> Groups { get; protected set; } = new List<Group>();
 
         public void AddGroup(Group group)

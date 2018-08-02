@@ -16,7 +16,7 @@ namespace Retros.Application.DTOs
         {
             this.Id = group.Id;
             this.Name = group.Name;
-            this.Comments = group.Comments.Select(c => new CommentDTO(c)).OrderBy(c => c.WhenAdded);
+            this.Comments = group.Comments.OrderBy(c => c.WhenCreated).Select(c => new CommentDTO(c));
         }
 
         public Guid Id { get; set; }

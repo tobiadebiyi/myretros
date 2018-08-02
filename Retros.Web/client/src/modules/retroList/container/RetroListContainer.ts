@@ -4,6 +4,7 @@ import { RetroListProps, RetroList } from "../components";
 import { RetroListActionCreators } from "..";
 import { RouteComponentProps } from "react-router";
 import { CreateRetro } from "../state";
+import { Retro } from "../../retro";
 
 const mapStateToProps = (state: ApplicationState, ownProps): Partial<RetroListProps> => {
   return {
@@ -17,6 +18,7 @@ const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partia
     fetchRetros: () => dispatch(RetroListActionCreators.fetchRetros()),
     createRetro: (request: CreateRetro) => dispatch(RetroListActionCreators.createRetro(request)),
     deleteRetro: (retroId: string) => dispatch(RetroListActionCreators.deleteRetro(retroId)),
+    updateRetros: (retros: Retro[]) => dispatch(RetroListActionCreators.updateRetros(retros)),
   };
 };
 

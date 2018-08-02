@@ -9,9 +9,11 @@
     <Folder Include="Interfaces\" />
     <Folder Include="UseCases\CreateRetro\" />
     <Folder Include="UseCases\DeleteRetro\" />
+    <Folder Include="UseCases\GetRetro\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Class1.cs" />
+    <Compile Remove="UseCases\GetRetros\GetRetrosResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Retros.Domain\Retros.Domain.csproj" />

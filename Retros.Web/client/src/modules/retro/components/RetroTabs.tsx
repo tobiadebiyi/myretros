@@ -21,6 +21,7 @@ import { ScreenActionButton } from "../../../components/ScreenActionButton";
 
 import { HubConnectionBuilder, HubConnection } from "@aspnet/signalr";
 import CommentGroup from "./CommentGroupComponent";
+import { config } from "../../../config";
 
 interface TabContainerProps {
   classes?: any;
@@ -29,7 +30,7 @@ interface TabContainerProps {
 
 const TabContainer: React.SFC<TabContainerProps> = (props) => {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component="div" style={{ padding: 8 * 3, height: "600px" }}>
       {props.children}
     </Typography>
   );
@@ -112,8 +113,8 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
     };
 
     this.hubConnection = new HubConnectionBuilder()
-    .withUrl("http://localhost:50880/retrohub")
-    .build();
+      .withUrl(`${config.apiUrl}/retrohub`)
+      .build();
   }
 
   componentDidMount() {
@@ -121,14 +122,14 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       this.props.updateRetro(retro);
     });
 
-    this.hubConnection.on("CommentAdded", (response: {comment: Comment, groupId: string}) => {
+    this.hubConnection.on("CommentAdded", (response: { comment: Comment, groupId: string }) => {
       this.props.addCommentToRetro(response.comment, response.groupId);
     });
 
     this.hubConnection.start()
       .then(() => {
         this.hubConnection.invoke("JoinRetro", this.props.retroId);
-    });
+      });
   }
 
   componentWillUnmount() {
@@ -171,7 +172,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
 
     this.hubConnection
       .invoke("AddComment", {
-        retroId: this.props.retroId, 
+        retroId: this.props.retroId,
         groupId: state.editCommentState.commentGroupId,
         comment,
       });

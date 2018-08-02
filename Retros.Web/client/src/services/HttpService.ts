@@ -21,7 +21,9 @@ const handleResponse = (response, resolve, reject) => {
 
 const get = (dataURL: string): Promise<any> => {
   return new Promise<any>((resolve, reject) => {
-    fetch(dataURL)
+    fetch(dataURL, {
+      credentials: "include"
+    })
       .then((response) => handleResponse(response, resolve, reject))
       .catch(err => {
         reject(err);
@@ -37,6 +39,7 @@ const post = (url: string, data: any): Promise<any> => {
         "Accept": "application/json",
         "Content-Type": "application/json"
       },
+      credentials: "include",
       body: JSON.stringify(data)
     })
       .then((response) => handleResponse(response, resolve, reject))
@@ -49,7 +52,8 @@ const post = (url: string, data: any): Promise<any> => {
 const remove = (url: string): Promise<void> => {
   return new Promise<any>((resolve, reject) => {
     fetch(url, {
-      method: "DELETE"
+      method: "DELETE",
+      credentials: "include"
     })
       .then((response) => handleResponse(response, resolve, reject))
       .catch(err => {
