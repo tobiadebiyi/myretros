@@ -20,8 +20,6 @@ import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTex
 import { RetroRow } from ".";
 import { CreateRetro } from "..";
 import { green, orange } from "material-ui/colors";
-import { HubConnectionBuilder, HubConnection } from "../../../../node_modules/@aspnet/signalr";
-import { config } from "../../../config";
 
 export interface RetroListProps {
   retros: Retro[];
@@ -48,7 +46,6 @@ export class RetroList extends React.Component<RetroListProps,
   showSnackBar: (message: string) => void;
   handleCloseDialog: () => void;
   handleJoinRetro: (retroId: string) => void;
-  hubConnection: HubConnection;
   handleReceivedRetros: (retros: Retro[]) => void;
 
   constructor(props: RetroListProps, context?: any) {
@@ -92,20 +89,10 @@ export class RetroList extends React.Component<RetroListProps,
     this.handleReceivedRetros = (retros: Retro[]) => {
       this.props.updateRetros(retros);
     };
-
-    this.hubConnection = new HubConnectionBuilder()
-      .withUrl(`${config.apiUrl}/retrohub`)
-      .build();
   }
 
   componentDidMount() {
     this.props.fetchRetros();
-
-    // this.hubConnection.on("ReceiveRetros", this.handleReceivedRetros);
-
-    // this.hubConnection.start().then(() => {
-    //   this.hubConnection.invoke("GetRetros");
-    // });
   }
 
   handleCreateRetroButtonClick(retro: Retro) {
@@ -115,9 +102,7 @@ export class RetroList extends React.Component<RetroListProps,
         open: true,
         text: "",
         message: "Name",
-        title: retro.id
-          ? "Edit Retro"
-          : "Create Retro",
+        title: retro.id ? "Edit Retro" : "Create Retro",
         handleSubmit: this.handleOnSaveRetro,
         handleClose: this.handleCloseDialog,
         submitButtonName: "Save"
@@ -153,81 +138,58 @@ export class RetroList extends React.Component<RetroListProps,
 
         {this.state.dialogProps && <EditTextDialog {...this.state.dialogProps} />}
 
-        <Paper
-          style={{
-            width: "800px"
-          }}
-        >
-          <Toolbar
-            style={{
-              flexDirection: "row",
-              alignContent: "center",
-              justifyContent: "center"
-            }}
-          >
+        <Paper style={{ width: "800px", minHeight: "600px" }}>
+          <Toolbar style={{ flexDirection: "row", alignContent: "center", justifyContent: "center" }}>
             <Typography
-              style={{
-                flex: 10,
-                marginTop: "20px"
-              }}
+              style={{ flex: 10, marginTop: "20px" }}
               gutterBottom={true}
               variant="display2"
             >
               My Retros
             </Typography>
-            <Tooltip
-              title="Create Retro"
-              style={{
-                flex: 1
-              }}
-            >
+            <Tooltip title="Create Retro" style={{ flex: 1 }}>
               <IconButton
                 onClick={() => this.handleCreateRetroButtonClick({ name: "", id: "", groups: [] })}
                 aria-label="Create Retro"
               >
-                <Avatar
-                  style={{
-                    backgroundColor: green[500]
-                  }}
-                >
+                <Avatar style={{ backgroundColor: green[500] }}>
                   <AddCircle />
                 </Avatar>
               </IconButton>
             </Tooltip>
-            <Tooltip
-              title="Join a Retro"
-              style={{
-                flex: 1
-              }}
-            >
+            <Tooltip title="Join a Retro" style={{ flex: 1 }}>
               <IconButton
                 onClick={() => this.handleJoinRetroButtonClick()}
                 aria-label="Join Retro"
                 color="primary"
               >
-                <Avatar
-                  style={{
-                    backgroundColor: orange[500]
-                  }}
-                >
+                <Avatar style={{ backgroundColor: orange[500] }}>
                   <Group />
                 </Avatar>
               </IconButton>
             </Tooltip>
           </Toolbar>
-          <Table>
-            <TableBody>
-              {retros.map((retro, index) => (
-                <RetroRow
-                  key={index}
-                  id={retro.id!}
-                  name={retro.name}
-                  gotoRetro={gotoRetro}
-                  showSnackBar={this.showSnackBar}
-                  deleteRetro={this.handleDeleteRetro}
-                />))}
-            </TableBody>
-          </Table>
+          {retros.length > 0 ?
+            <Table>
+              <TableBody>
+                {
+                  retros.map((retro, index) => (
+                    <RetroRow
+                      key={index}
+                      id={retro.id!}
+                      name={retro.name}
+                      gotoRetro={gotoRetro}
+                      showSnackBar={this.showSnackBar}
+                      deleteRetro={this.handleDeleteRetro}
+                    />))
+                }
+              </TableBody>
+            </Table>
+            :
+            <Typography variant="body1" color="secondary" style={{ margin: "200px", textAlign: "center" }}>
+              Please create or join a retro
+            </Typography>
+          }
         </Paper>
       </div >
     );
