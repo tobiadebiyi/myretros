@@ -42,6 +42,9 @@ namespace Retros.Web
                         .AllowAnyMethod());
             
             app.UseSession();
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
             app.UseSignalR(routes => routes.MapHub<RetroHub>("/retrohub"));
             app.UseMvc();
         }

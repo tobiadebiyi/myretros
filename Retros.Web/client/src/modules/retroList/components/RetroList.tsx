@@ -15,7 +15,6 @@ import {
 import { AddCircle, Group } from "@material-ui/icons";
 import * as React from "react";
 import { Retro } from "../../retro";
-import * as styles from "./styles.css";
 import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog/EditTextDialog";
 import { RetroRow } from ".";
 import { CreateRetro } from "..";
@@ -131,7 +130,7 @@ export class RetroList extends React.Component<RetroListProps,
       return <LinearProgress color="secondary" />;
 
     return (
-      <div className={styles.root}>
+      <div style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Snackbar open={this.state.showSnackBar} title={this.state.snackBarMessage}>
           <SnackbarContent message={this.state.snackBarMessage!} />
         </Snackbar>
