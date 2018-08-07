@@ -35,11 +35,14 @@ namespace Retros.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(builder =>
-                        builder.WithOrigins("http://localhost:3000")
-                        .AllowCredentials()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+            if (env.IsDevelopment())
+            {
+                app.UseCors(builder =>
+                            builder.WithOrigins("http://localhost:3000")
+                            .AllowCredentials()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod());
+            }
             
             app.UseSession();
             app.UseDefaultFiles();

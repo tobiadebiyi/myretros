@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +10,8 @@
     <Content Remove="client\**" />
     <EmbeddedResource Remove="client\**" />
     <None Remove="client\**" />
+    <Content Remove="wwwroot\favicon.ico" />
+    <Content Remove="wwwroot\manifest.json" />
   </ItemGroup>
 
   <ItemGroup>
