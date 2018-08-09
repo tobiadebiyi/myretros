@@ -33,7 +33,7 @@ export const CommentCard: React.SFC<CommentCardProps> = ({ comment, handleOnEdit
           </Typography>
         </CardContent>
         <CardActions style={styles.actions}>
-          {comment.isActiveUser &&
+          {comment.isOwner &&
             <Button
               size="small"
               color="primary"

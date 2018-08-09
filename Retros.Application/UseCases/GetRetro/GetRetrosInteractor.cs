@@ -20,7 +20,9 @@ namespace Retros.Application.UseCases.GetRetros
         {
             var userId = this.userContextProvider.GetUserId();
             var result = await this.retroRepository.GetByUserId(userId);
-            var response = new GetRetrosResponse(result.OrderByDescending(r => r.WhenCreated).Select(r => new RetroDTO(r)));
+            var response = new GetRetrosResponse(result
+                                                 .OrderByDescending(r => r.WhenCreated)
+                                                 .Select(r => new RetroDTO(r, userId)));
 
             return new OperationResult<GetRetrosResponse>
             {

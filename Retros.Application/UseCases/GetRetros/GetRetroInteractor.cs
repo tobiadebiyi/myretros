@@ -10,9 +10,13 @@ namespace Retros.Application.UseCases.GetRetro
         readonly IRetroReposirotory retroRepository;
         readonly IUserContextProvider userContextProvider;
 
-        public GetRetroInteractor(IRetroReposirotory retroRepository)
+        public GetRetroInteractor(
+            IRetroReposirotory retroRepository,
+            IUserContextProvider userContextProvider
+            )
         {
             this.retroRepository = retroRepository;
+            this.userContextProvider = userContextProvider;
         }
 
         public async Task<OperationResult<RetroDTO>> Handle(GetRetroRequest request)
@@ -22,7 +26,7 @@ namespace Retros.Application.UseCases.GetRetro
             return new OperationResult<RetroDTO>
             {
                 Succeded = true,
-                Value = new RetroDTO(result)
+                Value = new RetroDTO(result, this.userContextProvider.GetUserId())
             };
         }
     }

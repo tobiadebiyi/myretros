@@ -42,10 +42,6 @@ namespace Retros.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRetros()
         {
-            var userId = this.HttpContext.Session.GetString("userId");
-            if (userId == null)
-                this.HttpContext.Session.SetString("userId", Guid.NewGuid().ToString());
-            
             return Ok(await getRetrosInteractor.Handle(new GetRetrosRequest()));
         }
 

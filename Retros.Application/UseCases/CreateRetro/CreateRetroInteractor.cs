@@ -27,7 +27,7 @@ namespace Retros.Application.UseCases.CreateRetro
             }
 
             var retro = await this.retroReposirotory.Add(newRetro);
-            return OperationResultCreator.Suceeded(new RetroDTO(retro));
+            return OperationResultCreator.Suceeded(new RetroDTO(retro, userContextProvider.GetUserId()));
         }
     }
 }

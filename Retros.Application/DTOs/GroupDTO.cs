@@ -12,11 +12,13 @@ namespace Retros.Application.DTOs
 
         }
 
-        public GroupDTO(Group group)
+        public GroupDTO(Group group, string activeUserId)
         {
             this.Id = group.Id;
             this.Name = group.Name;
-            this.Comments = group.Comments.OrderBy(c => c.WhenCreated).Select(c => new CommentDTO(c));
+            this.Comments = group.Comments
+                .OrderBy(c => c.WhenCreated)
+                .Select(c => new CommentDTO(c, activeUserId));
         }
 
         public Guid Id { get; set; }

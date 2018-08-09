@@ -9,18 +9,15 @@ namespace Retros.Application.DTOs
         {
 
         }
-        public CommentDTO(Comment comment)
+        public CommentDTO(Comment comment, string activeUserId)
         {
             this.Id = comment.Id;
             this.Text = comment.Text;
+            this.IsOwner = activeUserId == comment.OwnerId;
         }
 
         public Guid Id { get; set; }
         public string Text { get; set; }
-
-        public Comment AsDomainModel()
-        {
-            return new Comment(this.Text);
-        }
+        public bool IsOwner { get; set; }
     }
 }

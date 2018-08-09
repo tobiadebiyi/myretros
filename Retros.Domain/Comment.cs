@@ -5,16 +5,17 @@ namespace Retros.Domain {
     {
         protected Comment()
         {
-            WhenAdded = DateTime.UtcNow;
         }
-        public Comment(string text) : this()
+        public Comment(string text, string ownerId)
         {
             this.Id = Guid.NewGuid();
             Text = text;
+            this.OwnerId = ownerId;
         }
 
         public string Text { get; protected set; }
+        public string OwnerId { get; protected set; }
         public Group Group { get; protected set; }
-        public DateTime WhenAdded { get; protected set; }
+        public DateTime WhenAdded { get; protected set; } = DateTime.UtcNow;
     }
 }

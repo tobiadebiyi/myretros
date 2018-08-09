@@ -8,20 +8,27 @@ namespace Retros.Application.UseCases.AddComment
     public class AddCommentInteractor : IInteractor<AddCommentRequest, OperationResult<CommentDTO>>
     {
         readonly IRetroReposirotory retroReposirotory;
+        readonly IUserContextProvider userContextProvider;
 
-        public AddCommentInteractor(IRetroReposirotory retroReposirotory)
+        public AddCommentInteractor(
+            IRetroReposirotory retroReposirotory,
+            IUserContextProvider userContextProvider
+        )
         {
             this.retroReposirotory = retroReposirotory;
+            this.userContextProvider = userContextProvider;
         }
 
         public async Task<OperationResult<CommentDTO>> Handle(AddCommentRequest request)
         {
             var retro = await this.retroReposirotory.Get(request.RetroId);
-            var comment = new Comment(request.Comment.Text);
-            retro.AddComment(request.GroupId, request.Comment.AsDomainModel());
+
+            var activeUserId = this.userContextProvider.GetUserId();
+            var comment = new Comment(request.Comment.Text, activeUserId);
+            retro.AddComment(request.GroupId, new Comment(request.Comment.Text, activeUserId));
 
             await this.retroReposirotory.Update(retro);
-            return OperationResultCreator.Suceeded(new CommentDTO(comment));
+            return OperationResultCreator.Suceeded(new CommentDTO(comment, activeUserId));
         }
     }
 }

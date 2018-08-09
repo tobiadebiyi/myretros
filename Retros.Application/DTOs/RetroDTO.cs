@@ -11,16 +11,23 @@ namespace Retros.Application.DTOs
         {
 
         }
-        public RetroDTO(Retro retro)
+
+        public RetroDTO(Retro retro, string activeUserId)
         {
             this.Id = retro.Id;
             this.Name = retro.Name;
-            this.Groups = retro.Groups.OrderBy(g => g.WhenCreated).Select(g => new GroupDTO(g));
+            this.Groups = 
+                retro.Groups
+                .OrderBy(g => g.WhenCreated)
+                .Select(g => new GroupDTO(g, activeUserId));
+            
+            this.IsOwner = activeUserId.ToString() == retro.OwnerId;
         }
 
         public Guid Id { get; set; }
         public string Name { get; set; }
         public IEnumerable<GroupDTO> Groups { get; set; }
         public string UserId { get; set; }
+        public bool IsOwner { get; set; }
     }
 }

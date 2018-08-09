@@ -39,8 +39,13 @@ namespace Retros.Web.Hubs
         public async Task AddComment(AddCommentRequest request)
         {
             var response = await addComment.Handle(request);
-            await this.Clients.Group(request.RetroId.ToString())
-                      .SendAsync("CommentAdded", new { comment = response.Value, groupId = request.GroupId});
+
+            var payload = new { comment = response.Value, groupId = request.GroupId };
+            await this.Clients.Caller.SendAsync("CommentAdded", payload);
+
+            payload.comment.IsOwner = false;
+            await this.Clients.OthersInGroup(request.RetroId.ToString())
+                      .SendAsync("CommentAdded", payload);
         }
 
         public async Task GetRetros()

@@ -51,7 +51,7 @@ namespace Projects.Repositories
         public async Task<IEnumerable<Retro>> GetByUserId(string userId)
         {
             return await this.context.Retros
-                        .Where(r => r.UserId == userId)
+                        .Where(r => r.OwnerId == userId)
                         .Include(r => r.Groups)
                         .ThenInclude(r => r.Comments)
                         .ToListAsync();
