@@ -42,7 +42,8 @@ namespace Retros.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRetros()
         {
-            return Ok(await getRetrosInteractor.Handle(new GetRetrosRequest()));
+            var response = await getRetrosInteractor.Handle(new GetRetrosRequest());
+            return Ok(response);
         }
 
         [HttpGet]

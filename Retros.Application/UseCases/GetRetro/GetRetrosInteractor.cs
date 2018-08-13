@@ -20,15 +20,13 @@ namespace Retros.Application.UseCases.GetRetros
         {
             var userId = this.userContextProvider.GetUserId();
             var result = await this.retroRepository.GetByUserId(userId);
+            if (result == null) return OperationResultCreator.Failed<GetRetrosResponse>("Retro not found");
+
             var response = new GetRetrosResponse(result
                                                  .OrderByDescending(r => r.WhenCreated)
                                                  .Select(r => new RetroDTO(r, userId)));
 
-            return new OperationResult<GetRetrosResponse>
-            {
-                Succeded = true,
-                Value = response
-            };
+            return OperationResultCreator.Suceeded(response);
         }
     }
 }

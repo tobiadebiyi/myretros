@@ -7,7 +7,6 @@ import { Comment } from "../state";
 const styles = {
   card: {
     minWidth: 275,
-    maxWidth: 200,
   },
   title: {
     marginBottom: 16,
@@ -25,25 +24,23 @@ interface CommentCardProps {
 
 export const CommentCard: React.SFC<CommentCardProps> = ({ comment, handleOnEditComment }) => {
   return (
-    <div>
-      <Card style={styles.card}>
-        <CardContent>
-          <Typography style={styles.title} color="default">
-            {comment.text}
-          </Typography>
-        </CardContent>
-        <CardActions style={styles.actions}>
-          {comment.isOwner &&
-            <Button
-              size="small"
-              color="primary"
-              onClick={() => handleOnEditComment(comment.id!)}
-            >
-              Edit
-            </Button>
-          }
-        </CardActions>
-      </Card>
-    </div>
+    <Card style={styles.card}>
+      <CardContent>
+        <Typography style={styles.title} color="default">
+          {comment.text}
+        </Typography>
+      </CardContent>
+      <CardActions style={styles.actions}>
+        {comment.isOwner &&
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => handleOnEditComment(comment.id!)}
+          >
+            Edit
+          </Button>
+        }
+      </CardActions>
+    </Card>
   );
 };

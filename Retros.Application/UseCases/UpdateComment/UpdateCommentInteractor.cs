@@ -1,28 +1,48 @@
-﻿using System;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Retros.Application.DTOs;
 using Retros.Application.Interfaces;
 
 namespace Retros.Application.UseCases.UpdateComment
 {
-    public class UpdateCommentInteractor : IInteractor<UpdateCommentRequest, OperationResult<CommentDTO>>
+    public class UpdateCommentInteractor : IInteractor<UpdateCommentRequest, OperationResult<UpdateCommentResponse>>
     {
         readonly IRetroReposirotory retroReposirotory;
+        readonly IUserContextProvider userContextProvider;
 
-        public UpdateCommentInteractor(IRetroReposirotory retroReposirotory)
+        public UpdateCommentInteractor(
+            IRetroReposirotory retroReposirotory,
+            IUserContextProvider userContextProvider
+        )
         {
             this.retroReposirotory = retroReposirotory;
+            this.userContextProvider = userContextProvider;
         }
 
-        public async Task<OperationResult<CommentDTO>> Handle(UpdateCommentRequest request)
+        public async Task<OperationResult<UpdateCommentResponse>> Handle(UpdateCommentRequest request)
         {
-            throw new NotImplementedException();
-            //var retro = await this.retroReposirotory.Get(request.RetroId);
-            //var comment = new Comment(request.Comment.Text);
-            //retro.AddComment(request.GroupId, request.Comment.AsDomainModel());
+            var retro = await this.retroReposirotory.Get(request.RetroId);
+            if (retro == null) return OperationResultCreator.Failed<UpdateCommentResponse>("Retro not found");
 
-            //await this.retroReposirotory.Update(retro);
-            //return OperationResultCreator.Suceeded(new CommentDTO(comment));
+            var comment = retro.Groups
+                               .SingleOrDefault(g => g.Id == request.GroupId)?
+                               .Comments.SingleOrDefault(c => c.Id == request.Comment.Id);
+
+            if (comment == null) 
+                return OperationResultCreator.Failed<UpdateCommentResponse>("Comment not found");
+
+            comment.Text = request.Comment.Text;
+
+            await this.retroReposirotory.Update(retro);
+
+            var response = new UpdateCommentResponse
+            {
+                Comment = new CommentDTO(comment, this.userContextProvider.GetUserId()),
+                GroupId = request.GroupId,
+                RetroId = request.RetroId
+            };
+
+            return OperationResultCreator.Suceeded(response);
         }
     }
 }

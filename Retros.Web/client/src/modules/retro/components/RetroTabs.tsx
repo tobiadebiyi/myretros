@@ -117,15 +117,18 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       .build();
   }
 
+  handleCommentReceived = (response: { comment: Comment, groupId: string }) => {
+    debugger;
+    this.props.addCommentToRetro(response.comment, response.groupId);
+  }
+
   componentDidMount() {
     this.hubConnection.on("ReceiveRetro", (retro: Retro) => {
       this.props.updateRetro(retro);
     });
 
-    this.hubConnection.on("CommentAdded", (response: { comment: Comment, groupId: string }) => {
-      debugger;
-      this.props.addCommentToRetro(response.comment, response.groupId);
-    });
+    this.hubConnection.on("CommentAdded", this.handleCommentReceived);
+    this.hubConnection.on("CommentUpdated", this.handleCommentReceived);
 
     this.hubConnection.start()
       .then(() => {
@@ -171,11 +174,17 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       isOwner: true,
     } as Comment;
 
-    this.hubConnection.invoke("AddComment", {
+    const request = {
       retroId: this.props.retroId,
       groupId: state.editCommentState.commentGroupId,
       comment,
-    });
+    };
+
+    if (comment.id) {
+      this.hubConnection.invoke("UpdateComment", request);
+    } else {
+      this.hubConnection.invoke("AddComment", request);
+    }
   }
 
   handleOnEditComment = (commentId: string) => {

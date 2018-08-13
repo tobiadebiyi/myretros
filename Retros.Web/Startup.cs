@@ -13,6 +13,7 @@ using Retros.Application.UseCases.CreateRetro;
 using Retros.Application.UseCases.DeleteRetro;
 using Retros.Application.UseCases.GetRetro;
 using Retros.Application.UseCases.GetRetros;
+using Retros.Application.UseCases.UpdateComment;
 using Retros.DataAccess;
 using Retros.Web.Hubs;
 using Retros.Web.Providers;
@@ -60,6 +61,7 @@ namespace Retros.Web
             services.AddTransient<IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>>, GetRetrosInteractor>();
             services.AddTransient<IInteractor<GetRetroRequest, OperationResult<RetroDTO>>, GetRetroInteractor>();
             services.AddTransient<IInteractor<AddCommentRequest, OperationResult<CommentDTO>>, AddCommentInteractor>();
+            services.AddTransient<IInteractor<UpdateCommentRequest, OperationResult<UpdateCommentResponse>>, UpdateCommentInteractor>();
             services.AddTransient<IInteractor<CreateRetroRequest, OperationResult<RetroDTO>>, CreateRetroInteractor>();
             services.AddTransient<IInteractor<DeleteRetroRequest, OperationResult>, DeleteRetroInteractor>();
 

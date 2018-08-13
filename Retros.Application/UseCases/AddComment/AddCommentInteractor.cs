@@ -25,7 +25,7 @@ namespace Retros.Application.UseCases.AddComment
 
             var activeUserId = this.userContextProvider.GetUserId();
             var comment = new Comment(request.Comment.Text, activeUserId);
-            retro.AddComment(request.GroupId, new Comment(request.Comment.Text, activeUserId));
+            retro.AddComment(request.GroupId, comment);
 
             await this.retroReposirotory.Update(retro);
             return OperationResultCreator.Suceeded(new CommentDTO(comment, activeUserId));

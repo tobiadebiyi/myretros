@@ -23,11 +23,7 @@ namespace Retros.Application.UseCases.GetRetro
         {
             var result = await this.retroRepository.Get(request.RetroId);
 
-            return new OperationResult<RetroDTO>
-            {
-                Succeded = true,
-                Value = new RetroDTO(result, this.userContextProvider.GetUserId())
-            };
+            return OperationResultCreator.Suceeded(new RetroDTO(result, this.userContextProvider.GetUserId()));
         }
     }
 }

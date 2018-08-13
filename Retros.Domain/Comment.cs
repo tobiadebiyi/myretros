@@ -6,6 +6,7 @@ namespace Retros.Domain {
         protected Comment()
         {
         }
+
         public Comment(string text, string ownerId)
         {
             this.Id = Guid.NewGuid();
@@ -13,7 +14,7 @@ namespace Retros.Domain {
             this.OwnerId = ownerId;
         }
 
-        public string Text { get; protected set; }
+        public string Text { get; set; }
         public string OwnerId { get; protected set; }
         public Group Group { get; protected set; }
         public DateTime WhenAdded { get; protected set; } = DateTime.UtcNow;

@@ -57,8 +57,15 @@ export const RetroReducer = (state: RetroState = initialState, action: any) => {
       return { ...state, retro: action.retro };
     case ADD_COMMENT_SUCCESS:
       const retro = Object.assign({}, state.retro);
-      var groupIndex = retro!.groups.findIndex(g => g.id === action.groupId);
-      retro!.groups[groupIndex].comments.push(action.comment);
+      const groupIndex = retro!.groups.findIndex(g => g.id === action.groupId);
+
+      const existingCommentIndex = retro.groups[groupIndex].comments.findIndex(c => c.id === action.comment.id);
+
+      if (existingCommentIndex === -1) {
+        retro!.groups[groupIndex].comments.push(action.comment);
+      } else {
+        retro!.groups[groupIndex].comments.splice(existingCommentIndex, 1, action.comment);
+      }
 
       return { ...state, retro };
     default:
