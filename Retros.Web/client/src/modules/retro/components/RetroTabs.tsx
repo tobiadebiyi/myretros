@@ -19,9 +19,8 @@ import * as classNames from "classnames";
 import { EditCommentDialog } from "./EditCommentDialog";
 import { ScreenActionButton } from "../../../components/ScreenActionButton";
 
-import { HubConnectionBuilder, HubConnection } from "@aspnet/signalr";
-import CommentGroup from "./CommentGroupComponent";
-import { config } from "../../../config";
+import CommentGroup from "./CommentGroup";
+import { GroupCommentModel } from "../state";
 
 interface TabContainerProps {
   classes?: any;
@@ -59,8 +58,8 @@ export interface RetroTabsProps {
   retro: Retro;
   retroId: string;
   theme: any;
-  updateRetro: (retro: Retro) => void;
-  addCommentToRetro: (comment: Comment, groupId: string) => void;
+  saveComment: (retroId: string, model: GroupCommentModel) => void;
+  joinRetro: (retroId: string) => void;
 }
 
 interface EditCommentState {
@@ -98,7 +97,6 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       icon: <AddIcon />,
     }
   ];
-  hubConnection: HubConnection;
 
   constructor(props: RetroTabsProps, context: any) {
     super(props);
@@ -112,32 +110,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       } as EditCommentState,
     };
 
-    this.hubConnection = new HubConnectionBuilder()
-      .withUrl(`${config.apiUrl}/retrohub`)
-      .build();
-  }
-
-  handleCommentReceived = (response: { comment: Comment, groupId: string }) => {
-    debugger;
-    this.props.addCommentToRetro(response.comment, response.groupId);
-  }
-
-  componentDidMount() {
-    this.hubConnection.on("ReceiveRetro", (retro: Retro) => {
-      this.props.updateRetro(retro);
-    });
-
-    this.hubConnection.on("CommentAdded", this.handleCommentReceived);
-    this.hubConnection.on("CommentUpdated", this.handleCommentReceived);
-
-    this.hubConnection.start()
-      .then(() => {
-        this.hubConnection.invoke("JoinRetro", this.props.retroId);
-      });
-  }
-
-  componentWillUnmount() {
-    this.hubConnection.stop();
+    this.props.joinRetro(this.props.retroId);
   }
 
   handleOpenCommentDialog = (groupId: string, comment: Comment) => {
@@ -175,16 +148,11 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
     } as Comment;
 
     const request = {
-      retroId: this.props.retroId,
       groupId: state.editCommentState.commentGroupId,
       comment,
     };
 
-    if (comment.id) {
-      this.hubConnection.invoke("UpdateComment", request);
-    } else {
-      this.hubConnection.invoke("AddComment", request);
-    }
+    this.props.saveComment(this.props.retroId, request);
   }
 
   handleOnEditComment = (commentId: string) => {

@@ -7,13 +7,17 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import { startSignalR } from "./store/signalR";
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Router history={createBrowserHistory()} >
-      <App />
-    </Router>
-  </Provider>,
-  document.getElementById("root") as HTMLElement
-);
+startSignalR(store, () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <Router history={createBrowserHistory()} >
+        <App />
+      </Router>
+    </Provider>,
+    document.getElementById("root") as HTMLElement
+  );
+});
+
 registerServiceWorker();

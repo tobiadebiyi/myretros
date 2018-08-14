@@ -19,14 +19,22 @@ export const RetroListActionCreators = {
     return (dispatch: any) => {
       dispatch({ type: FETCH_RETROS_STARTED });
       RetroApi.getRetros()
-        .then(retros => dispatch({ type: FETCH_RETROS_SUCCESS, retros }));
+        .then(retros => {
+          dispatch({ type: FETCH_RETROS_SUCCESS, retros });
+        })
+        .catch((error) => {
+          alert(error);
+        });
     };
   },
   createRetro: (request: CreateRetro) => {
     return (dispatch: any) => {
       dispatch({ type: CREATE_RETRO_STARTED });
       return RetroApi.createRetro(request)
-        .then(retro => dispatch({ type: CREATE_RETRO_SUCCESS, retro }));
+        .then(retro => dispatch({ type: CREATE_RETRO_SUCCESS, retro }))
+        .catch((error) => {
+          alert(error);
+        });
     };
   },
   deleteRetro: (retroId: string) => {

@@ -1,3 +1,5 @@
+import { Actions } from "../../../store/signalR";
+
 export const FETCH_COMMENTS_START: string = "FETCH_COMMENTS_START";
 export const FETCH_COMMENTS_SUCCESS: string = "FETCH_COMMENTS_SUCCESS";
 export const FETCH_COMMENTS_FAILURE: string = "FETCH_COMMENTS_FAILURE";
@@ -9,16 +11,33 @@ export const UPDATE_RETRO_START: string = "UPDATE_RETRO_START";
 export const UPDATE_RETRO_SUCCESS: string = "UPDATE_RETRO_SUCCESS";
 
 export const RetroActionCreators = {
-  addCommentToRetro: (comment: Comment, groupId: string) => {
+  addCommentToRetro: (groupComment: GroupCommentModel) => {
     return (dispatch: any) => {
       dispatch({ type: ADD_COMMENT_STARTED });
-      dispatch({ type: ADD_COMMENT_SUCCESS, comment, groupId });
+      dispatch({ type: ADD_COMMENT_SUCCESS, payload: groupComment });
     };
   },
   updateRetro: (retro: Retro) => {
     return (dispatch: any) => {
       dispatch({ type: UPDATE_RETRO_START });
       dispatch({ type: UPDATE_RETRO_SUCCESS, retro });
+    };
+  },
+  joinRetro: (retroId: string) => {
+    return (dispatch: any) => {
+      dispatch({ type: Actions.JOIN_RETRO, retroId });
+    };
+  },
+  saveComment: (retroId: string, model: GroupCommentModel) => {
+    return (dispatch: any) => {
+      dispatch({
+        type: Actions.SAVE_COMMENT,
+        payload: {
+          retroId,
+          groupId: model.groupId,
+          comment: model.comment
+        }
+      });
     };
   },
 };
@@ -46,6 +65,10 @@ export interface Comment {
   text: string;
   tagId?: string;
 }
+export interface GroupCommentModel {
+  comment: Comment;
+  groupId: string;
+}
 
 const initialState: RetroState = {
   isFetchingRetro: false,
@@ -57,14 +80,14 @@ export const RetroReducer = (state: RetroState = initialState, action: any) => {
       return { ...state, retro: action.retro };
     case ADD_COMMENT_SUCCESS:
       const retro = Object.assign({}, state.retro);
-      const groupIndex = retro!.groups.findIndex(g => g.id === action.groupId);
+      const groupIndex = retro!.groups.findIndex(g => g.id === action.payload.groupId);
 
-      const existingCommentIndex = retro.groups[groupIndex].comments.findIndex(c => c.id === action.comment.id);
+      const existingCommentIndex = retro.groups[groupIndex].comments.findIndex(c => c.id === action.payload.comment.id);
 
       if (existingCommentIndex === -1) {
-        retro!.groups[groupIndex].comments.push(action.comment);
+        retro!.groups[groupIndex].comments.push(action.payload.comment);
       } else {
-        retro!.groups[groupIndex].comments.splice(existingCommentIndex, 1, action.comment);
+        retro!.groups[groupIndex].comments.splice(existingCommentIndex, 1, action.payload.comment);
       }
 
       return { ...state, retro };

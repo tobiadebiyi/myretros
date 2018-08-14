@@ -1,4 +1,4 @@
-import { Grid } from "material-ui";
+import { Grid, Toolbar, Chip } from "material-ui";
 import * as React from "react";
 import { CommentCard } from "./CommentCard";
 import withStyles from "material-ui/styles/withStyles";
@@ -16,11 +16,18 @@ const styles = theme => ({
   },
 });
 
-const CommentGroupComponent: React.SFC<CommentGroupProps> = (props: CommentGroupProps) => {
+const CommentGroup: React.SFC<CommentGroupProps> = (props: CommentGroupProps) => {
   return (
     <div>
       <Grid container={true} className={props.classes.root} alignContent={"center"} justify={"center"}>
         <Grid item={true} xs={10}>
+          <Toolbar >
+            <Chip
+              label="Custom delete icon Chip"
+              onClick={() => alert("clicked")}
+              onDelete={() => alert("deleted")}
+            />
+          </Toolbar>
           <Grid
             container={true}
             direction={"row"}
@@ -42,4 +49,4 @@ const CommentGroupComponent: React.SFC<CommentGroupProps> = (props: CommentGroup
   );
 };
 
-export default withStyles(styles)(CommentGroupComponent);
+export default withStyles(styles)(CommentGroup);
