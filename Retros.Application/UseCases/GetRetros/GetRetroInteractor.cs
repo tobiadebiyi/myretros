@@ -23,6 +23,7 @@ namespace Retros.Application.UseCases.GetRetro
         public async Task<OperationResult<RetroDTO>> Handle(GetRetroRequest request)
         {
             var result = await this.retroRepository.Get(request.RetroId);
+            if (result == null) return OperationResultCreator.Failed<RetroDTO>("Retro not found");
 
             return OperationResultCreator.Suceeded(new RetroDTO(result, this.userContextProvider.GetUserId()));
         }

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DragSource } from "react-dnd";
-import Card from "material-ui/Card";
+import Card from "@material-ui/core/Card";
 import { RetroContainer } from "./modules/retro";
 
 const cardSource = {

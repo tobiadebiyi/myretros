@@ -1,12 +1,13 @@
 import * as React from "react";
-import Button from "material-ui/Button";
-import { Input } from "material-ui";
-import Dialog, {
+import Button from "@material-ui/core/Button";
+import { Input } from "@material-ui/core";
+import {
+  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "material-ui/Dialog";
+} from "@material-ui/core";
 
 interface EditCommentDialogProps {
   open: boolean;

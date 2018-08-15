@@ -5,19 +5,19 @@ import {
   Tabs,
   Tab,
   Typography,
-} from "material-ui";
+} from "@material-ui/core";
 
 import { Group, Retro, Comment } from "..";
-import Slide from "material-ui/transitions/Slide";
+import Slide from "@material-ui/core/Slide";
 
-import green from "material-ui/colors/green";
+import green from "@material-ui/core/colors/green";
 import AddIcon from "@material-ui/icons/Add";
 import Mood from "@material-ui/icons/Mood";
 import MoodBad from "@material-ui/icons/MoodBad";
 import SwipeableViews from "react-swipeable-views";
 import * as classNames from "classnames";
 import { EditCommentDialog } from "./EditCommentDialog";
-import { ScreenActionButton } from "../../../components/ScreenActionButton";
+import ScreenActionButton from "../../../components/ScreenActionButton";
 
 import CommentGroup from "./CommentGroup";
 import { GroupCommentModel } from "../state";
@@ -173,7 +173,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       <Slide key={index} direction="right" in={this.state.tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
         <TabContainer>
           <CommentGroup
-            comments={group.comments}
+            group={group}
             handleOnEditComment={this.handleOnEditComment}
           />
         </TabContainer>

@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Application.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Projects.Repositories;
 using Retros.Application;
 using Retros.Application.DTOs;
 using Retros.Application.Interfaces;
@@ -16,6 +16,7 @@ using Retros.Application.UseCases.GetRetro;
 using Retros.Application.UseCases.GetRetros;
 using Retros.Application.UseCases.UpdateComment;
 using Retros.DataAccess;
+using Retros.DataAccess.Repositories;
 using Retros.Web.Hubs;
 using Retros.Web.Providers;
 
@@ -59,7 +60,7 @@ namespace Retros.Web
             services.AddMvc();
 
             services.AddTransient<IRetroReposirotory, RetroReposirotory>();
-            services.AddTransient<IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>>, GetRetrosInteractor>();
+            services.AddTransient<IInteractor<GetRetrosRequest, OperationResult<IEnumerable<RetroDTO>>>, GetRetrosInteractor>();
             services.AddTransient<IInteractor<GetRetroRequest, OperationResult<RetroDTO>>, GetRetroInteractor>();
             services.AddTransient<IInteractor<AddCommentRequest, OperationResult<CommentDTO>>, AddCommentInteractor>();
             services.AddTransient<IInteractor<UpdateCommentRequest, OperationResult<UpdateCommentResponse>>, UpdateCommentInteractor>();

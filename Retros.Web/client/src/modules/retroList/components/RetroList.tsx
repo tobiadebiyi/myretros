@@ -10,7 +10,7 @@ import {
   IconButton,
   Avatar,
   LinearProgress
-} from "material-ui";
+} from "@material-ui/core";
 
 import { AddCircle, Group } from "@material-ui/icons";
 import * as React from "react";
@@ -18,7 +18,7 @@ import { Retro } from "../../retro";
 import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog/EditTextDialog";
 import { RetroRow } from ".";
 import { CreateRetro } from "..";
-import { green, orange } from "material-ui/colors";
+import { green, orange } from "@material-ui/core/colors";
 
 export interface RetroListProps {
   retros: Retro[];
@@ -128,7 +128,7 @@ export class RetroList extends React.Component<RetroListProps,
 
     if (!retros)
       return <LinearProgress color="secondary" />;
-
+    debugger;
     return (
       <div style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Snackbar open={this.state.showSnackBar} title={this.state.snackBarMessage}>
@@ -146,7 +146,7 @@ export class RetroList extends React.Component<RetroListProps,
             >
               My Retros
             </Typography>
-            <Tooltip title="Create Retro" style={{ flex: 1 }}>
+            <Tooltip title="Create Retro">
               <IconButton
                 onClick={() => this.handleCreateRetroButtonClick({ name: "", id: "", groups: [] })}
                 aria-label="Create Retro"
@@ -156,7 +156,7 @@ export class RetroList extends React.Component<RetroListProps,
                 </Avatar>
               </IconButton>
             </Tooltip>
-            <Tooltip title="Join a Retro" style={{ flex: 1 }}>
+            <Tooltip title="Join a Retro">
               <IconButton
                 onClick={() => this.handleJoinRetroButtonClick()}
                 aria-label="Join Retro"

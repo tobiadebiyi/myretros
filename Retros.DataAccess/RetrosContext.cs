@@ -13,6 +13,7 @@ namespace Retros.DataAccess
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Retro> Retros { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,7 @@ namespace Retros.DataAccess
 
             modelBuilder.Entity<Group>().HasKey(c => c.Id);
             modelBuilder.Entity<Group>().HasMany(g => g.Comments).WithOne(c => c.Group);
+            modelBuilder.Entity<Group>().HasMany(g => g.Tags).WithOne(c => c.Group);
             modelBuilder.Entity<Group>().Property(c => c.Name).IsRequired();
 
             modelBuilder.Entity<Comment>().HasKey(c => c.Id);

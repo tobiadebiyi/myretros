@@ -6,6 +6,6 @@ namespace Retros.Domain
     {
         public Guid Id { get; protected set; } = Guid.NewGuid();
 
-        public DateTime WhenCreated { get; set; } = DateTime.UtcNow;
+        public DateTime WhenCreated { get; protected set; } = DateTime.UtcNow;
     }
 }

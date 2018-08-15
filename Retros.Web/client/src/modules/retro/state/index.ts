@@ -57,6 +57,7 @@ export interface Group {
   id: string;
   name: string;
   comments: Comment[];
+  tags: string[];
 }
 
 export interface Comment {

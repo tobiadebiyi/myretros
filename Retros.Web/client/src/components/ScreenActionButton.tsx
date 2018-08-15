@@ -1,17 +1,17 @@
 import * as React from "react";
-import { Button } from "material-ui";
-import Zoom from "material-ui/transitions/Zoom";
-import withStyles from "material-ui/styles/withStyles";
+import { Button, createStyles, Theme } from "@material-ui/core";
+import Zoom from "@material-ui/core/Zoom";
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
   fab: {
     position: "absolute",
     bottom: theme.spacing.unit * 2,
     right: theme.spacing.unit * 2,
-  } as any,
+  },
 });
 
-export interface ScreenActionProps {
+export interface ScreenActionProps extends WithStyles<typeof styles> {
   theme: any;
   className: string;
   icon: JSX.Element;

@@ -19,10 +19,12 @@ namespace Retros.Application.DTOs
             this.Comments = group.Comments
                 .OrderBy(c => c.WhenCreated)
                 .Select(c => new CommentDTO(c, activeUserId));
+            this.Tags = group.Tags.OrderBy(t => t.WhenCreated).Select(t => t.Value);
         }
 
         public Guid Id { get; set; }
         public string Name { get; set; }
         public IEnumerable<CommentDTO> Comments { get; set; }
+        public IEnumerable<string> Tags { get; set; }
     }
 }

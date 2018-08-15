@@ -14,6 +14,7 @@
   <ItemGroup>
     <Compile Remove="Class1.cs" />
     <Compile Remove="UseCases\GetRetros\GetRetrosResponse.cs" />
+    <Compile Remove="UseCases\GetRetro\GetRetrosResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Retros.Domain\Retros.Domain.csproj" />

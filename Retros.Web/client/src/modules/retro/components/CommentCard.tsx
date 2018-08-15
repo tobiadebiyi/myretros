@@ -1,10 +1,10 @@
 import * as React from "react";
-import Card, { CardActions, CardContent } from "material-ui/Card";
-import Button from "material-ui/Button";
-import Typography from "material-ui/Typography";
+import { Card, CardActions, CardContent, createStyles, withStyles, WithStyles } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import { Comment } from "../state";
 
-const styles = {
+const styles = () => createStyles({
   card: {
     minWidth: 275,
   },
@@ -15,27 +15,27 @@ const styles = {
   actions: {
     minHeight: 48,
   }
-};
+});
 
-interface CommentCardProps {
+interface CommentCardProps extends WithStyles<typeof styles> {
   comment: Comment;
   handleOnEditComment: (commentId: string) => void;
 }
 
-export const CommentCard: React.SFC<CommentCardProps> = ({ comment, handleOnEditComment }) => {
+export const CommentCard: React.SFC<CommentCardProps> = (props) => {
   return (
-    <Card style={styles.card}>
+    <Card className={props.classes.card}>
       <CardContent>
-        <Typography style={styles.title} color="default">
-          {comment.text}
+        <Typography className={props.classes.title} color="default">
+          {props.comment.text}
         </Typography>
       </CardContent>
-      <CardActions style={styles.actions}>
-        {comment.isOwner &&
+      <CardActions className={props.classes.actions}>
+        {props.comment.isOwner &&
           <Button
             size="small"
             color="primary"
-            onClick={() => handleOnEditComment(comment.id!)}
+            onClick={() => props.handleOnEditComment(props.comment.id!)}
           >
             Edit
           </Button>
@@ -44,3 +44,5 @@ export const CommentCard: React.SFC<CommentCardProps> = ({ comment, handleOnEdit
     </Card>
   );
 };
+
+export default withStyles(styles)(CommentCard);

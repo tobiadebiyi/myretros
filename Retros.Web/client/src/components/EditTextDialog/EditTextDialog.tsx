@@ -7,8 +7,8 @@ import {
     DialogContent,
     DialogContentText,
     Input
-} from "material-ui";
-import { green, grey } from "material-ui/colors";
+} from "@material-ui/core";
+import { green, grey } from "@material-ui/core/colors";
 
 export interface EditTextDialogProps {
     open: boolean;

@@ -11,13 +11,13 @@ namespace Retros.Domain
         public Group(string name)
         {
             this.Name = name;
+            this.AddTag("First");
         }
 
-        protected string _tags;
         public string Name { get; protected set; }
         public Retro Retro { get; protected set; }
         public ICollection<Comment> Comments { get; protected set; } = new List<Comment>();
-        public ICollection<string> Tags => _tags.Split(',');
+        public ICollection<Tag> Tags { get; protected set; } = new List<Tag>();
 
         internal void AddComment(Comment comment)
         {
@@ -26,9 +26,11 @@ namespace Retros.Domain
 
         internal void AddTag(string tagName)
         {
-            if (this._tags.Split(',').Any(t => t == tagName))
+            if (this.Tags.Any(t => t.Value == tagName))
                 return;
-            this._tags = $"{_tags},{tagName}";
+
+
+            this.Tags.Add(new Tag(tagName));
         }
     }
 }

@@ -1,4 +1,3 @@
-
 import * as React from "react";
 
 import {
@@ -6,11 +5,11 @@ import {
     TableCell,
     Typography,
     Tooltip,
-    IconButton
-} from "material-ui";
+    Button
+} from "@material-ui/core";
 
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { ContentCopy, Delete } from "@material-ui/icons";
+import { Delete, Copyright } from "@material-ui/icons/";
 
 interface RetroRowProps {
     id: string;
@@ -41,19 +40,19 @@ export const RetroRow: React.SFC<RetroRowProps> = (props) => {
             </TableCell>
             <TableCell>
                 <Tooltip title="Copy reference">
-                    <IconButton onClick={(e) => e.stopPropagation()}>
+                    <Button onClick={(e) => e.stopPropagation()}>
                         <CopyToClipboard
                             text={id}
                             onCopy={() => showSnackBar("Copied!")}
                         >
-                            <ContentCopy />
+                            <Copyright />
                         </CopyToClipboard>
-                    </IconButton>
+                    </Button>
                 </Tooltip>
                 <Tooltip title="delete retro">
-                    <IconButton onClick={handleOnDelete}>
+                    <Button onClick={handleOnDelete}>
                         <Delete />
-                    </IconButton>
+                    </Button>
                 </Tooltip>
             </TableCell>
         </TableRow>

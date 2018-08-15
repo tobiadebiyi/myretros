@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Retros.Application.Interfaces;
-using Retros.DataAccess;
 using Retros.Domain;
 
-namespace Projects.Repositories
+namespace Retros.DataAccess.Repositories
 {
     public class RetroReposirotory : IRetroReposirotory
     {
@@ -37,6 +36,8 @@ namespace Projects.Repositories
             return await this.context.Retros
                              .Include(r => r.Groups)
                              .ThenInclude(g => g.Comments)
+                             .Include(r => r.Groups)
+                             .ThenInclude(g => g.Tags)
                              .ToListAsync();
         }
 

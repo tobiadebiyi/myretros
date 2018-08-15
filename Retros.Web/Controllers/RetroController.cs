@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Infrastructure;
@@ -29,7 +30,7 @@ namespace Retros.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRetros()
         {
-            var response = await this.requestPipelineMediator.Handle<GetRetrosRequest,OperationResult<GetRetrosResponse>>(new GetRetrosRequest());
+            var response = await this.requestPipelineMediator.Handle<GetRetrosRequest,OperationResult<IEnumerable<RetroDTO>>>(new GetRetrosRequest());
             return Ok(response);
         }
 

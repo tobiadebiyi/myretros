@@ -1,17 +1,13 @@
-import { withStyles, } from "material-ui/styles";
+import { withStyles, Theme, createStyles, WithStyles, } from "@material-ui/core/styles";
 import * as React from "react";
-import { Grid } from "material-ui";
+import { Grid } from "@material-ui/core";
 
-const styles = theme => ({
+const styles = (theme: Theme) => createStyles({
   logo: { ...theme.typography.button, alignContent: "center", flexWrap: "wrap" },
   center: { textAlign: "center" }
 });
 
-export interface HeaderProps {
-  classes?: any;
-}
-
-const Header: React.SFC<HeaderProps> = (props) => {
+const Header: React.SFC<WithStyles<typeof styles>> = (props) => {
   return (
     <div>
       <Grid

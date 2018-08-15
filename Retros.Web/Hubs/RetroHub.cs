@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Infrastructure;
 using Microsoft.AspNetCore.SignalR;
@@ -55,8 +56,8 @@ namespace Retros.Web.Hubs
 
         public async Task GetRetros()
         {
-            var getRetros = await this.requestPipelineMediator.Handle<GetRetrosRequest, OperationResult<GetRetrosResponse>>(new GetRetrosRequest { });
-            await this.Clients.Caller.SendAsync("ReceiveRetros", getRetros.Value.Retros);
+            var getRetros = await this.requestPipelineMediator.Handle<GetRetrosRequest, OperationResult<IEnumerable<RetroDTO>>>(new GetRetrosRequest { });
+            await this.Clients.Caller.SendAsync("ReceiveRetros", getRetros.Value);
         }
     }
 }
