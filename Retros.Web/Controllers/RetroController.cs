@@ -19,24 +19,10 @@ namespace Retros.Web.Controllers
     [Route("api/[controller]")]
     public class RetrosController : Controller
     {
-        readonly IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetrosInteractor;
-        readonly IInteractor<GetRetroRequest, OperationResult<RetroDTO>> getRetroInteractor;
-        readonly IInteractor<CreateRetroRequest, OperationResult<RetroDTO>> createRetroInteractor;
-        readonly IInteractor<DeleteRetroRequest, OperationResult> deleteRetroInteractor;
         readonly IRequestPipelineMediator requestPipelineMediator;
 
-        public RetrosController(
-            IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetrosInteractor,
-            IInteractor<GetRetroRequest, OperationResult<RetroDTO>> getRetroInteractor,
-            IInteractor<CreateRetroRequest, OperationResult<RetroDTO>> createRetroInteractor,
-            IInteractor<DeleteRetroRequest, OperationResult> deleteRetroInteractor,
-            IRequestPipelineMediator requestPipelineMediator
-        )
-        {            
-            this.getRetrosInteractor = getRetrosInteractor;
-            this.getRetroInteractor = getRetroInteractor;
-            this.createRetroInteractor = createRetroInteractor;
-            this.deleteRetroInteractor = deleteRetroInteractor;
+        public RetrosController(IRequestPipelineMediator requestPipelineMediator)
+        {
             this.requestPipelineMediator = requestPipelineMediator;
         }
 
@@ -51,14 +37,16 @@ namespace Retros.Web.Controllers
         [Route("{retroId}")]
         public async Task<IActionResult> GetRetro(Guid retroId)
         {
-            var retro = await getRetroInteractor.Handle(new GetRetroRequest{RetroId = retroId});
+            var retro = await this.requestPipelineMediator
+                                  .Handle<GetRetroRequest, OperationResult<RetroDTO>>(new GetRetroRequest{RetroId = retroId});
             return Ok(retro.Value);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateRetro([FromBody]CreateRetroRequest request)
         {
-            var retro = await this.createRetroInteractor.Handle(request);
+            var retro = await this.requestPipelineMediator
+                                  .Handle<CreateRetroRequest, OperationResult<RetroDTO>>(request);
             return Ok(retro);
         }
         [HttpDelete]
@@ -66,7 +54,7 @@ namespace Retros.Web.Controllers
         public async Task<IActionResult> DeleteRetro(Guid retroId)
         {
             var request = new DeleteRetroRequest { RetroId = retroId };
-            var result = await this.deleteRetroInteractor.Handle(request);
+            var result = await this.requestPipelineMediator.Handle<DeleteRetroRequest, OperationResult>(request);
 
             return Ok(result);
         }

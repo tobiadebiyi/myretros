@@ -13,34 +13,23 @@ namespace Retros.Web.Hubs
 {
     public class RetroHub : Hub
     {
-        readonly IInteractor<AddCommentRequest, OperationResult<CommentDTO>> addComment;
-        readonly IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetrosInteractor;
-        readonly IInteractor<GetRetroRequest, OperationResult<RetroDTO>> getRetroInteractor;
-        readonly IInteractor<UpdateCommentRequest, OperationResult<UpdateCommentResponse>> updateCommentInteractor;
+        readonly IRequestPipelineMediator requestPipelineMediator;
 
-        public RetroHub(
-            IInteractor<AddCommentRequest, OperationResult<CommentDTO>> addComment,
-            IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetrosInteractor,
-            IInteractor<GetRetroRequest, OperationResult<RetroDTO>> getRetroInteractor,
-            IInteractor<UpdateCommentRequest, OperationResult<UpdateCommentResponse>> updateCommentInteractor
-        )
+        public RetroHub(IRequestPipelineMediator requestPipelineMediator)
         {
-            this.addComment = addComment;
-            this.getRetrosInteractor = getRetrosInteractor;
-            this.getRetroInteractor = getRetroInteractor;
-            this.updateCommentInteractor = updateCommentInteractor;
+            this.requestPipelineMediator = requestPipelineMediator;
         }
 
         public async Task JoinRetro(Guid retroId)
         {
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, retroId.ToString());
-            var retros = await this.getRetroInteractor.Handle(new GetRetroRequest{RetroId = retroId});
+            var retros = await this.requestPipelineMediator.Handle<GetRetroRequest, OperationResult<RetroDTO>>(new GetRetroRequest{RetroId = retroId});
             await this.Clients.Caller.SendAsync("ReceiveRetro", retros.Value);
         }
 
         public async Task AddComment(AddCommentRequest request)
         {
-            var response = await addComment.Handle(request);
+            var response = await this.requestPipelineMediator.Handle<AddCommentRequest, OperationResult<CommentDTO>>(request);
             var payload = new { comment = response.Value, groupId = request.GroupId };
 
             await this.Clients.Caller.SendAsync("CommentAdded", payload);
@@ -52,7 +41,7 @@ namespace Retros.Web.Hubs
 
         public async Task UpdateComment(UpdateCommentRequest request)
         {
-            var response = await updateCommentInteractor.Handle(request);
+            var response = await this.requestPipelineMediator.Handle<UpdateCommentRequest, OperationResult<UpdateCommentResponse>>(request);
 
             if(response.Succeded)
             {
@@ -66,7 +55,7 @@ namespace Retros.Web.Hubs
 
         public async Task GetRetros()
         {
-            var getRetros = await getRetrosInteractor.Handle(new GetRetrosRequest { });
+            var getRetros = await this.requestPipelineMediator.Handle<GetRetrosRequest, OperationResult<GetRetrosResponse>>(new GetRetrosRequest { });
             await this.Clients.Caller.SendAsync("ReceiveRetros", getRetros.Value.Retros);
         }
     }
