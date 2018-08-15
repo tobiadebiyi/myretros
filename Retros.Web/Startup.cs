@@ -1,4 +1,5 @@
 ﻿using System;
+using Application.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,8 @@ namespace Retros.Web
             services.AddTransient<IInteractor<UpdateCommentRequest, OperationResult<UpdateCommentResponse>>, UpdateCommentInteractor>();
             services.AddTransient<IInteractor<CreateRetroRequest, OperationResult<RetroDTO>>, CreateRetroInteractor>();
             services.AddTransient<IInteractor<DeleteRetroRequest, OperationResult>, DeleteRetroInteractor>();
+
+            services.AddTransient<IRequestPipelineMediator, RequestPipelineMediator>();
 
             services.AddDbContext<RetrosContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("RetrosContext")));

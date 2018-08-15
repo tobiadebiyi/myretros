@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Application.Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using Retros.Application;
 using Retros.Application.DTOs;
-using Retros.Application.Interfaces;
 using Retros.Application.UseCases.AddComment;
 using Retros.Application.UseCases.GetRetro;
 using Retros.Application.UseCases.GetRetros;
@@ -18,7 +16,7 @@ namespace Retros.Web.Hubs
         readonly IInteractor<AddCommentRequest, OperationResult<CommentDTO>> addComment;
         readonly IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetrosInteractor;
         readonly IInteractor<GetRetroRequest, OperationResult<RetroDTO>> getRetroInteractor;
-        private readonly IInteractor<UpdateCommentRequest, OperationResult<UpdateCommentResponse>> updateCommentInteractor;
+        readonly IInteractor<UpdateCommentRequest, OperationResult<UpdateCommentResponse>> updateCommentInteractor;
 
         public RetroHub(
             IInteractor<AddCommentRequest, OperationResult<CommentDTO>> addComment,

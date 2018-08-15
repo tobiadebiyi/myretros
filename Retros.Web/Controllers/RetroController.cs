@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -22,27 +23,27 @@ namespace Retros.Web.Controllers
         readonly IInteractor<GetRetroRequest, OperationResult<RetroDTO>> getRetroInteractor;
         readonly IInteractor<CreateRetroRequest, OperationResult<RetroDTO>> createRetroInteractor;
         readonly IInteractor<DeleteRetroRequest, OperationResult> deleteRetroInteractor;
-        readonly IHubContext<RetroHub> retroHub;
+        readonly IRequestPipelineMediator requestPipelineMediator;
 
         public RetrosController(
             IInteractor<GetRetrosRequest, OperationResult<GetRetrosResponse>> getRetrosInteractor,
             IInteractor<GetRetroRequest, OperationResult<RetroDTO>> getRetroInteractor,
             IInteractor<CreateRetroRequest, OperationResult<RetroDTO>> createRetroInteractor,
             IInteractor<DeleteRetroRequest, OperationResult> deleteRetroInteractor,
-            IHubContext<RetroHub> retroHub
+            IRequestPipelineMediator requestPipelineMediator
         )
         {            
             this.getRetrosInteractor = getRetrosInteractor;
             this.getRetroInteractor = getRetroInteractor;
             this.createRetroInteractor = createRetroInteractor;
             this.deleteRetroInteractor = deleteRetroInteractor;
-            this.retroHub = retroHub;
+            this.requestPipelineMediator = requestPipelineMediator;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetRetros()
         {
-            var response = await getRetrosInteractor.Handle(new GetRetrosRequest());
+            var response = await this.requestPipelineMediator.Handle<GetRetrosRequest,OperationResult<GetRetrosResponse>>(new GetRetrosRequest());
             return Ok(response);
         }
 

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Application.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Retros.Application;
 using Retros.Application.DTOs;
-using Retros.Application.Interfaces;
 using Retros.Application.UseCases.AddComment;
 using Retros.Application.UseCases.UpdateComment;
 

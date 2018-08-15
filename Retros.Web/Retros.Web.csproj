@@ -27,6 +27,7 @@
     <ProjectReference Include="..\Retros.DataAccess\Retros.DataAccess.csproj" />
     <ProjectReference Include="..\Retros.Domain\Retros.Domain.csproj" />
     <ProjectReference Include="..\Retros.Application\Retros.Application.csproj" />
+    <ProjectReference Include="..\Application.Infrastructure\Application.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

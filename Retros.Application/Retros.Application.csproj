@@ -17,5 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Retros.Domain\Retros.Domain.csproj" />
+    <ProjectReference Include="..\Application.Infrastructure\Application.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Application.Infrastructure;
 using Retros.Application.DTOs;
 using Retros.Application.Interfaces;
 using Retros.Domain;
