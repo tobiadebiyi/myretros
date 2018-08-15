@@ -3,11 +3,6 @@ using System.Threading.Tasks;
 
 namespace Application.Infrastructure
 {
-    public interface IRequestPipelineMediator
-    {
-        Task<TResponse> Handle<TRequest, TResponse>(TRequest request);
-    }
-
     public class RequestPipelineMediator : IRequestPipelineMediator
     {
         readonly IServiceProvider serviceProvider;
@@ -22,7 +17,7 @@ namespace Application.Infrastructure
             var handler = this.GetType<IInteractor<TRequest, TResponse>>();
             return await handler.Handle(request);
         }
-        
+
         T GetType<T>()
         {
             return (T)this.serviceProvider.GetService(typeof(T));
