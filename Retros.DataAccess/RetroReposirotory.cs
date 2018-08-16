@@ -31,16 +31,6 @@ namespace Retros.DataAccess.Repositories
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Retro>> Get()
-        {
-            return await this.context.Retros
-                             .Include(r => r.Groups)
-                             .ThenInclude(g => g.Comments)
-                             .Include(r => r.Groups)
-                             .ThenInclude(g => g.Tags)
-                             .ToListAsync();
-        }
-
         public Task<Retro> Get(Guid retroId)
         {
             return this.context.Retros
@@ -55,7 +45,9 @@ namespace Retros.DataAccess.Repositories
                         .Where(r => r.OwnerId == userId)
                         .Include(r => r.Groups)
                         .ThenInclude(r => r.Comments)
-                        .ToListAsync();
+                             .Include(r => r.Groups)
+                             .ThenInclude(g => g.Tags)
+                             .ToListAsync();
         }
 
         public async Task Update(Retro retro)

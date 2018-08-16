@@ -13,7 +13,6 @@ const mapStateToProps = (state: ApplicationState, ownProps): Partial<RetroListPr
 };
 
 const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partial<RetroListProps> => {
-  debugger;
   return {
     gotoRetro: (retroId: string) => ownProps.history.push(`/retro/${retroId}`),
     fetchRetros: () => dispatch(RetroListActionCreators.fetchRetros()),

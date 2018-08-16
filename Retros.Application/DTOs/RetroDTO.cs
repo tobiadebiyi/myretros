@@ -27,7 +27,6 @@ namespace Retros.Application.DTOs
         public Guid Id { get; set; }
         public string Name { get; set; }
         public IEnumerable<GroupDTO> Groups { get; set; }
-        public string UserId { get; set; }
         public bool IsOwner { get; set; }
     }
 }

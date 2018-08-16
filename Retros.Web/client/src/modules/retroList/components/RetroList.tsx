@@ -128,7 +128,7 @@ export class RetroList extends React.Component<RetroListProps,
 
     if (!retros)
       return <LinearProgress color="secondary" />;
-    debugger;
+      
     return (
       <div style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Snackbar open={this.state.showSnackBar} title={this.state.snackBarMessage}>
