@@ -69,8 +69,10 @@ namespace Retros.Web
 
             services.AddTransient<IRequestPipelineMediator, RequestPipelineMediator>();
 
+            //services.AddDbContext<RetrosContext>(options =>
+            //    options.UseNpgsql(Configuration.GetConnectionString("RetrosContext")));
             services.AddDbContext<RetrosContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("RetrosContext")));
+                options.UseSqlServer(Configuration.GetConnectionString("RetrosContext")));
 
             services.AddDistributedMemoryCache();
 
