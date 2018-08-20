@@ -72,7 +72,7 @@ namespace Retros.Web
             //services.AddDbContext<RetrosContext>(options =>
             //    options.UseNpgsql(Configuration.GetConnectionString("RetrosContext")));
             services.AddDbContext<RetrosContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("RetrosContext")));
+                options.UseSqlServer(Configuration.GetConnectionString("defaultconnection")));
 
             services.AddDistributedMemoryCache();
 
