@@ -1,7 +1,7 @@
 import * as React from "react";
 import { DragSource } from "react-dnd";
 import Card from "@material-ui/core/Card";
-import { RetroContainer } from "./modules/retro";
+import { RetroTabsContainer } from "./modules/retro";
 
 const cardSource = {
   beginDrag(props: Props) {
@@ -26,7 +26,7 @@ export class MyCard extends React.Component<Props> {
       <div>
         <Card>
           <div style={{ opacity: isDragging ? 0.5 : 1 }}>
-            <RetroContainer />
+            <RetroTabsContainer />
           </div>
         </Card>
       </div>

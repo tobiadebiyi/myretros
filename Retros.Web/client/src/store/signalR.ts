@@ -6,7 +6,7 @@ const hubConnection = new HubConnectionBuilder()
     .withUrl(`${config.apiUrl}/retrohub`)
     .build();
 
-export enum Actions {
+export enum SignalRActions {
     JOIN_RETRO = "SIGNALR_JOIN_RETRO",
     SAVE_COMMENT = "SIGNALR_SAVE_COMMENT",
 }
@@ -14,10 +14,10 @@ export enum Actions {
 export function signalR(store: any) {
     return (next: any) => async (action: any) => {
         switch (action.type) {
-            case Actions.JOIN_RETRO:
+            case SignalRActions.JOIN_RETRO:
                 hubConnection.invoke("JoinRetro", action.retroId);
                 break;
-            case Actions.SAVE_COMMENT:
+            case SignalRActions.SAVE_COMMENT:
                 if (action.payload.comment.id) {
                     hubConnection.invoke("UpdateComment", action.payload);
                 } else {

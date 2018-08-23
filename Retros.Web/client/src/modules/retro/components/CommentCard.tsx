@@ -20,6 +20,7 @@ const styles = () => createStyles({
 interface CommentCardProps extends WithStyles<typeof styles> {
   comment: Comment;
   handleOnEditComment: (commentId: string) => void;
+  showCommentActions: (comment: Comment) => void;
 }
 
 export const CommentCard: React.SFC<CommentCardProps> = (props) => {
@@ -40,6 +41,11 @@ export const CommentCard: React.SFC<CommentCardProps> = (props) => {
             Edit
           </Button>
         }
+        <Button
+          onClick={() => props.showCommentActions(props.comment)}
+        >
+          Actions
+        </Button>
       </CardActions>
     </Card>
   );

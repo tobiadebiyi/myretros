@@ -6,7 +6,7 @@ import { RetroListContainer } from "./modules/retroList";
 import { CssBaseline } from "@material-ui/core";
 import Header from "./Header";
 import { Route, Switch } from "react-router";
-import { RetroContainer } from "./modules/retro";
+import { RetroTabsContainer } from "./modules/retro";
 
 @DragDropContext(HTML5Backend)
 class App extends React.Component {
@@ -18,7 +18,7 @@ class App extends React.Component {
         <div>
           <Switch>
             <Route exact={true} path="/" component={RetroListContainer} />
-            <Route path="/retro/:retroId" component={RetroContainer} />
+            <Route path="/retro/:retroId" component={RetroTabsContainer} />
           </Switch>
         </div>
       </div>

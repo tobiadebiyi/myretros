@@ -4,7 +4,6 @@ import {
   AppBar,
   Tabs,
   Tab,
-  Typography,
 } from "@material-ui/core";
 
 import { Group, Retro, Comment } from "..";
@@ -18,22 +17,10 @@ import SwipeableViews from "react-swipeable-views";
 import * as classNames from "classnames";
 import { EditCommentDialog } from "./EditCommentDialog";
 import ScreenActionButton from "../../../components/ScreenActionButton";
+import { TabContainer } from "./TabContainer";
 
-import CommentGroup from "./CommentGroup";
+import CommentGroup from "../components/CommentGroup";
 import { GroupCommentModel } from "../state";
-
-interface TabContainerProps {
-  classes?: any;
-  children: any;
-}
-
-const TabContainer: React.SFC<TabContainerProps> = (props) => {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3, height: "600px" }}>
-      {props.children}
-    </Typography>
-  );
-};
 
 const styles = theme => ({
   root: {
@@ -167,14 +154,16 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
   }
 
   renderCommentGroup = (group: Group, index: number) => {
+    debugger;
     if (group === undefined) { return; }
-
     return (
       <Slide key={index} direction="right" in={this.state.tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
         <TabContainer>
           <CommentGroup
             group={group}
             handleOnEditComment={this.handleOnEditComment}
+            saveComment={this.props.saveComment}
+            retroId={this.props.retroId}
           />
         </TabContainer>
       </Slide>
@@ -235,6 +224,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
                 const newComment = {
                   isOwner: true,
                   text: "",
+                  actions: [],
                 };
                 this.handleOpenCommentDialog(retro.groups[tabIndex].id, newComment);
               }}

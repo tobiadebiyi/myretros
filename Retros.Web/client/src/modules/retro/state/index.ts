@@ -1,4 +1,4 @@
-import { Actions } from "../../../store/signalR";
+import { SignalRActions } from "../../../store/signalR";
 
 export const FETCH_COMMENTS_START: string = "FETCH_COMMENTS_START";
 export const FETCH_COMMENTS_SUCCESS: string = "FETCH_COMMENTS_SUCCESS";
@@ -25,13 +25,13 @@ export const RetroActionCreators = {
   },
   joinRetro: (retroId: string) => {
     return (dispatch: any) => {
-      dispatch({ type: Actions.JOIN_RETRO, retroId });
+      dispatch({ type: SignalRActions.JOIN_RETRO, retroId });
     };
   },
   saveComment: (retroId: string, model: GroupCommentModel) => {
     return (dispatch: any) => {
       dispatch({
-        type: Actions.SAVE_COMMENT,
+        type: SignalRActions.SAVE_COMMENT,
         payload: {
           retroId,
           groupId: model.groupId,
@@ -65,6 +65,7 @@ export interface Comment {
   isOwner: boolean;
   text: string;
   tagId?: string;
+  actions: string[];
 }
 export interface GroupCommentModel {
   comment: Comment;

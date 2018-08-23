@@ -1,1 +1,1 @@
-export { RetroContainer } from "./RetroContainer";
+export { RetroTabsContainer } from "./RetroTabsContainer";

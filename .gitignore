@@ -1,3 +1,8 @@
 **/bin/*
 **/obj/*
 **/node_modules/*
+Retros.Web/wwwroot/*
+
+/.vs/Retros.Web/v15/*
+/.vs/Retros.Web/DesignTimeBuild/*
+**/.DS_Store
