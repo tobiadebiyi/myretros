@@ -1,7 +1,7 @@
 import * as React from "react";
-import { 
-  Slide, 
-  createStyles, 
+import {
+  Slide,
+  createStyles,
   withStyles,
   Button,
   Dialog,
@@ -17,7 +17,8 @@ import {
 
 import { Close } from "@material-ui/icons";
 import { WithStyles } from "@material-ui/core/styles/withStyles";
-import { Comment } from "..";
+import { Comment, Action } from "..";
+import { EditCommentDialog } from "./EditCommentDialog";
 
 const styles = createStyles({
   appBar: {
@@ -39,18 +40,67 @@ interface CommentActionsProps extends WithStyles<typeof styles> {
   handleSaveComment: (comment: Comment) => void;
 }
 
-export class CommentActions extends React.Component<CommentActionsProps, {comment: Comment}> {
+interface CommentActionsState {
+  comment: Comment;
+  action?: Action;
+}
+
+export class CommentActions extends React.Component<CommentActionsProps, CommentActionsState> {
+  handleOnAddAction: (action: Action) => void;
+  handleOnUpdateAction: (action: Action) => void;
+  handleOnSaveAction: (text: string) => void;
+  handleCloseDialog: () => void;
   constructor(props: CommentActionsProps) {
     super(props);
 
     this.state = {
-      comment: {...this.props.comment}
+      comment: { ...this.props.comment }
+    };
+
+    this.handleOnAddAction = (action: Action) => {
+      const comment = { ...this.state.comment };
+      comment.actions.push(action);
+
+      this.setState({ comment });
+    };
+
+    this.handleOnUpdateAction = (action: Action) => {
+      const comment = { ...this.state.comment };
+      const actionIndex = comment.actions.findIndex(a => a.id === action.id);
+
+      if (actionIndex === -1) return;
+
+      comment.actions.splice(actionIndex, 1, action);
+
+      this.setState({ comment });
+    };
+
+    this.handleOnSaveAction = (text: string) => {
+      const action = { ...this.state.action, text } as Action;
+
+      if (action.id === undefined) {
+        this.handleOnAddAction(action);
+      } else {
+        this.handleOnUpdateAction(action);
+      }
+    };
+
+    this.handleCloseDialog = () => {
+      this.setState({ action: undefined });
     };
   }
+
   render() {
     const { classes, open, handleClose, handleSaveComment } = this.props;
+    const action = { ...this.state.action } as Action;
     return (
       <div>
+        <EditCommentDialog
+          handleOnSave={() => this.handleOnSaveAction}
+          open={action !== undefined}
+          handleClose={this.handleCloseDialog}
+          text={action ? action.text : ""}
+        />
         <Dialog
           fullScreen={true}
           open={open}
@@ -71,16 +121,16 @@ export class CommentActions extends React.Component<CommentActionsProps, {commen
             </Toolbar>
           </AppBar>
           <List>
-            {this.props.comment.actions.map(a => 
-            (
-              <React.Fragment>
-                <ListItem button={true}>
-                  <ListItemText primary={a} secondary="Titania" />
-                </ListItem>
-                <Divider />
-              </React.Fragment>
-            )
-          )}
+            {this.props.comment.actions.map(a =>
+              (
+                <React.Fragment>
+                  <ListItem button={true}>
+                    <ListItemText primary={a} secondary="Titania" />
+                  </ListItem>
+                  <Divider />
+                </React.Fragment>
+              )
+            )}
           </List>
         </Dialog>
       </div>

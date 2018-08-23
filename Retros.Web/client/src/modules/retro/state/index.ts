@@ -65,8 +65,15 @@ export interface Comment {
   isOwner: boolean;
   text: string;
   tagId?: string;
-  actions: string[];
+  actions: Action[];
 }
+
+export interface Action {
+  id: string;
+  commentId: string;
+  text: string;
+}
+
 export interface GroupCommentModel {
   comment: Comment;
   groupId: string;
