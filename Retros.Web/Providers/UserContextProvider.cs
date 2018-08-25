@@ -16,12 +16,6 @@ namespace Retros.Web.Providers
         public string GetUserId()
         {
             var userId = this.httpContextAccessor.HttpContext.Session.GetString("userId");
-            if (userId == null)
-            {
-                userId = Guid.NewGuid().ToString();
-                this.httpContextAccessor.HttpContext.Session.SetString("userId", userId);
-            }
-            
             return userId;
         }
     }

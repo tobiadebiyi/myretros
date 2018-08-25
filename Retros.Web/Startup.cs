@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Application.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +49,18 @@ namespace Retros.Web
             }
             
             app.UseSession();
+            app.Use(async (context, next) =>
+            {
+                var userId = context.Session.GetString("userId");
+                if (userId == null)
+                {
+                    userId = Guid.NewGuid().ToString();
+                    context.Session.SetString("userId", userId);
+                };
+
+                await next.Invoke();
+            });
+
             app.UseDefaultFiles();
 
             app.UseStaticFiles();
