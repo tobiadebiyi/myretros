@@ -36,6 +36,7 @@ namespace Retros.DataAccess.Repositories
             return this.context.Retros
                        .Include(r => r.Groups)
                        .ThenInclude(r => r.Comments)
+                       .ThenInclude(c => c.Actions)
                        .FirstOrDefaultAsync(r => r.Id == retroId);
         }
 

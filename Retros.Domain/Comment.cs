@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Retros.Domain {
     public class Comment : Entity
@@ -17,6 +18,6 @@ namespace Retros.Domain {
         public string Text { get; set; }
         public string OwnerId { get; protected set; }
         public Group Group { get; protected set; }
-        public DateTime WhenAdded { get; protected set; } = DateTime.UtcNow;
+        public ICollection<Action> Actions { get; set; } = new List<Action>();
     }
 }
