@@ -29,6 +29,7 @@ namespace Retros.DataAccess
 
             modelBuilder.Entity<Comment>().HasKey(c => c.Id);
             modelBuilder.Entity<Comment>().Property(c => c.Text).IsRequired();
+            modelBuilder.Entity<Comment>().HasMany(c => c.Actions);
         }
     }
 }
