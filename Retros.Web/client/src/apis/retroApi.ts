@@ -1,7 +1,7 @@
 import { Retro } from "../modules/retro";
 import { get, post, remove } from "../services/HttpService";
 import { CreateRetro } from "../modules/retroList";
-import { config } from "../config";
+import config from "../config";
 
 const getRetros = (): Promise<Retro[]> => {
   return get(`${config.apiUrl}/api/retros`);

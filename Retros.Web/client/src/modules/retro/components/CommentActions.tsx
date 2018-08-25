@@ -50,6 +50,7 @@ export class CommentActions extends React.Component<CommentActionsProps, Comment
   handleOnUpdateAction: (action: Action) => void;
   handleOnSaveAction: (text: string) => void;
   handleCloseDialog: () => void;
+  handelAddNewAction: () => void;
   constructor(props: CommentActionsProps) {
     super(props);
 
@@ -88,6 +89,15 @@ export class CommentActions extends React.Component<CommentActionsProps, Comment
     this.handleCloseDialog = () => {
       this.setState({ action: undefined });
     };
+
+    this.handelAddNewAction = () => {
+      const emptyAction: Action = {
+        text: "",
+        commentId: this.state.comment.id!,
+      };
+
+      this.setState({ action: emptyAction });
+    };
   }
 
   render() {
@@ -120,6 +130,9 @@ export class CommentActions extends React.Component<CommentActionsProps, Comment
               </Button>
             </Toolbar>
           </AppBar>
+          <Button onClick={this.handelAddNewAction}>
+            Add Action
+          </Button>
           <List>
             {this.props.comment.actions.map(a =>
               (

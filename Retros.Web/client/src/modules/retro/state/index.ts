@@ -69,7 +69,7 @@ export interface Comment {
 }
 
 export interface Action {
-  id: string;
+  id?: string;
   commentId: string;
   text: string;
 }

@@ -1,5 +1,5 @@
 import { HubConnectionBuilder } from "../../node_modules/@aspnet/signalr";
-import { config } from "../config";
+import config from "../config";
 import { RetroActionCreators, Retro, GroupCommentModel } from "../modules/retro";
 
 const hubConnection = new HubConnectionBuilder()
