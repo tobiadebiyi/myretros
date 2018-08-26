@@ -13,7 +13,7 @@ const styles = (theme: Theme) => createStyles({
 
 export interface ScreenActionProps extends WithStyles<typeof styles> {
   theme: any;
-  className: string;
+  className?: string;
   icon: JSX.Element;
   color: "inherit" | "primary" | "secondary" | "default" | undefined;
   transitionIn: boolean;

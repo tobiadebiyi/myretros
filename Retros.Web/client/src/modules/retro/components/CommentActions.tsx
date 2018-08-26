@@ -3,7 +3,6 @@ import {
   Slide,
   createStyles,
   withStyles,
-  Button,
   Dialog,
   AppBar,
   Toolbar,
@@ -13,20 +12,26 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  Theme,
 } from "@material-ui/core";
 
-import { Close } from "@material-ui/icons";
+import { Close, Add } from "@material-ui/icons";
 import { WithStyles } from "@material-ui/core/styles/withStyles";
 import { Comment, Action } from "..";
-import { EditCommentDialog } from "./EditCommentDialog";
+import ScreenActionButton from "../../../components/ScreenActionButton";
 
-const styles = createStyles({
+const styles = (theme: Theme) => createStyles({
   appBar: {
     position: "relative",
   },
   flex: {
     flex: 1,
   },
+  fab: {
+    position: "absolute",
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+  } as any,
 });
 
 function Transition(props: any) {
@@ -38,79 +43,27 @@ interface CommentActionsProps extends WithStyles<typeof styles> {
   handleClose: () => void;
   comment: Comment;
   handleSaveComment: (comment: Comment) => void;
+  handelAddNewAction: () => void;
+  handleEditAction: (action: Action) => void;
 }
 
 interface CommentActionsState {
   comment: Comment;
-  action?: Action;
 }
 
 export class CommentActions extends React.Component<CommentActionsProps, CommentActionsState> {
-  handleOnAddAction: (action: Action) => void;
-  handleOnUpdateAction: (action: Action) => void;
-  handleOnSaveAction: (text: string) => void;
-  handleCloseDialog: () => void;
-  handelAddNewAction: () => void;
   constructor(props: CommentActionsProps) {
     super(props);
 
     this.state = {
       comment: { ...this.props.comment }
     };
-
-    this.handleOnAddAction = (action: Action) => {
-      const comment = { ...this.state.comment };
-      comment.actions.push(action);
-
-      this.setState({ comment });
-    };
-
-    this.handleOnUpdateAction = (action: Action) => {
-      const comment = { ...this.state.comment };
-      const actionIndex = comment.actions.findIndex(a => a.id === action.id);
-
-      if (actionIndex === -1) return;
-
-      comment.actions.splice(actionIndex, 1, action);
-
-      this.setState({ comment });
-    };
-
-    this.handleOnSaveAction = (text: string) => {
-      const action = { ...this.state.action, text } as Action;
-
-      if (action.id === undefined) {
-        this.handleOnAddAction(action);
-      } else {
-        this.handleOnUpdateAction(action);
-      }
-    };
-
-    this.handleCloseDialog = () => {
-      this.setState({ action: undefined });
-    };
-
-    this.handelAddNewAction = () => {
-      const emptyAction: Action = {
-        text: "",
-        commentId: this.state.comment.id!,
-      };
-
-      this.setState({ action: emptyAction });
-    };
   }
 
   render() {
-    const { classes, open, handleClose, handleSaveComment } = this.props;
-    const action = { ...this.state.action } as Action;
+    const { classes, open, handleClose } = this.props;
     return (
       <div>
-        <EditCommentDialog
-          handleOnSave={() => this.handleOnSaveAction}
-          open={action !== undefined}
-          handleClose={this.handleCloseDialog}
-          text={action ? action.text : ""}
-        />
         <Dialog
           fullScreen={true}
           open={open}
@@ -125,30 +78,32 @@ export class CommentActions extends React.Component<CommentActionsProps, Comment
               <Typography variant="title" color="inherit" className={classes.flex}>
                 Actions
               </Typography>
-              <Button color="inherit" onClick={() => handleSaveComment(this.state.comment)}>
-                save
-              </Button>
             </Toolbar>
           </AppBar>
-          <Button onClick={this.handelAddNewAction}>
-            Add Action
-          </Button>
           <List>
-            {this.props.comment.actions.map(a =>
+            {this.props.comment.actions.map((a, index) =>
               (
-                <React.Fragment>
+                <React.Fragment key={index}>
                   <ListItem button={true}>
-                    <ListItemText primary={a} secondary="Titania" />
+                    <ListItemText primary={a.text} secondary="Titania" />
                   </ListItem>
                   <Divider />
                 </React.Fragment>
               )
             )}
           </List>
+          <ScreenActionButton
+            color="primary"
+            theme={this.props.theme}
+            icon={<Add />}
+            transitionIn={true}
+            handleOnClick={this.props.handelAddNewAction}
+            className={this.props.classes.fab}
+          />
         </Dialog>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(CommentActions);
+export default withStyles(styles, { withTheme: true })(CommentActions);

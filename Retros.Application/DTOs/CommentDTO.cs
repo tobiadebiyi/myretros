@@ -16,12 +16,12 @@ namespace Retros.Application.DTOs
             this.Id = comment.Id;
             this.Text = comment.Text;
             this.IsOwner = activeUserId == comment.OwnerId;
-            this.Actions = comment.Actions.Select(a => a.Value);
+            this.Actions = comment.Actions.Select(a => new ActionDTO(a));
         }
 
         public Guid Id { get; set; }
         public string Text { get; set; }
         public bool IsOwner { get; set; }
-        public IEnumerable<string> Actions { get; set; }
+        public IEnumerable<ActionDTO> Actions { get; set; }
     }
 }

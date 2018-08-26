@@ -15,7 +15,7 @@ import Mood from "@material-ui/icons/Mood";
 import MoodBad from "@material-ui/icons/MoodBad";
 import SwipeableViews from "react-swipeable-views";
 import * as classNames from "classnames";
-import { EditCommentDialog } from "./EditCommentDialog";
+import { EditTextDialog } from "./EditCommentDialog";
 import ScreenActionButton from "../../../components/ScreenActionButton";
 import { TabContainer } from "./TabContainer";
 
@@ -154,7 +154,6 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
   }
 
   renderCommentGroup = (group: Group, index: number) => {
-    debugger;
     if (group === undefined) { return; }
     return (
       <Slide key={index} direction="right" in={this.state.tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
@@ -178,11 +177,12 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
     const comment = this.state.editCommentState.comment;
 
     return (
-      <EditCommentDialog
+      <EditTextDialog
         open={this.state.editCommentState.openAddCommentDialog}
         handleClose={this.handleCloseCommentDialog}
         handleOnSave={this.handleOnSaveComment}
         text={comment ? comment.text : ""}
+        name="comment"
       />
     );
   }

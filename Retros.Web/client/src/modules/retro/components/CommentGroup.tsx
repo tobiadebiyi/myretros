@@ -4,8 +4,9 @@ import CommentCard from "./CommentCard";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import { Group } from "..";
 import { Add } from "../../../../node_modules/@material-ui/icons";
-import  CommentActions from "./CommentActions";
-import { Comment, GroupCommentModel } from "../state";
+import CommentActions from "./CommentActions";
+import { Comment, GroupCommentModel, Action } from "../state";
+import { EditTextDialog } from "../components/EditCommentDialog";
 
 const styles = () => createStyles({
   root: {
@@ -21,25 +22,32 @@ export interface CommentGroupProps extends WithStyles<typeof styles> {
 }
 
 interface CommentGroupState {
-  showActions: {show: boolean, comment?: Comment};
+  showActions: boolean;
+  editAction: boolean;
+  comment?: Comment;
+  action?: Action;
 }
 
 class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState> {
   handleCloseCommentActions: () => void;
   handleOnSaveComment: (comment: Comment) => void;
+  handleOnAddAction: (action: any) => void;
+  handleOnUpdateAction: (action: any) => void;
+  handleOnSaveAction: (text: string) => void;
+  handleCloseDialog: () => void;
+  handelAddNewAction: () => void;
   constructor(props: CommentGroupProps) {
     super(props);
     this.state = {
-      showActions: {
-        show: false
-      }
+      showActions: false,
+      editAction: false,
     };
 
     this.handleCloseCommentActions = () => {
-      this.setState({showActions: {
-        show: false,
+      this.setState({
+        showActions: false,
         comment: undefined,
-      }});
+      });
     };
 
     this.handleOnSaveComment = (comment: Comment) => {
@@ -47,26 +55,71 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
         comment,
         groupId: this.props.group.id,
       };
-      
-      this.handleCloseCommentActions();
-      this.props.saveComment(this.props.retroId, model );
+
+      this.props.saveComment(this.props.retroId, model);
+    };
+
+    this.handleOnAddAction = (action: Action) => {
+      const comment = { ...this.state.comment } as Comment;
+      comment.actions.push(action);
+
+      this.setState({ comment, showActions: true, editAction: false });
+      this.handleOnSaveComment(comment);
+    };
+
+    this.handleOnUpdateAction = (action: Action) => {
+      const comment = { ...this.state.comment } as Comment;
+      const actionIndex = comment.actions
+        .findIndex(a => a.id === action.id);
+
+      if (actionIndex === -1) return;
+
+      comment.actions.splice(actionIndex, 1, action);
+
+      this.setState({ comment });
+    };
+
+    this.handleOnSaveAction = (text: string) => {
+      const action = { ...this.state.action, text } as Action;
+      debugger;
+      if (action.id === undefined) {
+        this.handleOnAddAction(action);
+      } else {
+        this.handleOnUpdateAction(action);
+      }
+    };
+
+    this.handleCloseDialog = () => {
+      this.setState({ action: undefined, editAction: false });
+    };
+
+    this.handelAddNewAction = () => {
+      const emptyAction: Action = {
+        text: "",
+        commentId: this.state.comment!.id!,
+      };
+
+      this.setState({ action: emptyAction, editAction: true });
     };
   }
 
-  componentWillReceiveProps(props: CommentGroupProps) {
-    debugger;
-    return true;
-  }
-
   render() {
-    debugger;
     return (
       <React.Fragment>
-        {this.state.showActions.comment && <CommentActions 
-          open={this.state.showActions.show} 
-          handleClose={this.handleCloseCommentActions} 
-          comment={this.state.showActions.comment!}
+        {this.state.showActions && <CommentActions
+          open={this.state.showActions}
+          handleClose={this.handleCloseCommentActions}
+          comment={this.state.comment!}
           handleSaveComment={this.handleOnSaveComment}
+          handelAddNewAction={this.handelAddNewAction}
+          handleEditAction={this.handleOnUpdateAction}
+        />}
+        {this.state.editAction && <EditTextDialog
+          handleOnSave={this.handleOnSaveAction}
+          open={this.state.action !== undefined}
+          handleClose={this.handleCloseDialog}
+          text={this.state.action!.text}
+          name="action"
         />}
         <Grid container={true} className={this.props.classes.root} alignContent={"center"} justify={"center"}>
           <Grid item={true} xs={10}>
@@ -94,7 +147,7 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
                   <CommentCard
                     comment={comment}
                     handleOnEditComment={this.props.handleOnEditComment}
-                    showCommentActions={(c: Comment) => this.setState({showActions: {show: true, comment: c}})}
+                    showCommentActions={(c: Comment) => this.setState({ showActions: true, comment: c })}
                   />
                 </Grid>
               ))}

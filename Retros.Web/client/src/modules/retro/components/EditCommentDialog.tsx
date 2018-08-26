@@ -9,20 +9,21 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 
-interface EditCommentDialogProps {
+interface EditTextDialogProps {
   open: boolean;
   handleOnSave: (text: string) => void;
   handleClose: () => void;
   text: string;
+  name: string;
 }
 
-interface AddCommentDialogState {
+interface EditTextDialogState {
   commentText: string;
   isDirty: boolean;
 }
 
-export class EditCommentDialog extends React.Component<EditCommentDialogProps, AddCommentDialogState> {
-  constructor(props: EditCommentDialogProps, context: any) {
+export class EditTextDialog extends React.Component<EditTextDialogProps, EditTextDialogState> {
+  constructor(props: EditTextDialogProps, context: any) {
     super(props);
 
     this.state = {
@@ -31,7 +32,7 @@ export class EditCommentDialog extends React.Component<EditCommentDialogProps, A
     };
   }
 
-  componentWillReceiveProps(newProps: EditCommentDialogProps) {
+  componentWillReceiveProps(newProps: EditTextDialogProps) {
     if (!this.state.isDirty) {
       this.setState({
         commentText: newProps.text
@@ -71,15 +72,17 @@ export class EditCommentDialog extends React.Component<EditCommentDialogProps, A
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">{this.props.text ? "Edit Comment" : "Add Comment"}</DialogTitle>
+          <DialogTitle id="form-dialog-title">
+            {this.props.text ? `Edit ${this.props.name}` : `Add ${this.props.name}`}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Please enter your comment here.
-          </DialogContentText>
+              {`Please enter your ${this.props.name} here.`}
+            </DialogContentText>
             <Input
               autoFocus={true}
               margin="dense"
-              id="comment"
+              id={this.props.name}
               multiline={true}
               rows={5}
               rowsMax={10}

@@ -1,4 +1,6 @@
-﻿namespace Retros.Domain
+﻿using System;
+
+namespace Retros.Domain
 {
     public class Action : Entity
     {
@@ -8,9 +10,10 @@
 
         public Action(string value)
         {
-            this.Value = value;
+            this.Text = value;
         }
-        public string Value { get; protected set; }
+        public string Text { get; protected set; }
+        public Guid CommentId { get; protected set; }
         public Comment Comment { get; protected set; }
     }
 }

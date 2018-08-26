@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Infrastructure;
 using Retros.Application.DTOs;
@@ -29,10 +30,13 @@ namespace Retros.Application.UseCases.UpdateComment
                                .SingleOrDefault(g => g.Id == request.GroupId)?
                                .Comments.SingleOrDefault(c => c.Id == request.Comment.Id);
 
-            if (comment == null) 
+            if (comment == null)
                 return OperationResultCreator.Failed<UpdateCommentResponse>("Comment not found");
 
             comment.Text = request.Comment.Text;
+
+            removedActions(request, comment);
+            addActions(request, comment);
 
             await this.retroReposirotory.Update(retro);
 
@@ -44,6 +48,27 @@ namespace Retros.Application.UseCases.UpdateComment
             };
 
             return OperationResultCreator.Suceeded(response);
+        }
+
+        private static void addActions(UpdateCommentRequest request, Domain.Comment comment)
+        {
+            var newActions = request.Comment.Actions.Where(a => a.Id == Guid.Empty);
+
+            foreach (var action in newActions)
+            {
+                comment.Actions.Add(new Domain.Action(action.Text));
+            }
+        }
+
+        private static void removedActions(UpdateCommentRequest request, Domain.Comment comment)
+        {
+            var removedActions = comment.Actions
+                            .Where(a => request.Comment.Actions.Select(ac => ac.Id).Contains(a.Id));
+
+            foreach (var action in removedActions)
+            {
+                comment.Actions.Remove(action);
+            }
         }
     }
 }
