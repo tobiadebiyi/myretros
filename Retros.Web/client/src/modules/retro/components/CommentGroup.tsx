@@ -1,9 +1,16 @@
-import { Grid, createStyles, Toolbar, Chip, Avatar, Tooltip } from "@material-ui/core";
+import {
+  Grid,
+  createStyles,
+  // Toolbar,
+  // Chip, 
+  // Avatar, 
+  // Tooltip 
+} from "@material-ui/core";
 import * as React from "react";
 import CommentCard from "./CommentCard";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import { Group } from "..";
-import { Add } from "../../../../node_modules/@material-ui/icons";
+// import { Add } from "../../../../node_modules/@material-ui/icons";
 import CommentActions from "./CommentActions";
 import { Comment, GroupCommentModel, Action } from "../state";
 import { EditTextDialog } from "../components/EditCommentDialog";
@@ -123,7 +130,7 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
         />}
         <Grid container={true} className={this.props.classes.root} alignContent={"center"} justify={"center"}>
           <Grid item={true} xs={10}>
-            <Toolbar >
+            {/* <Toolbar >
               <Avatar color="secondary">
                 <Tooltip title="Add tag">
                   <Add color="primary" />
@@ -134,7 +141,7 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
                   label={t}
                 />)
               )}
-            </Toolbar>
+            </Toolbar> */}
             <Grid
               container={true}
               direction={"row"}

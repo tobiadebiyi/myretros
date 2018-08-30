@@ -1,9 +1,9 @@
 import * as React from "react";
 import {
   withStyles,
-  // AppBar,
-  // Tabs,
-  // Tab,
+  AppBar,
+  Tabs,
+  Tab,
 } from "@material-ui/core";
 
 import { Group, Retro, Comment } from "..";
@@ -193,7 +193,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
 
     return (
       <div>
-        {/* <AppBar position="static">
+        <AppBar position="static">
           <Tabs
             value={tabIndex}
             onChange={this.handleChangeIndex}
@@ -203,7 +203,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
               <Tab key={i} label={g.name} />
             ))}
           </Tabs>
-        </AppBar> */}
+        </AppBar>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={tabIndex}
