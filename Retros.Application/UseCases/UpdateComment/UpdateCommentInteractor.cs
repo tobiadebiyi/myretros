@@ -63,7 +63,7 @@ namespace Retros.Application.UseCases.UpdateComment
         private static void removedActions(UpdateCommentRequest request, Domain.Comment comment)
         {
             var removedActions = comment.Actions
-                            .Where(a => request.Comment.Actions.Select(ac => ac.Id).Contains(a.Id));
+                            .Where(a => !request.Comment.Actions.Select(ac => ac.Id).Contains(a.Id));
 
             foreach (var action in removedActions)
             {

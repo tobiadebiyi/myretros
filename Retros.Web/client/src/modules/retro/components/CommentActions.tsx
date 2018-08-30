@@ -85,7 +85,7 @@ export class CommentActions extends React.Component<CommentActionsProps, Comment
               (
                 <React.Fragment key={index}>
                   <ListItem button={true}>
-                    <ListItemText primary={a.text} secondary="Titania" />
+                    <ListItemText primary={a.text} />
                   </ListItem>
                   <Divider />
                 </React.Fragment>
