@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Application.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,7 +48,7 @@ namespace Retros.Web
                             .AllowAnyHeader()
                             .AllowAnyMethod());
             }
-            
+
             app.UseSession();
             app.Use(async (context, next) =>
             {
@@ -66,6 +67,15 @@ namespace Retros.Web
             app.UseStaticFiles();
             app.UseSignalR(routes => routes.MapHub<RetroHub>("/retrohub"));
             app.UseMvc();
+
+            app.Run(async (context) =>
+            {
+                if (context.Response.StatusCode == StatusCodes.Status404NotFound)
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.SendFileAsync(Path.Combine(env.WebRootPath, "index.html"));
+                }
+            });
         }
 
         public void ConfigureServices(IServiceCollection services)
