@@ -1,19 +1,19 @@
- # Stage 1
- FROM microsoft/aspnetcore-build AS builder
- WORKDIR /source
+FROM microsoft/dotnet:2.1-sdk AS dotnet-builder
+WORKDIR /src
 
-#  # caches restore result by copying csproj file separately
-#  COPY **/*.csproj .
-#  RUN dotnet restore
+COPY Retros.Web.sln ./
+COPY Retros.Web/Retros.Web.csproj Retros.Web/
+COPY Retros.DataAccess/Retros.DataAccess.csproj Retros.DataAccess/
+COPY Retros.Domain/Retros.Domain.csproj Retros.Domain/
+COPY Retros.Application/Retros.Application.csproj Retros.Application/
+COPY Application.Infrastructure/Application.Infrastructure.csproj Application.Infrastructure/
+RUN dotnet restore
 
- # copies the rest of your code
- COPY . .
- WORKDIR /Retros.Web
- RUN dotnet restore
- RUN dotnet publish --output /app/ --configuration Release
+COPY . .
+WORKDIR /src/Retros.Web
+RUN dotnet publish --output /app/ --configuration Release
 
- # Stage 2
- FROM microsoft/aspnetcore
- WORKDIR /app
- COPY --from=builder /app .
- ENTRYPOINT ["dotnet", "Retros.Web.dll"]
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
+WORKDIR /app
+COPY --from=dotnet-builder /app .
+ENTRYPOINT ["dotnet", "Retros.Web.dll"]

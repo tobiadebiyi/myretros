@@ -10,6 +10,7 @@ COPY Retros.DataAccess/Retros.DataAccess.csproj Retros.DataAccess/
 COPY Retros.Domain/Retros.Domain.csproj Retros.Domain/
 COPY Retros.Application/Retros.Application.csproj Retros.Application/
 RUN dotnet restore -nowarn:msb3202,nu1503
+
 COPY . .
 WORKDIR /src/Retros.Web
 RUN dotnet build -c Release -o /app
