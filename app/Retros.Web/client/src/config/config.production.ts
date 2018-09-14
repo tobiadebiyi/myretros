@@ -1,3 +1,3 @@
 export default {
-    apiUrl: "https://myretros.azurewebsites.net"
+    apiUrl: "http://localhost:5000"
 };

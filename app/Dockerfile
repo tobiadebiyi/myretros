@@ -11,9 +11,18 @@ RUN dotnet restore
 
 COPY . .
 WORKDIR /src/Retros.Web
+
 RUN dotnet publish --output /app/ --configuration Release
+
+FROM node:alpine AS node-builder
+COPY Retros.Web/client/package.json .
+RUN npm i
+
+COPY Retros.Web/client .
+RUN npm run build
 
 FROM microsoft/dotnet:2.1-aspnetcore-runtime
 WORKDIR /app
 COPY --from=dotnet-builder /app .
+COPY --from=node-builder /wwwroot wwwroot
 ENTRYPOINT ["dotnet", "Retros.Web.dll"]
