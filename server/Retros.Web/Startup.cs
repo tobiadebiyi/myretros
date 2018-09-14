@@ -40,7 +40,7 @@ namespace Retros.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            var origins = this.configuration["CORS:AllowedOrigins"].Split[','];
+            var origins = this.Configuration.GetValue<string>("CORS:AllowedOrigins").Split(",");
             app.UseCors(builder =>
                         builder.WithOrigins(origins)
                         .AllowCredentials()
