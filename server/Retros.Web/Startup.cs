@@ -40,14 +40,12 @@ namespace Retros.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            if (env.IsDevelopment())
-            {
-                app.UseCors(builder =>
-                            builder.WithOrigins("http://localhost:3000")
-                            .AllowCredentials()
-                            .AllowAnyHeader()
-                            .AllowAnyMethod());
-            }
+            var origins = this.configuration["CORS:AllowedOrigins"].Split[','];
+            app.UseCors(builder =>
+                        builder.WithOrigins(origins)
+                        .AllowCredentials()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
 
             app.UseSession();
             app.Use(async (context, next) =>
