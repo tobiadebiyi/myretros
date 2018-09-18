@@ -8,8 +8,8 @@ namespace Retros.DataAccess.MemState.Commands
 {
     class DeleteRetro : Command<RetrosModel>
     { 
-        public Retro Retro { get; set; }
-        public DeleteRetro()
+        public Retro Retro { get; protected set; }
+        protected DeleteRetro()
         {
 
         }
