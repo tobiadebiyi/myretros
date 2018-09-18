@@ -29,9 +29,9 @@ namespace Retros.DataAcces.MemState
             return result;
         }
 
-        public Task Delete(Retro retro)
+        public async Task Delete(Retro retro)
         {
-            throw new NotImplementedException();
+            await this.MemStateEngine.Execute(new DeleteRetro(retro));
         }
 
         public async Task<Retro> Get(Guid retroId)
@@ -44,9 +44,9 @@ namespace Retros.DataAcces.MemState
             return MemStateEngine.Execute(new GetRetrosByUserId(userId));
         }
 
-        public Task Update(Retro retro)
+        public async Task Update(Retro retro)
         {
-            throw new NotImplementedException();
+            await this.MemStateEngine.Execute(new UpdateRetro(retro));
         }
     }
 }

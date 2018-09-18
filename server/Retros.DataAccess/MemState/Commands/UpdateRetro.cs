@@ -6,14 +6,14 @@ using System.Text;
 
 namespace Retros.DataAccess.MemState.Commands
 {
-    class AddRetro : Command<RetrosModel, Retro>
-    { 
+    class UpdateRetro : Command<RetrosModel, Retro>
+    {
         public Retro Retro { get; set; }
-        public AddRetro()
+        public UpdateRetro()
         {
 
         }
-        public AddRetro(Retro retro)
+        public UpdateRetro(Retro retro)
         {
             this.Retro = retro;
         }
@@ -22,8 +22,8 @@ namespace Retros.DataAccess.MemState.Commands
         {
             model.Retros.TryGetValue(this.Retro.Id, out Retro existingRetro);
 
-            if (existingRetro != null)
-                throw new InvalidOperationException("retro already esixts");
+            if (existingRetro == null)
+                throw new InvalidOperationException("Retro not found");
 
             model.Retros[this.Retro.Id] = this.Retro;
             return this.Retro;

@@ -6,27 +6,26 @@ using System.Text;
 
 namespace Retros.DataAccess.MemState.Commands
 {
-    class AddRetro : Command<RetrosModel, Retro>
+    class DeleteRetro : Command<RetrosModel>
     { 
         public Retro Retro { get; set; }
-        public AddRetro()
+        public DeleteRetro()
         {
 
         }
-        public AddRetro(Retro retro)
+        public DeleteRetro(Retro retro)
         {
             this.Retro = retro;
         }
 
-        public override Retro Execute(RetrosModel model)
+        public override void Execute(RetrosModel model)
         {
             model.Retros.TryGetValue(this.Retro.Id, out Retro existingRetro);
 
-            if (existingRetro != null)
-                throw new InvalidOperationException("retro already esixts");
+            if (existingRetro == null)
+                throw new InvalidOperationException("Retro not found");
 
-            model.Retros[this.Retro.Id] = this.Retro;
-            return this.Retro;
+            model.Retros.Remove(this.Retro.Id);
         }
     }
 }
