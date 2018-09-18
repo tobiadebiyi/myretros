@@ -18,8 +18,6 @@ using Retros.Application.UseCases.GetRetro;
 using Retros.Application.UseCases.GetRetros;
 using Retros.Application.UseCases.UpdateComment;
 using Retros.DataAcces.MemState;
-using Retros.DataAccess;
-using Retros.DataAccess.Repositories;
 using Retros.Web.Hubs;
 using Retros.Web.Providers;
 

@@ -1,7 +1,7 @@
 ﻿using Memstate;
 using Memstate.Configuration;
 using Retros.Application.Interfaces;
-using Retros.DataAccess;
+using Retros.DataAccess.MemState;
 using Retros.DataAccess.MemState.Commands;
 using Retros.DataAccess.MemState.Queries;
 using Retros.Domain;

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Retros.DataAccess
+namespace Retros.DataAccess.MemState
 {
     class RetrosModel
     {
