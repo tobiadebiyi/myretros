@@ -80,8 +80,7 @@ namespace Retros.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            //services.AddTransient<IRetroReposirotory, RetroReposirotory>();
+            
             services.AddSingleton<IRetroReposirotory, MemStateRetrosRepository>();
             services.AddTransient<IInteractor<GetRetrosRequest, OperationResult<IEnumerable<RetroDTO>>>, GetRetrosInteractor>();
             services.AddTransient<IInteractor<GetRetroRequest, OperationResult<RetroDTO>>, GetRetroInteractor>();
@@ -91,11 +90,6 @@ namespace Retros.Web
             services.AddTransient<IInteractor<DeleteRetroRequest, OperationResult>, DeleteRetroInteractor>();
 
             services.AddTransient<IRequestPipelineMediator, RequestPipelineMediator>();
-
-            //services.AddDbContext<RetrosContext>(options =>
-            //   options.UseNpgsql(Configuration.GetConnectionString("RetrosContext")));
-            // services.AddDbContext<RetrosContext>(options =>
-            //     options.UseSqlServer(Configuration.GetConnectionString("defaultconnection")));
 
             services.AddDistributedMemoryCache();
 
