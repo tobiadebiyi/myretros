@@ -17,8 +17,7 @@ using Retros.Application.UseCases.DeleteRetro;
 using Retros.Application.UseCases.GetRetro;
 using Retros.Application.UseCases.GetRetros;
 using Retros.Application.UseCases.UpdateComment;
-using Retros.DataAccess;
-using Retros.DataAccess.Repositories;
+using Retros.DataAcces.MemState;
 using Retros.Web.Hubs;
 using Retros.Web.Providers;
 
@@ -79,8 +78,8 @@ namespace Retros.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            services.AddTransient<IRetroReposirotory, RetroReposirotory>();
+            
+            services.AddSingleton<IRetroReposirotory, MemStateRetrosRepository>();
             services.AddTransient<IInteractor<GetRetrosRequest, OperationResult<IEnumerable<RetroDTO>>>, GetRetrosInteractor>();
             services.AddTransient<IInteractor<GetRetroRequest, OperationResult<RetroDTO>>, GetRetroInteractor>();
             services.AddTransient<IInteractor<AddCommentRequest, OperationResult<CommentDTO>>, AddCommentInteractor>();
@@ -89,11 +88,6 @@ namespace Retros.Web
             services.AddTransient<IInteractor<DeleteRetroRequest, OperationResult>, DeleteRetroInteractor>();
 
             services.AddTransient<IRequestPipelineMediator, RequestPipelineMediator>();
-
-            services.AddDbContext<RetrosContext>(options =>
-               options.UseNpgsql(Configuration.GetConnectionString("RetrosContext")));
-            // services.AddDbContext<RetrosContext>(options =>
-            //     options.UseSqlServer(Configuration.GetConnectionString("defaultconnection")));
 
             services.AddDistributedMemoryCache();
 

@@ -3,6 +3,10 @@ namespace Retros.Domain
 {
     public class Tag : Entity
     {
+        protected Tag()
+        {
+
+        }
         internal Tag(string value)
         {
             this.Value = value;
