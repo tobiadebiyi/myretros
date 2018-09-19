@@ -13,21 +13,18 @@ WORKDIR /src/Retros.Web
 RUN dotnet publish --output /app/ --configuration Release
 
 # client build
-FROM node:alpine AS node-builder
+FROM node AS node-builder
 COPY client/package.json .
 RUN npm i
 
 COPY ./client .
 RUN npm run build
 
-FROM nginx:alpine
-COPY --from=node-builder /build /usr/share/nginx/html
-
 # deployment
 FROM microsoft/dotnet:2.1-aspnetcore-runtime
 WORKDIR /app
 COPY --from=dotnet-builder /app .
-COPY --from=node-builder . wwwroot
+COPY --from=node-builder ./build wwwroot
 
 # execute
 ENTRYPOINT ["dotnet", "Retros.Web.dll"]

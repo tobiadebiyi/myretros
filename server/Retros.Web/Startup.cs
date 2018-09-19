@@ -38,10 +38,11 @@ namespace Retros.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            var origins = this.Configuration.GetValue<string>("CORS:AllowedOrigins").Split(",");
+            
+            var configuredOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS").Split(",");
+            
             app.UseCors(builder =>
-                        builder.WithOrigins(origins)
+                        builder.WithOrigins(configuredOrigins)
                         .AllowCredentials()
                         .AllowAnyHeader()
                         .AllowAnyMethod());
