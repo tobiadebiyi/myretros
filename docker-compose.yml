@@ -1,13 +1,9 @@
 version: '3.4'
 
 services:
-  retros.web:
-    image: retros
+  myretros:
+    image: tobiadebiyi/myretros
     build:
       context: .
-      dockerfile: Retros.Web/Dockerfile
-  postgres:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: qwerty
+    ports:
+      - "5000:80"

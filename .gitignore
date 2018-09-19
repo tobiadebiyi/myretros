@@ -1,8 +1,10 @@
 **/bin/*
 **/obj/*
 **/node_modules/*
-Retros.Web/wwwroot/*
+**/wwwroot/*
 
-/.vs/Retros.Web/v15/*
-/.vs/Retros.Web/DesignTimeBuild/*
+.vs
 **/.DS_Store
+
+**/*.csproj.user
+**/*.journal
