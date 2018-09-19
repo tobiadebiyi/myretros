@@ -13,7 +13,7 @@ WORKDIR /src/Retros.Web
 RUN dotnet publish --output /app/ --configuration Release
 
 # client build
-FROM node AS node-builder
+FROM node:alpine AS node-builder
 COPY client/package.json .
 RUN npm i
 

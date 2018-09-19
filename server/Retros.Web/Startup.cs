@@ -39,13 +39,15 @@ namespace Retros.Web
                 app.UseDeveloperExceptionPage();
             }
             
-            var configuredOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS").Split(",");
-            
-            app.UseCors(builder =>
-                        builder.WithOrigins(configuredOrigins)
+            var configuredOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS");
+            if(configuredOrigins != null) 
+            {
+                app.UseCors(builder =>
+                        builder.WithOrigins(configuredOrigins.Split(","))
                         .AllowCredentials()
                         .AllowAnyHeader()
                         .AllowAnyMethod());
+            }
 
             app.UseSession();
             app.Use(async (context, next) =>
