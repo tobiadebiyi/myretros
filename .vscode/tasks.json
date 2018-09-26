@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Retros.Web/Retros.Web.csproj"
+                "${workspaceFolder}/server/Retros.Web/Retros.Web.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
