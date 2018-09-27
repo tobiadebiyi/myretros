@@ -1,6 +1,6 @@
 import { HubConnectionBuilder } from "../../node_modules/@aspnet/signalr";
 import config from "../config";
-import { RetroActionCreators, Retro, GroupCommentModel } from "../modules/retro";
+import { RetroActionCreators, Retro, GroupCommentModel } from "../modules/retroTabs";
 
 const hubConnection = new HubConnectionBuilder()
     .withUrl(`${config.apiUrl}/retrohub`)

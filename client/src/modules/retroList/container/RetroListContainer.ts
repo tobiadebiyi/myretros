@@ -4,7 +4,7 @@ import { RetroListProps, RetroList } from "../components";
 import { RetroListActionCreators } from "..";
 import { RouteComponentProps } from "react-router";
 import { CreateRetro } from "../state";
-import { Retro } from "../../retro";
+import { Retro } from "../../retroTabs";
 
 const mapStateToProps = (state: ApplicationState, ownProps): Partial<RetroListProps> => {
   return {

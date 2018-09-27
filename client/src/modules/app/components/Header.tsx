@@ -22,7 +22,7 @@ const Header: React.SFC<WithStyles<typeof styles>> = (props) => {
           item={true}
           className={props.classes.logo}
         >
-          <h1 className={props.classes.center}>Retro</h1>
+          <h1 className={props.classes.center}>My Retros</h1>
         </Grid>
       </Grid>
     </div>

@@ -1,2 +1,1 @@
-export * from "./RetroTabs";
-export * from "./CommentGroup";
+export * from "./MyRetros";

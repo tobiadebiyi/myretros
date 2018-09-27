@@ -14,7 +14,7 @@ import {
 
 import { AddCircle, Group } from "@material-ui/icons";
 import * as React from "react";
-import { Retro } from "../../retro";
+import { Retro } from "../../retroTabs";
 import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog/EditTextDialog";
 import { RetroRow } from ".";
 import { CreateRetro } from "..";

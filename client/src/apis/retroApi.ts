@@ -1,4 +1,4 @@
-import { Retro } from "../modules/retro";
+import { Retro } from "../modules/retroTabs";
 import { get, post, remove } from "../services/HttpService";
 import { CreateRetro } from "../modules/retroList";
 import config from "../config";
