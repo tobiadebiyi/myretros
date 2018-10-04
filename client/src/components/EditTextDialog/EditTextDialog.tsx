@@ -6,7 +6,7 @@ import {
     DialogTitle,
     DialogContent,
     DialogContentText,
-    Input
+    TextField
 } from "@material-ui/core";
 import { green, grey } from "@material-ui/core/colors";
 
@@ -27,12 +27,21 @@ interface EditTextDialogState {
 }
 
 export class EditTextDialog extends React.Component<EditTextDialogProps, EditTextDialogState> {
+    handleKeyPress: (ev: any) => void;
+    
     constructor(props: EditTextDialogProps) {
         super(props);
 
         this.state = {
             text: props.text,
             isDirty: false,
+        };
+
+        this.handleKeyPress = (ev: any) => {
+            if (ev.key === "Enter") {
+                ev.preventDefault();
+                this.submit();
+            }
         };
     }
 
@@ -41,6 +50,10 @@ export class EditTextDialog extends React.Component<EditTextDialogProps, EditTex
             text: event.target.value,
             isDirty: true,
         });
+    }
+
+    submit() {
+        this.props.handleSubmit(this.state.text);
     }
 
     render() {
@@ -60,7 +73,7 @@ export class EditTextDialog extends React.Component<EditTextDialogProps, EditTex
                             {message}
                         </DialogContentText>
                     }
-                    <Input
+                    <TextField
                         autoFocus={true}
                         margin="dense"
                         id="comment"
@@ -71,6 +84,7 @@ export class EditTextDialog extends React.Component<EditTextDialogProps, EditTex
                         fullWidth={true}
                         onChange={this.handleOnCommentChange}
                         value={this.state.text}
+                        onKeyPress={this.handleKeyPress}
                     />
                 </DialogContent>
                 <DialogActions>
