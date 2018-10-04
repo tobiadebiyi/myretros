@@ -14,11 +14,12 @@ const mapStateToProps = (
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps): Partial<RetroTabsProps> => {
+const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partial<RetroTabsProps> => {
   return {
     joinRetro: (retroId: string) => dispatch(RetroActionCreators.joinRetro(retroId)),
     saveComment: (retroId: string, model: GroupCommentModel) =>
-      dispatch(RetroActionCreators.saveComment(retroId, model))
+      dispatch(RetroActionCreators.saveComment(retroId, model)),
+      gotoList: () => ownProps.history.push("/")
   };
 };
 

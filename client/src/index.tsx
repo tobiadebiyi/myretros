@@ -7,7 +7,7 @@ import { store } from "./store";
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { startSignalR } from "./store/signalR";
-import App from "./modules/app/components/app/App";
+import { App } from "./modules/app/";
 
 startSignalR(store, () => {
   ReactDOM.render(

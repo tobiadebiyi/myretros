@@ -4,7 +4,13 @@ import {
   AppBar,
   Tabs,
   Tab,
+  Toolbar,
+  IconButton,
+  Typography,
+  WithStyles,
 } from "@material-ui/core";
+
+import { MenuRounded } from "@material-ui/icons";
 
 import { Group, Retro, Comment } from "..";
 import Slide from "@material-ui/core/Slide";
@@ -26,7 +32,6 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     width: "100%",
-    marginTop: theme.spacing.unit * 3,
     backgroundColor: theme.palette.background.paper,
   },
   fab: {
@@ -38,15 +43,22 @@ const styles = theme => ({
     color: theme.palette.common.white,
     backgroundColor: green[500],
   },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+  grow: {
+    flexGrow: 1,
+  },
 });
 
-export interface RetroTabsProps {
-  classes: any;
+export interface RetroTabsProps extends WithStyles<typeof styles> {
   retro: Retro;
   retroId: string;
   theme: any;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
   joinRetro: (retroId: string) => void;
+  gotoList: () => void;
 }
 
 interface EditCommentState {
@@ -190,22 +202,36 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
   }
 
   renderRetro() {
-    const { theme, retro } = this.props;
+    const { theme, retro, classes } = this.props;
     const { tabIndex } = this.state;
 
     return (
       <div>
-        <AppBar position="static">
+        <AppBar position="static" color="primary">
+          <Toolbar>
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+              <MenuRounded onClick={this.props.gotoList} />
+            </IconButton>
+            <Typography variant="title" color="inherit" className={classes.grow}>
+              My Retros
+            </Typography>
+            <Typography variant="subheading" color="inherit" className={classes.grow} style={{textAlign: "center"}}>
+            {retro.name}
+          </Typography>
+          </Toolbar>
+        </AppBar>
+        <React.Fragment>
           <Tabs
             value={tabIndex}
             onChange={this.handleChangeIndex}
             centered={true}
+            color="default"
           >
             {this.props.retro.groups.map((g, i) => (
               <Tab key={i} label={g.name} />
             ))}
           </Tabs>
-        </AppBar>
+        </React.Fragment>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={tabIndex}
