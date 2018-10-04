@@ -4,21 +4,13 @@ import { CssBaseline } from "@material-ui/core";
 import Header from "../Header";
 import { MyRetrosContainer } from "../../../retro";
 
-export interface AppProps {
-  isLoading: boolean;
-}
-
-class App extends React.Component<AppProps> {
-  constructor(props: AppProps) {
-    super(props);
-  }
-
+class App extends React.Component {
   render() {
     return (
       <div>
         <CssBaseline />
         <Header />
-        <MyRetrosContainer isLoading={true} />
+        <MyRetrosContainer />
       </div>
     );
   }

@@ -13,7 +13,7 @@ startSignalR(store, () => {
   ReactDOM.render(
     <Provider store={store}>
       <Router history={createBrowserHistory()} >
-        <App isLoading={true} />
+        <App />
       </Router>
     </Provider>,
     document.getElementById("root") as HTMLElement
