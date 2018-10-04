@@ -15,7 +15,7 @@ import {
 import { AddCircle, Group } from "@material-ui/icons";
 import * as React from "react";
 import { Retro } from "../../retroTabs";
-import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog/EditTextDialog";
+import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog";
 import { RetroRow } from ".";
 import { CreateRetro } from "..";
 import { green, orange } from "@material-ui/core/colors";
@@ -100,9 +100,9 @@ export class RetroList extends React.Component<RetroListProps,
       dialogProps: {
         open: true,
         text: "",
-        message: "Name",
+        name: "Name",
         title: retro.id ? "Edit Retro" : "Create Retro",
-        handleSubmit: this.handleOnSaveRetro,
+        handleOnSave: this.handleOnSaveRetro,
         handleClose: this.handleCloseDialog,
         submitButtonName: "Save"
       }
@@ -112,9 +112,9 @@ export class RetroList extends React.Component<RetroListProps,
   handleJoinRetroButtonClick() {
     this.setState({
       dialogProps: {
-        message: "Retro Ref#",
+        name: "Retro Ref#",
         title: "Enter reference",
-        handleSubmit: this.handleJoinRetro,
+        handleOnSave: this.handleJoinRetro,
         text: "",
         handleClose: this.handleCloseDialog,
         open: true,

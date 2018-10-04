@@ -13,7 +13,7 @@ import { Group } from "..";
 // import { Add } from "../../../../node_modules/@material-ui/icons";
 import CommentActions from "./CommentActions";
 import { Comment, GroupCommentModel, Action } from "../state";
-import { EditTextDialog } from "../components/EditCommentDialog";
+import { EditTextDialog } from "../../../components/EditTextDialog";
 
 const styles = () => createStyles({
   root: {

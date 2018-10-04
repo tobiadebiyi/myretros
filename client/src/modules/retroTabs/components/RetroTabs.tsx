@@ -15,7 +15,7 @@ import Mood from "@material-ui/icons/Mood";
 import MoodBad from "@material-ui/icons/MoodBad";
 import SwipeableViews from "react-swipeable-views";
 import * as classNames from "classnames";
-import { EditTextDialog } from "./EditCommentDialog";
+import { EditTextDialog } from "../../../components/EditTextDialog";
 import ScreenActionButton from "../../../components/ScreenActionButton";
 import { TabContainer } from "./TabContainer";
 
@@ -183,6 +183,8 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
         handleOnSave={this.handleOnSaveComment}
         text={comment ? comment.text : ""}
         name="comment"
+        message={`Please enter your comment here.`}
+        multiline={true}
       />
     );
   }

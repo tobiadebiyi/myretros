@@ -9,12 +9,15 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 
-interface EditTextDialogProps {
+export interface EditTextDialogProps {
   open: boolean;
   handleOnSave: (text: string) => void;
   handleClose: () => void;
   text: string;
   name: string;
+  multiline?: boolean;
+  message?: string;
+  submitButtonName?: string;
 }
 
 interface EditTextDialogState {
@@ -23,12 +26,20 @@ interface EditTextDialogState {
 }
 
 export class EditTextDialog extends React.Component<EditTextDialogProps, EditTextDialogState> {
+  handleKeyPress: (ev: any) => void;
   constructor(props: EditTextDialogProps, context: any) {
     super(props);
 
     this.state = {
       commentText: props.text ? props.text : "",
       isDirty: false,
+    };
+
+    this.handleKeyPress = (ev: any) => {
+      if (ev.key === "Enter") {
+        ev.preventDefault();
+        this.saveComment();
+      }
     };
   }
 
@@ -65,6 +76,7 @@ export class EditTextDialog extends React.Component<EditTextDialogProps, EditTex
   }
 
   render() {
+    const { message, submitButtonName } = this.props;
     return (
       <div>
         <Dialog
@@ -75,21 +87,24 @@ export class EditTextDialog extends React.Component<EditTextDialogProps, EditTex
           <DialogTitle id="form-dialog-title">
             {this.props.text ? `Edit ${this.props.name}` : `Add ${this.props.name}`}
           </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              {`Please enter your ${this.props.name} here.`}
-            </DialogContentText>
+          <DialogContent style={{ minWidth: "400px" }}>
+            {message &&
+              <DialogContentText>
+                {message}
+              </DialogContentText>
+            }
             <Input
               autoFocus={true}
               margin="dense"
               id={this.props.name}
-              multiline={true}
+              multiline={this.props.multiline}
               rows={5}
               rowsMax={10}
               type="text"
               fullWidth={true}
               onChange={this.handleOnCommentChange}
               value={this.state.commentText}
+              onKeyPress={this.handleKeyPress}
             />
           </DialogContent>
           <DialogActions>
@@ -101,7 +116,7 @@ export class EditTextDialog extends React.Component<EditTextDialogProps, EditTex
               color="primary"
               disabled={!this.state.isDirty}
             >
-              Save
+              {submitButtonName ? submitButtonName : "Save"}
             </Button>
           </DialogActions>
         </Dialog>
