@@ -4,57 +4,114 @@ import {
     TableRow,
     TableCell,
     Typography,
-    Tooltip,
-    Button
+    Menu,
+    MenuItem,
+    MenuList,
+    IconButton
 } from "@material-ui/core";
 
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { Delete, Copyright } from "@material-ui/icons/";
+import { MoreVert } from "@material-ui/icons/";
 
 interface RetroRowProps {
-    id: string;
+    retroId: string;
     name: string;
     gotoRetro: (retroId: string) => void;
     showSnackBar: (test: string) => void;
     deleteRetro: (retroId: string) => void;
 }
 
-export const RetroRow: React.SFC<RetroRowProps> = (props) => {
-    const { id, name, gotoRetro, showSnackBar, deleteRetro } = props;
-    const handleOnDelete = (e: React.MouseEvent<HTMLElement>) => {
-        e.stopPropagation();
-        deleteRetro(id);
-    };
+interface RetroRowState {
+    anchorEl: HTMLElement | null;
+    open: boolean;
+}
 
-    return (
-        <TableRow hover={true} onClick={() => gotoRetro(id!)}>
-            <TableCell >
-                <Typography>
-                    {name}
-                </Typography>
-            </TableCell>
-            <TableCell>
-                <Typography>
-                    {id}
-                </Typography>
-            </TableCell>
-            <TableCell>
-                <Tooltip title="Copy reference">
-                    <Button onClick={(e) => e.stopPropagation()}>
-                        <CopyToClipboard
-                            text={id}
-                            onCopy={() => showSnackBar("Copied!")}
-                        >
-                            <Copyright />
-                        </CopyToClipboard>
-                    </Button>
-                </Tooltip>
-                <Tooltip title="delete retro">
-                    <Button onClick={handleOnDelete}>
-                        <Delete />
-                    </Button>
-                </Tooltip>
-            </TableCell>
-        </TableRow>
-    );
-};
+export class RetroRow extends React.Component<RetroRowProps, RetroRowState> {
+    ITEM_HEIGHT: number = 48;
+
+    constructor(props: RetroRowProps) {
+        super(props);
+
+        this.state = {
+            anchorEl: null,
+            open: false,
+        };
+    }
+
+    handleOpenMenu = event => {
+        event.stopPropagation();
+        this.setState({ anchorEl: event.currentTarget, open: true });
+    }
+
+    handleCloseMenu = () => {
+        this.setState({ anchorEl: null, open: false });
+    }
+
+    handleCopy = () => {
+        this.setState(
+            { open: false },
+            () => this.props.showSnackBar("Copied")
+        );
+    }
+
+    handleDelete = () => {
+        this.props.deleteRetro(this.props.retroId);
+        this.setState(
+            { open: false },
+            () => this.props.showSnackBar("Retro delete")
+        );
+    }
+
+    render() {
+        const { retroId, name, gotoRetro } = this.props;
+        const { anchorEl, open } = this.state;
+
+        return (
+            <TableRow hover={true} onClick={() => gotoRetro(retroId!)}>
+                <TableCell >
+                    <Typography>
+                        {name}
+                    </Typography>
+                </TableCell>
+                <TableCell>
+                    <Typography>
+                        {retroId}
+                    </Typography>
+                </TableCell>
+                <TableCell style={{textAlign: "right"}} >
+                    <IconButton
+                        aria-label="More"
+                        aria-owns={open ? "long-menu" : undefined}
+                        aria-haspopup="true"
+                        onClick={this.handleOpenMenu}
+                    >
+                        <MoreVert />
+                    </IconButton>
+                    <Menu
+                        id="long-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={this.handleCloseMenu}
+                        PaperProps={{
+                            style: {
+                                maxHeight: this.ITEM_HEIGHT * 4.5,
+                                width: 200,
+                            },
+                        }}
+                    >
+                        <MenuList onClick={(e) => e.stopPropagation()} >
+                            <CopyToClipboard text={retroId} onCopy={this.handleCopy} >
+                                <MenuItem >
+                                    Copy Reference
+                                </MenuItem>
+                            </CopyToClipboard>
+                            <MenuItem onClick={this.handleDelete}>
+                                Delete
+                            </MenuItem>
+                        </MenuList>
+                    </Menu>
+                </TableCell>
+            </TableRow >
+        );
+    }
+}

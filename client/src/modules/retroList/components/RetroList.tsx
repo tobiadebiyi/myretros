@@ -144,7 +144,7 @@ export class RetroList extends React.Component<RetroListProps,
               gutterBottom={true}
               variant="display2"
             >
-              My Retros
+              Retros
             </Typography>
             <Tooltip title="Create Retro">
               <IconButton
@@ -175,7 +175,7 @@ export class RetroList extends React.Component<RetroListProps,
                   retros.map((retro, index) => (
                     <RetroRow
                       key={index}
-                      id={retro.id!}
+                      retroId={retro.id!}
                       name={retro.name}
                       gotoRetro={gotoRetro}
                       showSnackBar={this.showSnackBar}
