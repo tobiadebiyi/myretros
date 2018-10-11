@@ -1,16 +1,10 @@
 import * as React from "react";
 import {
   withStyles,
-  AppBar,
   Tabs,
   Tab,
-  Toolbar,
-  IconButton,
-  Typography,
   WithStyles,
 } from "@material-ui/core";
-
-import { MenuRounded } from "@material-ui/icons";
 
 import { Group, Retro, Comment } from "..";
 import Slide from "@material-ui/core/Slide";
@@ -27,12 +21,14 @@ import { TabContainer } from "./TabContainer";
 
 import CommentGroup from "../components/CommentGroup";
 import { GroupCommentModel } from "../state";
+// import MyRetrosAppBar from "./MyRetrosAppBar";
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
     width: "100%",
     backgroundColor: theme.palette.background.paper,
+    justifyContent: "center",
   },
   fab: {
     position: "absolute",
@@ -42,13 +38,6 @@ const styles = theme => ({
   fabGreen: {
     color: theme.palette.common.white,
     backgroundColor: green[500],
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-  grow: {
-    flexGrow: 1,
   },
 });
 
@@ -202,63 +191,53 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
   }
 
   renderRetro() {
-    const { theme, retro, classes } = this.props;
+    const { theme, retro } = this.props;
     const { tabIndex } = this.state;
 
     return (
       <div>
-        <AppBar position="static" color="primary">
-          <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-              <MenuRounded onClick={this.props.gotoList} />
-            </IconButton>
-            <Typography variant="title" color="inherit" className={classes.grow}>
-              My Retros
-            </Typography>
-            <Typography variant="subheading" color="inherit" className={classes.grow} style={{textAlign: "center"}}>
-            {retro.name}
-          </Typography>
-          </Toolbar>
-        </AppBar>
+        {/* <MyRetrosAppBar retro={retro} gotoList={this.props.gotoList} /> */}
         <React.Fragment>
-          <Tabs
-            value={tabIndex}
-            onChange={this.handleChangeIndex}
-            centered={true}
-            color="default"
+          <React.Fragment>
+            <Tabs
+              value={tabIndex}
+              onChange={this.handleChangeIndex}
+              centered={true}
+              color="default"
+            >
+              {this.props.retro.groups.map((g, i) => (
+                <Tab key={i} label={g.name} />
+              ))}
+            </Tabs>
+          </React.Fragment>
+          <SwipeableViews
+            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+            index={tabIndex}
+            onChangeIndex={this.handleChangeIndex}
           >
-            {this.props.retro.groups.map((g, i) => (
-              <Tab key={i} label={g.name} />
+            {retro.groups.map((group, index) => (
+              this.renderCommentGroup(retro.groups[tabIndex], index)
             ))}
-          </Tabs>
+          </SwipeableViews>
+          <div>
+            {this.buttons.map((button: ButtonStyle, index: number) => (
+              <ScreenActionButton
+                key={index}
+                theme={theme}
+                {...button}
+                transitionIn={this.state.tabIndex === index}
+                handleOnClick={() => {
+                  const newComment = {
+                    isOwner: true,
+                    text: "",
+                    actions: [],
+                  };
+                  this.handleOpenCommentDialog(retro.groups[tabIndex].id, newComment);
+                }}
+              />
+            ))}
+          </div>
         </React.Fragment>
-        <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={tabIndex}
-          onChangeIndex={this.handleChangeIndex}
-        >
-          {retro.groups.map((group, index) => (
-            this.renderCommentGroup(retro.groups[tabIndex], index)
-          ))}
-        </SwipeableViews>
-        <div>
-          {this.buttons.map((button: ButtonStyle, index: number) => (
-            <ScreenActionButton
-              key={index}
-              theme={theme}
-              {...button}
-              transitionIn={this.state.tabIndex === index}
-              handleOnClick={() => {
-                const newComment = {
-                  isOwner: true,
-                  text: "",
-                  actions: [],
-                };
-                this.handleOpenCommentDialog(retro.groups[tabIndex].id, newComment);
-              }}
-            />
-          ))}
-        </div>
         {this.renderEditCommentDialog()}
       </div>
     );
