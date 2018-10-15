@@ -1,8 +1,8 @@
 # MyRetros
 
 ## Use
-- Just want to use MyReytros? Visit `http://myretros.tobiadebiyi.com/` 
-- We're always ope to new ideas and improvements, so don't forget to leave feedback and comments here on git hub.
+- If you simply want to use MyReytros with your team, click <a href="http://myretros.tobiadebiyi.com/">here</a>
+- We're always open to new ideas and improvements, so don't forget to leave feedback and comments here on git hub.
 
 ## Deployment
 
