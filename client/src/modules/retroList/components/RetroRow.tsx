@@ -1,17 +1,17 @@
 import * as React from "react";
 
 import {
-    TableRow,
-    TableCell,
-    Typography,
     Menu,
     MenuItem,
     MenuList,
-    IconButton
+    IconButton,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
 } from "@material-ui/core";
 
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { MoreVert } from "@material-ui/icons/";
+import { MoreVert, Comment } from "@material-ui/icons/";
 
 interface RetroRowProps {
     retroId: string;
@@ -67,18 +67,12 @@ export class RetroRow extends React.Component<RetroRowProps, RetroRowState> {
         const { anchorEl, open } = this.state;
 
         return (
-            <TableRow hover={true} onClick={() => gotoRetro(retroId!)}>
-                <TableCell >
-                    <Typography>
-                        {name}
-                    </Typography>
-                </TableCell>
-                <TableCell>
-                    <Typography>
-                        {retroId}
-                    </Typography>
-                </TableCell>
-                <TableCell style={{textAlign: "right"}} >
+            <div>
+                <ListItem button={true} onClick={() => gotoRetro(retroId!)}>
+                    <ListItemIcon>
+                        <Comment />
+                    </ListItemIcon>
+                    <ListItemText primary={name} />
                     <IconButton
                         aria-label="More"
                         aria-owns={open ? "long-menu" : undefined}
@@ -95,7 +89,6 @@ export class RetroRow extends React.Component<RetroRowProps, RetroRowState> {
                         PaperProps={{
                             style: {
                                 maxHeight: this.ITEM_HEIGHT * 4.5,
-                                width: 200,
                             },
                         }}
                     >
@@ -110,8 +103,8 @@ export class RetroRow extends React.Component<RetroRowProps, RetroRowState> {
                             </MenuItem>
                         </MenuList>
                     </Menu>
-                </TableCell>
-            </TableRow >
+                </ListItem>
+            </div>
         );
     }
 }
