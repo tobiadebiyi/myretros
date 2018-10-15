@@ -1,4 +1,8 @@
-# Using MyRetros
+# MyRetros
+
+## Use
+- Just want to use MyReytros? Visit `http://myretros.tobiadebiyi.com/` 
+- We're always ope to new ideas and improvements, so don't forget to leave feedback and comments here on git hub.
 
 ## Deployment
 
