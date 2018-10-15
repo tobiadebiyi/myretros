@@ -3,7 +3,7 @@ import {
   withStyles,
   Tabs,
   Tab,
-  WithStyles,
+  WithStyles
 } from "@material-ui/core";
 
 import { Group, Retro, Comment } from "..";
@@ -21,7 +21,6 @@ import { TabContainer } from "./TabContainer";
 
 import CommentGroup from "../components/CommentGroup";
 import { GroupCommentModel } from "../state";
-// import MyRetrosAppBar from "./MyRetrosAppBar";
 
 const styles = theme => ({
   root: {
@@ -99,6 +98,12 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
     };
 
     this.props.joinRetro(this.props.retroId);
+  }
+
+  componentWillReceiveProps(newProps: RetroTabsProps) {
+    if (this.props.retroId !== newProps.retroId) {
+      this.props.joinRetro(newProps.retroId);
+    }
   }
 
   handleOpenCommentDialog = (groupId: string, comment: Comment) => {
@@ -196,7 +201,6 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
 
     return (
       <div>
-        {/* <MyRetrosAppBar retro={retro} gotoList={this.props.gotoList} /> */}
         <React.Fragment>
           <React.Fragment>
             <Tabs

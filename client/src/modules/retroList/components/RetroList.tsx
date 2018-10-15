@@ -1,15 +1,14 @@
 import {
-  Table,
-  TableBody,
-  Typography,
   Snackbar,
   SnackbarContent,
-  Paper,
-  Toolbar,
+  LinearProgress,
+  List,
+  ListSubheader,
+  Divider,
+  ListItem,
+  ListItemIcon,
   Tooltip,
-  IconButton,
-  Avatar,
-  LinearProgress
+  ListItemText,
 } from "@material-ui/core";
 
 import { AddCircle, Group } from "@material-ui/icons";
@@ -18,7 +17,6 @@ import { Retro } from "../../retroTabs";
 import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog";
 import { RetroRow } from ".";
 import { CreateRetro } from "..";
-import { green, orange } from "@material-ui/core/colors";
 
 export interface RetroListProps {
   retros: Retro[];
@@ -79,6 +77,7 @@ export class RetroList extends React.Component<RetroListProps,
 
     this.handleJoinRetro = (retroId: string) => {
       this.props.gotoRetro(retroId);
+      this.setState({ dialogProps: undefined, activeRetro: undefined });
     };
 
     this.handleCloseDialog = () => {
@@ -128,68 +127,47 @@ export class RetroList extends React.Component<RetroListProps,
 
     if (!retros)
       return <LinearProgress color="secondary" />;
-      
+
     return (
-      <div style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <div>
         <Snackbar open={this.state.showSnackBar} title={this.state.snackBarMessage}>
           <SnackbarContent message={this.state.snackBarMessage!} />
         </Snackbar>
 
         {this.state.dialogProps && <EditTextDialog {...this.state.dialogProps} />}
+        <List>
+          <ListSubheader inset={true}>Actions</ListSubheader>
 
-        <Paper style={{ width: "800px", minHeight: "600px" }}>
-          <Toolbar style={{ flexDirection: "row", alignContent: "center", justifyContent: "center" }}>
-            <Typography
-              style={{ flex: 10, marginTop: "20px" }}
-              gutterBottom={true}
-              variant="display2"
-            >
-              Retros
-            </Typography>
+          <ListItem button={true} onClick={() => this.handleCreateRetroButtonClick({ name: "", id: "", groups: [] })}>
             <Tooltip title="Create Retro">
-              <IconButton
-                onClick={() => this.handleCreateRetroButtonClick({ name: "", id: "", groups: [] })}
-                aria-label="Create Retro"
-              >
-                <Avatar style={{ backgroundColor: green[500] }}>
-                  <AddCircle />
-                </Avatar>
-              </IconButton>
+              <ListItemIcon>
+                <AddCircle />
+              </ListItemIcon>
             </Tooltip>
-            <Tooltip title="Join a Retro">
-              <IconButton
-                onClick={() => this.handleJoinRetroButtonClick()}
-                aria-label="Join Retro"
-                color="primary"
-              >
-                <Avatar style={{ backgroundColor: orange[500] }}>
-                  <Group />
-                </Avatar>
-              </IconButton>
+            <ListItemText inset={false} primary="Create Retro" />
+          </ListItem>
+
+          <ListItem button={true}  onClick={() => this.handleJoinRetroButtonClick()}>
+            <Tooltip title="Join Retro">
+              <ListItemIcon>
+                <Group />
+              </ListItemIcon>
             </Tooltip>
-          </Toolbar>
-          {retros.length > 0 ?
-            <Table>
-              <TableBody>
-                {
-                  retros.map((retro, index) => (
-                    <RetroRow
-                      key={index}
-                      retroId={retro.id!}
-                      name={retro.name}
-                      gotoRetro={gotoRetro}
-                      showSnackBar={this.showSnackBar}
-                      deleteRetro={this.handleDeleteRetro}
-                    />))
-                }
-              </TableBody>
-            </Table>
-            :
-            <Typography variant="body1" color="secondary" style={{ margin: "200px", textAlign: "center" }}>
-              Please create or join a retro
-            </Typography>
+            <ListItemText inset={true} primary="Join Retro" />
+          </ListItem>
+          <Divider />
+          {
+            retros.map((retro, index) => (
+              <RetroRow
+                key={index}
+                retroId={retro.id!}
+                name={retro.name}
+                gotoRetro={gotoRetro}
+                showSnackBar={this.showSnackBar}
+                deleteRetro={this.handleDeleteRetro}
+              />))
           }
-        </Paper>
+        </List>
       </div >
     );
   }

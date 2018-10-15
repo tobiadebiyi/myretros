@@ -14,7 +14,8 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import * as classNames from "classnames";
 import { RetroListContainer } from "../../retroList";
 import { RetroTabsContainer } from "../container";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router";
+import { Retro } from "../state";
 
 const drawerWidth = 240;
 
@@ -95,14 +96,22 @@ const styles = theme => createStyles({
   },
 });
 
-interface DetailedViewProps extends WithStyles<typeof styles>, RouteComponentProps<{ retroId: string }> {
-
+export interface DetailedViewProps extends RouteComponentProps<{ retroId: string }>, WithStyles<typeof styles> {
+  retro: Retro;
 }
 
-class Dashboard extends React.Component<DetailedViewProps> {
-  state = {
-    open: true,
-  };
+interface DetailedViewState {
+  open: boolean;
+}
+
+class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
+  constructor(props: DetailedViewProps) {
+    super(props);
+
+    this.state = {
+      open: true,
+    };
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -113,7 +122,7 @@ class Dashboard extends React.Component<DetailedViewProps> {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, retro } = this.props;
 
     return (
       <React.Fragment>
@@ -146,11 +155,9 @@ class Dashboard extends React.Component<DetailedViewProps> {
               <Typography
                 variant="subheading"
                 color="inherit"
-                // className={classes.grow}
                 style={{ textAlign: "center" }}
               >
-              Retro Name
-                {/* {retro.name} */}
+                {retro && retro.name}
               </Typography>
               {/* <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
@@ -172,15 +179,12 @@ class Dashboard extends React.Component<DetailedViewProps> {
               </IconButton>
             </div>
             <Divider />
-            <RetroListContainer />
+            <RetroListContainer {...this.props} />
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Typography component="div" className={classes.chartContainer}>
-              <RetroTabsContainer {...this.props} />
-            </Typography>
-            <Typography variant="display4" gutterBottom={true} component="h2">
-              Products
+              {this.props.match.params.retroId && < RetroTabsContainer match={this.props.match} />}
             </Typography>
           </main>
         </div>
