@@ -38,7 +38,7 @@ namespace Retros.Domain
         {
             this.Groups.Add(new Group("What went well"));
             this.Groups.Add(new Group("Not so well"));
-            this.Groups.Add(new Group("Actions"));
+            this.Groups.Add(new Group("Improvements"));
         }
     }
 }
