@@ -4,7 +4,7 @@ namespace Retros.Domain
 {
     public class Entity
     {
-        public string Id { get; protected set; } = 
+        public Guid Id { get; protected set; } = Guid.NewGuid();
 
         public DateTime WhenCreated { get; protected set; } = DateTime.UtcNow;
     }

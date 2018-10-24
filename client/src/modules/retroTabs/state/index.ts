@@ -51,6 +51,7 @@ export interface Retro {
   id?: string;
   groups: Group[];
   name: string;
+  reference: string;
 }
 
 export interface Group {

@@ -16,6 +16,7 @@ using Retros.Application.UseCases.CreateRetro;
 using Retros.Application.UseCases.DeleteRetro;
 using Retros.Application.UseCases.GetRetro;
 using Retros.Application.UseCases.GetRetros;
+using Retros.Application.UseCases.GetRetroByReference;
 using Retros.Application.UseCases.UpdateComment;
 using Retros.DataAcces.MemState;
 using Retros.Web.Hubs;
@@ -85,6 +86,7 @@ namespace Retros.Web
             services.AddSingleton<IRetroReposirotory, MemStateRetrosRepository>();
             services.AddTransient<IInteractor<GetRetrosRequest, OperationResult<IEnumerable<RetroDTO>>>, GetRetrosInteractor>();
             services.AddTransient<IInteractor<GetRetroRequest, OperationResult<RetroDTO>>, GetRetroInteractor>();
+            services.AddTransient<IInteractor<GetRetroByReferenceRequest, OperationResult<RetroDTO>>, GetRetroByReferenceInteractor>();
             services.AddTransient<IInteractor<AddCommentRequest, OperationResult<CommentDTO>>, AddCommentInteractor>();
             services.AddTransient<IInteractor<UpdateCommentRequest, OperationResult<UpdateCommentResponse>>, UpdateCommentInteractor>();
             services.AddTransient<IInteractor<CreateRetroRequest, OperationResult<RetroDTO>>, CreateRetroInteractor>();

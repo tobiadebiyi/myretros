@@ -6,11 +6,11 @@ import { RouteComponentProps } from "react-router";
 
 const mapStateToProps = (
   state: ApplicationState,
-  ownProps: RouteComponentProps<{ retroId: string }>
+  ownProps: RouteComponentProps<{ retroReference: string }>
 ): Partial<RetroTabsProps> => {
   return {
     retro: state.retroState.retro,
-    retroId: ownProps.match.params.retroId,
+    retroReference: ownProps.match.params.retroReference,
   };
 };
 

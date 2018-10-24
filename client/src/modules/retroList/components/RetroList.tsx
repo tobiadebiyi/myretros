@@ -22,7 +22,7 @@ export interface RetroListProps {
   retros: Retro[];
   classes?: any;
   createRetro: (request: CreateRetro) => Promise<void>;
-  gotoRetro: (retroId: string) => void;
+  gotoRetro: (retroReference: string) => void;
   fetchRetros: () => void;
   deleteRetro: (retroId: string) => Promise<void>;
   updateRetros: (retros: Retro[]) => void;
@@ -75,8 +75,8 @@ export class RetroList extends React.Component<RetroListProps,
       });
     };
 
-    this.handleJoinRetro = (retroId: string) => {
-      this.props.gotoRetro(retroId);
+    this.handleJoinRetro = (retroReference: string) => {
+      this.props.gotoRetro(retroReference);
       this.setState({ dialogProps: undefined, activeRetro: undefined });
     };
 
@@ -128,6 +128,8 @@ export class RetroList extends React.Component<RetroListProps,
     if (!retros)
       return <LinearProgress color="secondary" />;
 
+    const defaultRetro = { name: "", id: "", groups: [], reference: "" };
+
     return (
       <div>
         <Snackbar open={this.state.showSnackBar} title={this.state.snackBarMessage}>
@@ -138,7 +140,7 @@ export class RetroList extends React.Component<RetroListProps,
         <List>
           <ListSubheader inset={true}>Actions</ListSubheader>
 
-          <ListItem button={true} onClick={() => this.handleCreateRetroButtonClick({ name: "", id: "", groups: [] })}>
+          <ListItem button={true} onClick={() => this.handleCreateRetroButtonClick(defaultRetro)}>
             <Tooltip title="Create Retro">
               <ListItemIcon>
                 <AddCircle />
@@ -161,6 +163,7 @@ export class RetroList extends React.Component<RetroListProps,
               <RetroRow
                 key={index}
                 retroId={retro.id!}
+                retroReference={retro.reference}
                 name={retro.name}
                 gotoRetro={gotoRetro}
                 showSnackBar={this.showSnackBar}

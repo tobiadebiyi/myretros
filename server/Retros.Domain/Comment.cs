@@ -10,7 +10,6 @@ namespace Retros.Domain {
 
         public Comment(string text, string ownerId)
         {
-            this.Id = Guid.NewGuid();
             Text = text;
             this.OwnerId = ownerId;
         }

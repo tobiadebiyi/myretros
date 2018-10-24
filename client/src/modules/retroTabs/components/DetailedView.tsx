@@ -96,7 +96,7 @@ const styles = theme => createStyles({
   },
 });
 
-export interface DetailedViewProps extends RouteComponentProps<{ retroId: string }>, WithStyles<typeof styles> {
+export interface DetailedViewProps extends RouteComponentProps<{ retroReference: string }>, WithStyles<typeof styles> {
   retro: Retro;
 }
 
@@ -184,7 +184,7 @@ class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Typography component="div" className={classes.chartContainer}>
-              {this.props.match.params.retroId && < RetroTabsContainer match={this.props.match} />}
+              {this.props.match.params.retroReference && < RetroTabsContainer match={this.props.match} />}
             </Typography>
           </main>
         </div>
