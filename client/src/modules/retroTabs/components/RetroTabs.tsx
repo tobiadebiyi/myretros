@@ -42,7 +42,7 @@ const styles = theme => ({
 
 export interface RetroTabsProps extends WithStyles<typeof styles> {
   retro: Retro;
-  retroId: string;
+  retroReference: string;
   theme: any;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
   joinRetro: (retroId: string) => void;
@@ -97,12 +97,12 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       } as EditCommentState,
     };
 
-    this.props.joinRetro(this.props.retroId);
+    this.props.joinRetro(this.props.retroReference);
   }
 
   componentWillReceiveProps(newProps: RetroTabsProps) {
-    if (this.props.retroId !== newProps.retroId) {
-      this.props.joinRetro(newProps.retroId);
+    if (this.props.retroReference !== newProps.retroReference) {
+      this.props.joinRetro(newProps.retroReference);
     }
   }
 
@@ -145,7 +145,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
       comment,
     };
 
-    this.props.saveComment(this.props.retroId, request);
+    this.props.saveComment(this.props.retro.id!, request);
   }
 
   handleOnEditComment = (commentId: string) => {
@@ -168,7 +168,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
             group={group}
             handleOnEditComment={this.handleOnEditComment}
             saveComment={this.props.saveComment}
-            retroId={this.props.retroId}
+            retroId={this.props.retro.id!}
           />
         </TabContainer>
       </Slide>

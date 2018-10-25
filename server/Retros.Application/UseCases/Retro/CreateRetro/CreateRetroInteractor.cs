@@ -20,14 +20,20 @@ namespace Retros.Application.UseCases.CreateRetro
 
         public async Task<OperationResult<RetroDTO>> Handle(CreateRetroRequest request)
         {
-            var newRetro = new Retro(request.RetroName, this.userContextProvider.GetUserId());
+            Retro newRetro;
+            do 
+            {
+                newRetro = new Retro(request.RetroName, this.userContextProvider.GetUserId());
+            }
+            while(this.retroReposirotory.GetByReference(newRetro.Reference).Result != null);
 
             if(request.WithDefaultGroups)
             {
                 newRetro.WithDefaultGroups();
-            }
-
+            } 
+            
             var retro = await this.retroReposirotory.Add(newRetro);
+
             return OperationResultCreator.Suceeded(new RetroDTO(retro, userContextProvider.GetUserId()));
         }
     }

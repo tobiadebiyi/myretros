@@ -14,6 +14,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { MoreVert, Comment } from "@material-ui/icons/";
 
 interface RetroRowProps {
+    retroReference: string;
     retroId: string;
     name: string;
     gotoRetro: (retroId: string) => void;
@@ -63,12 +64,12 @@ export class RetroRow extends React.Component<RetroRowProps, RetroRowState> {
     }
 
     render() {
-        const { retroId, name, gotoRetro } = this.props;
+        const { retroReference, name, gotoRetro } = this.props;
         const { anchorEl, open } = this.state;
 
         return (
             <div>
-                <ListItem button={true} onClick={() => gotoRetro(retroId!)}>
+                <ListItem button={true} onClick={() => gotoRetro(retroReference!)}>
                     <ListItemIcon>
                         <Comment />
                     </ListItemIcon>
@@ -93,7 +94,7 @@ export class RetroRow extends React.Component<RetroRowProps, RetroRowState> {
                         }}
                     >
                         <MenuList onClick={(e) => e.stopPropagation()} >
-                            <CopyToClipboard text={retroId} onCopy={this.handleCopy} >
+                            <CopyToClipboard text={retroReference} onCopy={this.handleCopy} >
                                 <MenuItem >
                                     Copy Reference
                                 </MenuItem>

@@ -13,7 +13,7 @@ export const MyRetros = (props: MyRetrosProps) => {
       {props.isLoading && <LinearProgress color="secondary" />}
       <Switch>
         <Route exact={true} path="/" component={DetailedViewContainer} />
-        <Route path="/retros/:retroId?" component={DetailedViewContainer} />
+        <Route path="/retros/:retroReference?" component={DetailedViewContainer} />
       </Switch>
     </div>
   );
