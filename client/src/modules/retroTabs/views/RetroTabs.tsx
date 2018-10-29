@@ -19,7 +19,7 @@ import { EditTextDialog } from "../../../components/EditTextDialog";
 import ScreenActionButton from "../../../components/ScreenActionButton";
 import { TabContainer } from "./TabContainer";
 
-import CommentGroup from "../components/CommentGroup";
+import CommentGroup from "../views/CommentGroup";
 import { GroupCommentModel } from "../state";
 
 const styles = theme => ({
@@ -45,7 +45,6 @@ export interface RetroTabsProps extends WithStyles<typeof styles> {
   retroReference: string;
   theme: any;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
-  joinRetro: (retroId: string) => void;
   gotoList: () => void;
 }
 
@@ -96,6 +95,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
         comment: {},
       } as EditCommentState,
     };
+<<<<<<< HEAD:client/src/modules/retroTabs/components/RetroTabs.tsx
 
     this.props.joinRetro(this.props.retroReference);
   }
@@ -104,6 +104,8 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
     if (this.props.retroReference !== newProps.retroReference) {
       this.props.joinRetro(newProps.retroReference);
     }
+=======
+>>>>>>> create initial summary view:client/src/modules/retroTabs/views/RetroTabs.tsx
   }
 
   handleOpenCommentDialog = (groupId: string, comment: Comment) => {

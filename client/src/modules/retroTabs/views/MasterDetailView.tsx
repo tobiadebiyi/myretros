@@ -16,6 +16,7 @@ import { RetroListContainer } from "../../retroList";
 import { RetroTabsContainer } from "../container";
 import { RouteComponentProps } from "react-router";
 import { Retro } from "../state";
+import { Summary } from "./Summary";
 
 const drawerWidth = 240;
 
@@ -96,21 +97,31 @@ const styles = theme => createStyles({
   },
 });
 
+<<<<<<< HEAD:client/src/modules/retroTabs/components/DetailedView.tsx
 export interface DetailedViewProps extends RouteComponentProps<{ retroReference: string }>, WithStyles<typeof styles> {
+=======
+export interface MasterDetailViewProps extends RouteComponentProps<{ retroId: string }>, WithStyles<typeof styles> {
+>>>>>>> create initial summary view:client/src/modules/retroTabs/views/MasterDetailView.tsx
   retro: Retro;
+  joinRetro: (retroId: string) => void;
 }
 
-interface DetailedViewState {
+interface MasterDetailViewState {
   open: boolean;
+  view: "Tab" | "Summary";
 }
 
-class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
-  constructor(props: DetailedViewProps) {
+class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDetailViewState> {
+  constructor(props: MasterDetailViewProps) {
     super(props);
 
     this.state = {
       open: true,
+      view: "Summary",
     };
+
+    if (this.props.match.params.retroId)
+      this.props.joinRetro(this.props.match.params.retroId);
   }
 
   handleDrawerOpen = () => {
@@ -119,6 +130,12 @@ class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
 
   handleDrawerClose = () => {
     this.setState({ open: false });
+  }
+
+  componentWillReceiveProps(newProps: MasterDetailViewProps) {
+    if (this.props.match.params.retroId !== newProps.match.params.retroId) {
+      this.props.joinRetro(newProps.match.params.retroId);
+    }
   }
 
   render() {
@@ -184,7 +201,12 @@ class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Typography component="div" className={classes.chartContainer}>
+<<<<<<< HEAD:client/src/modules/retroTabs/components/DetailedView.tsx
               {this.props.match.params.retroReference && < RetroTabsContainer match={this.props.match} />}
+=======
+              {this.props.retro && this.state.view === "Tab" && < RetroTabsContainer match={this.props.match} />}
+              {this.props.retro && this.state.view === "Summary" && <Summary retro={this.props.retro} />}
+>>>>>>> create initial summary view:client/src/modules/retroTabs/views/MasterDetailView.tsx
             </Typography>
           </main>
         </div>
@@ -193,4 +215,4 @@ class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
   }
 }
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(MasterDetailView);
