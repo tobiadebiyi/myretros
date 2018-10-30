@@ -1,2 +1,2 @@
-export * from "./RetroTabs";
-export * from "./CommentGroup";
+export * from "./TabView";
+export * from "../components/CommentGroup";

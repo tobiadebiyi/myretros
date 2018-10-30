@@ -75,7 +75,7 @@ export class CommentActions extends React.Component<CommentActionsProps, Comment
               <IconButton color="inherit" onClick={handleClose} aria-label="Close">
                 <Close />
               </IconButton>
-              <Typography variant="title" color="inherit" className={classes.flex}>
+              <Typography variant="h6" color="inherit" className={classes.flex}>
                 Actions
               </Typography>
             </Toolbar>
@@ -94,7 +94,7 @@ export class CommentActions extends React.Component<CommentActionsProps, Comment
           </List>
           <ScreenActionButton
             color="primary"
-            theme={this.props.theme}
+            // theme={this.props.theme}
             icon={<Add />}
             transitionIn={true}
             handleOnClick={this.props.handelAddNewAction}

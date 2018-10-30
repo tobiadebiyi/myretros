@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { ApplicationState } from "../../../store";
-import RetroTabs, { RetroTabsProps } from "../views/RetroTabs";
+import RetroTabs, { RetroTabsProps } from "../views/TabView";
 import { RetroActionCreators, GroupCommentModel } from "../state";
 import { RouteComponentProps } from "react-router";
 

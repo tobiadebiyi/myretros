@@ -34,11 +34,11 @@ const MyRetrosAppBar: React.SFC<MyRetrosAppBarProps> = (props) => {
                 <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                     <MenuRounded onClick={gotoList} />
                 </IconButton>
-                <Typography variant="title" color="inherit" className={classes.grow}>
+                <Typography variant="h6" color="inherit" className={classes.grow}>
                     My Retros
                 </Typography>
                 <Typography
-                    variant="subheading"
+                    variant="subtitle1"
                     color="inherit"
                     className={classes.grow}
                     style={{ textAlign: "center" }}
@@ -50,4 +50,4 @@ const MyRetrosAppBar: React.SFC<MyRetrosAppBarProps> = (props) => {
     );
 };
 
-export default withStyles(styles, {withTheme: true})(MyRetrosAppBar);
+export default withStyles(styles, { withTheme: true })(MyRetrosAppBar);

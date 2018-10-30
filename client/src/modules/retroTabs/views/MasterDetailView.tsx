@@ -16,7 +16,7 @@ import { RetroListContainer } from "../../retroList";
 import { RetroTabsContainer } from "../container";
 import { RouteComponentProps } from "react-router";
 import { Retro } from "../state";
-import { Summary } from "./Summary";
+import SummaryView from "./SummaryView";
 
 const drawerWidth = 240;
 
@@ -97,18 +97,28 @@ const styles = theme => createStyles({
   },
 });
 
+<<<<<<< HEAD
 <<<<<<< HEAD:client/src/modules/retroTabs/components/DetailedView.tsx
 export interface DetailedViewProps extends RouteComponentProps<{ retroReference: string }>, WithStyles<typeof styles> {
 =======
 export interface MasterDetailViewProps extends RouteComponentProps<{ retroId: string }>, WithStyles<typeof styles> {
 >>>>>>> create initial summary view:client/src/modules/retroTabs/views/MasterDetailView.tsx
+=======
+type RetroViewType = "Tab" | "Summary";
+
+interface RetroRouteParams {
+  retroId: string;
+}
+
+export interface MasterDetailViewProps extends RouteComponentProps<RetroRouteParams>, WithStyles<typeof styles> {
+>>>>>>> Complete summary view.
   retro: Retro;
   joinRetro: (retroId: string) => void;
 }
 
 interface MasterDetailViewState {
   open: boolean;
-  view: "Tab" | "Summary";
+  view: RetroViewType;
 }
 
 class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDetailViewState> {
@@ -140,6 +150,8 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
 
   render() {
     const { classes, retro } = this.props;
+    const showTabView = this.props.retro && this.state.view === "Tab";
+    const showSummaryView = this.props.retro && this.state.view === "Summary";
 
     return (
       <React.Fragment>
@@ -162,7 +174,7 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
                 <MenuIcon />
               </IconButton>
               <Typography
-                variant="title"
+                variant="h6"
                 color="inherit"
                 noWrap={true}
                 className={classes.title}
@@ -170,7 +182,7 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
                 MyRetros
               </Typography>
               <Typography
-                variant="subheading"
+                variant="subtitle1"
                 color="inherit"
                 style={{ textAlign: "center" }}
               >
@@ -201,12 +213,17 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Typography component="div" className={classes.chartContainer}>
+<<<<<<< HEAD
 <<<<<<< HEAD:client/src/modules/retroTabs/components/DetailedView.tsx
               {this.props.match.params.retroReference && < RetroTabsContainer match={this.props.match} />}
 =======
               {this.props.retro && this.state.view === "Tab" && < RetroTabsContainer match={this.props.match} />}
               {this.props.retro && this.state.view === "Summary" && <Summary retro={this.props.retro} />}
 >>>>>>> create initial summary view:client/src/modules/retroTabs/views/MasterDetailView.tsx
+=======
+              {showTabView && < RetroTabsContainer match={this.props.match} />}
+              {showSummaryView && <SummaryView retro={this.props.retro} />}
+>>>>>>> Complete summary view.
             </Typography>
           </main>
         </div>
