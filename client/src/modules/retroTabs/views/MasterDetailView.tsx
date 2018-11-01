@@ -7,16 +7,22 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import ToggleButton from "@material-ui/lab/ToggleButton";
 // import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 // import NotificationsIcon from "@material-ui/icons/Notifications";
+import ListTwoTone from "@material-ui/icons/ListTwoTone";
+import Tab from "@material-ui/icons/Tab";
+
 import * as classNames from "classnames";
 import { RetroListContainer } from "../../retroList";
 import { RetroTabsContainer } from "../container";
 import { RouteComponentProps } from "react-router";
 import { Retro } from "../state";
 import SummaryView from "./SummaryView";
+import { Tooltip } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -95,8 +101,18 @@ const styles = theme => createStyles({
   h5: {
     marginBottom: theme.spacing.unit * 2,
   },
+  viewToggleContainer: {
+    height: 56,
+    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    margin: `${theme.spacing.unit}px 0`,
+    background: theme.palette.background.default,
+  },
 });
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD:client/src/modules/retroTabs/components/DetailedView.tsx
 export interface DetailedViewProps extends RouteComponentProps<{ retroReference: string }>, WithStyles<typeof styles> {
@@ -105,6 +121,11 @@ export interface MasterDetailViewProps extends RouteComponentProps<{ retroId: st
 >>>>>>> create initial summary view:client/src/modules/retroTabs/views/MasterDetailView.tsx
 =======
 type RetroViewType = "Tab" | "Summary";
+=======
+enum RetroViewType {
+  "Tab", "Summary"
+}
+>>>>>>> Add view toggle and default to Tab
 
 interface RetroRouteParams {
   retroId: string;
@@ -127,7 +148,7 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
 
     this.state = {
       open: true,
-      view: "Summary",
+      view: RetroViewType.Tab,
     };
 
     if (this.props.match.params.retroId)
@@ -148,10 +169,12 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
     }
   }
 
+  handleAlignment = (__, view) => this.setState({ view });
+
   render() {
     const { classes, retro } = this.props;
-    const showTabView = this.props.retro && this.state.view === "Tab";
-    const showSummaryView = this.props.retro && this.state.view === "Summary";
+    const showTabView = this.props.retro && this.state.view === RetroViewType.Tab;
+    const showSummaryView = this.props.retro && this.state.view === RetroViewType.Summary;
 
     return (
       <React.Fragment>
@@ -212,6 +235,7 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
+<<<<<<< HEAD
             <Typography component="div" className={classes.chartContainer}>
 <<<<<<< HEAD
 <<<<<<< HEAD:client/src/modules/retroTabs/components/DetailedView.tsx
@@ -225,6 +249,29 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
               {showSummaryView && <SummaryView retro={this.props.retro} />}
 >>>>>>> Complete summary view.
             </Typography>
+=======
+            <div className={classes.viewToggleContainer}>
+              <ToggleButtonGroup value={this.state.view} exclusive={true} onChange={this.handleAlignment}>
+
+                <ToggleButton value={RetroViewType.Tab}>
+                  <Tooltip title={"Tab view"}>
+                    <Tab />
+                  </Tooltip>
+                </ToggleButton>
+
+                <ToggleButton value={RetroViewType.Summary}>
+                  <Tooltip title={"Summary view"}>
+                    <ListTwoTone />
+                  </Tooltip>
+                </ToggleButton>
+
+              </ToggleButtonGroup>
+            </div>
+            <div className={classes.chartContainer}>
+              {showTabView && < RetroTabsContainer match={this.props.match} />}
+              {showSummaryView && <SummaryView retro={this.props.retro} />}
+            </div>
+>>>>>>> Add view toggle and default to Tab
           </main>
         </div>
       </React.Fragment>

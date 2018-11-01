@@ -10,6 +10,7 @@ import { createStyles, WithStyles, withStyles } from "@material-ui/core/styles";
 import { Retro } from "src/modules/retroTabs";
 import { Group, Action, Comment } from "../state";
 import grey from "@material-ui/core/colors/grey";
+import Slide from "@material-ui/core/Slide";
 
 const styles = () => createStyles({
     summaryHeaderRow: {
@@ -57,18 +58,20 @@ export const SummaryView: React.SFC<SummaryViewProps> = (props) => {
             <Toolbar>
                 <Typography variant="h6">Summary</Typography>
             </Toolbar>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Group</TableCell>
-                        <TableCell>Comment</TableCell>
-                        <TableCell>Actions</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {mapGroupsToCommentRows(props.retro.groups)}
-                </TableBody>
-            </Table>
+            <Slide direction="right" in={true} mountOnEnter={true} unmountOnExit={true}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Group</TableCell>
+                            <TableCell>Comment</TableCell>
+                            <TableCell>Actions</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {mapGroupsToCommentRows(props.retro.groups)}
+                    </TableBody>
+                </Table>
+            </Slide>
         </div>
     );
 };

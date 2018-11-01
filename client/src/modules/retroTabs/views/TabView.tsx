@@ -26,8 +26,7 @@ import { GroupCommentModel } from "../state";
 const styles = theme => createStyles({
   root: {
     flexGrow: 1,
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
+    // width: "100%",
     justifyContent: "center",
   },
   fab: {
