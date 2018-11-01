@@ -94,7 +94,6 @@ export class CommentActions extends React.Component<CommentActionsProps, Comment
           </List>
           <ScreenActionButton
             color="primary"
-            // theme={this.props.theme}
             icon={<Add />}
             transitionIn={true}
             handleOnClick={this.props.handelAddNewAction}

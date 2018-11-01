@@ -26,7 +26,6 @@ import { GroupCommentModel } from "../state";
 const styles = theme => createStyles({
   root: {
     flexGrow: 1,
-    // width: "100%",
     justifyContent: "center",
   },
   fab: {
@@ -229,7 +228,6 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
             {this.buttons.map((button: ButtonStyle, index: number) => (
               <ScreenActionButton
                 key={index}
-                // theme={theme}
                 {...button}
                 transitionIn={this.state.tabIndex === index}
                 handleOnClick={() => {
