@@ -1,7 +1,4 @@
 import * as React from "react";
-import {
-    Typography,
-} from "@material-ui/core";
 
 export interface TabContainerProps {
     classes?: any;
@@ -10,8 +7,8 @@ export interface TabContainerProps {
 
 export const TabContainer: React.SFC<TabContainerProps> = (props) => {
     return (
-        <Typography component="div" style={{ padding: 8 * 3, height: "600px" }}>
+        <div style={{ padding: 8 * 3, height: "600px" }}>
             {props.children}
-        </Typography>
+        </div>
     );
 };

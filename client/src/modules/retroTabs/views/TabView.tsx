@@ -94,17 +94,6 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
         comment: {},
       } as EditCommentState,
     };
-<<<<<<< HEAD:client/src/modules/retroTabs/components/RetroTabs.tsx
-
-    this.props.joinRetro(this.props.retroReference);
-  }
-
-  componentWillReceiveProps(newProps: RetroTabsProps) {
-    if (this.props.retroReference !== newProps.retroReference) {
-      this.props.joinRetro(newProps.retroReference);
-    }
-=======
->>>>>>> create initial summary view:client/src/modules/retroTabs/views/RetroTabs.tsx
   }
 
   handleOpenCommentDialog = (groupId: string, comment: Comment) => {

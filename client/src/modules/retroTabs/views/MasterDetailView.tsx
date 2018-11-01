@@ -115,27 +115,14 @@ const styles = theme => createStyles({
   },
 });
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD:client/src/modules/retroTabs/components/DetailedView.tsx
-export interface DetailedViewProps extends RouteComponentProps<{ retroReference: string }>, WithStyles<typeof styles> {
-=======
-export interface MasterDetailViewProps extends RouteComponentProps<{ retroId: string }>, WithStyles<typeof styles> {
->>>>>>> create initial summary view:client/src/modules/retroTabs/views/MasterDetailView.tsx
-=======
-type RetroViewType = "Tab" | "Summary";
-=======
 enum RetroViewType {
   "Tab", "Summary"
 }
->>>>>>> Add view toggle and default to Tab
-
 interface RetroRouteParams {
-  retroId: string;
+  retroReference: string;
 }
 
 export interface MasterDetailViewProps extends RouteComponentProps<RetroRouteParams>, WithStyles<typeof styles> {
->>>>>>> Complete summary view.
   retro: Retro;
   joinRetro: (retroId: string) => void;
 }
@@ -154,8 +141,8 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
       view: RetroViewType.Tab,
     };
 
-    if (this.props.match.params.retroId)
-      this.props.joinRetro(this.props.match.params.retroId);
+    if (this.props.match.params.retroReference)
+      this.props.joinRetro(this.props.match.params.retroReference);
   }
 
   handleDrawerOpen = () => {
@@ -167,8 +154,8 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
   }
 
   componentWillReceiveProps(newProps: MasterDetailViewProps) {
-    if (this.props.match.params.retroId !== newProps.match.params.retroId) {
-      this.props.joinRetro(newProps.match.params.retroId);
+    if (this.props.match.params.retroReference !== newProps.match.params.retroReference) {
+      this.props.joinRetro(newProps.match.params.retroReference);
     }
   }
 
@@ -270,47 +257,7 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <Typography component="div" className={classes.chartContainer}>
-<<<<<<< HEAD
-<<<<<<< HEAD:client/src/modules/retroTabs/components/DetailedView.tsx
-              {this.props.match.params.retroReference && < RetroTabsContainer match={this.props.match} />}
-=======
-              {this.props.retro && this.state.view === "Tab" && < RetroTabsContainer match={this.props.match} />}
-              {this.props.retro && this.state.view === "Summary" && <Summary retro={this.props.retro} />}
->>>>>>> create initial summary view:client/src/modules/retroTabs/views/MasterDetailView.tsx
-=======
-              {showTabView && < RetroTabsContainer match={this.props.match} />}
-              {showSummaryView && <SummaryView retro={this.props.retro} />}
->>>>>>> Complete summary view.
-            </Typography>
-=======
-            <div className={classes.viewToggleContainer}>
-              <ToggleButtonGroup value={this.state.view} exclusive={true} onChange={this.handleAlignment}>
-
-                <ToggleButton value={RetroViewType.Tab}>
-                  <Tooltip title={"Tab view"}>
-                    <Tab />
-                  </Tooltip>
-                </ToggleButton>
-
-                <ToggleButton value={RetroViewType.Summary}>
-                  <Tooltip title={"Summary view"}>
-                    <ListTwoTone />
-                  </Tooltip>
-                </ToggleButton>
-
-              </ToggleButtonGroup>
-            </div>
-            <div className={classes.chartContainer}>
-              {showTabView && < RetroTabsContainer match={this.props.match} />}
-              {showSummaryView && <SummaryView retro={this.props.retro} />}
-            </div>
->>>>>>> Add view toggle and default to Tab
-=======
             {this.renderMain()}
->>>>>>> Clean-up
           </main>
         </div>
       </React.Fragment>

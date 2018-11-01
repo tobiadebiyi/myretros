@@ -12,13 +12,8 @@ export const MyRetros = (props: MyRetrosProps) => {
     <div>
       {props.isLoading && <LinearProgress color="secondary" />}
       <Switch>
-<<<<<<< HEAD
-        <Route exact={true} path="/" component={DetailedViewContainer} />
-        <Route path="/retros/:retroReference?" component={DetailedViewContainer} />
-=======
         <Route exact={true} path="/" component={MasterDetailViewContainer} />
-        <Route path="/retros/:retroId?" component={MasterDetailViewContainer} />
->>>>>>> create initial summary view
+        <Route path="/retros/:retroReference?" component={MasterDetailViewContainer} />
       </Switch>
     </div>
   );
