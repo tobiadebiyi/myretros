@@ -1,2 +1,2 @@
 export { RetroTabsContainer } from "./RetroTabsContainer";
-export { DetailedViewContainer } from "./DetailedViewContainer";
+export { MasterDetailViewContainer } from "./MasterDetailViewContainer";

@@ -3,7 +3,8 @@ import {
   withStyles,
   Tabs,
   Tab,
-  WithStyles
+  WithStyles,
+  createStyles
 } from "@material-ui/core";
 
 import { Group, Retro, Comment } from "..";
@@ -17,16 +18,14 @@ import SwipeableViews from "react-swipeable-views";
 import * as classNames from "classnames";
 import { EditTextDialog } from "../../../components/EditTextDialog";
 import ScreenActionButton from "../../../components/ScreenActionButton";
-import { TabContainer } from "./TabContainer";
+import { TabContainer } from "../components/TabContainer";
 
 import CommentGroup from "../components/CommentGroup";
 import { GroupCommentModel } from "../state";
 
-const styles = theme => ({
+const styles = theme => createStyles({
   root: {
     flexGrow: 1,
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
     justifyContent: "center",
   },
   fab: {
@@ -45,7 +44,6 @@ export interface RetroTabsProps extends WithStyles<typeof styles> {
   retroReference: string;
   theme: any;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
-  joinRetro: (retroId: string) => void;
   gotoList: () => void;
 }
 
@@ -66,7 +64,7 @@ interface ButtonStyle {
   icon: any;
 }
 
-class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
+export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
   buttons: ButtonStyle[] = [
     {
       color: "primary",
@@ -85,7 +83,7 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
     }
   ];
 
-  constructor(props: RetroTabsProps, context: any) {
+  constructor(props: RetroTabsProps) {
     super(props);
 
     this.state = {
@@ -96,14 +94,6 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
         comment: {},
       } as EditCommentState,
     };
-
-    this.props.joinRetro(this.props.retroReference);
-  }
-
-  componentWillReceiveProps(newProps: RetroTabsProps) {
-    if (this.props.retroReference !== newProps.retroReference) {
-      this.props.joinRetro(newProps.retroReference);
-    }
   }
 
   handleOpenCommentDialog = (groupId: string, comment: Comment) => {
@@ -227,7 +217,6 @@ class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
             {this.buttons.map((button: ButtonStyle, index: number) => (
               <ScreenActionButton
                 key={index}
-                theme={theme}
                 {...button}
                 transitionIn={this.state.tabIndex === index}
                 handleOnClick={() => {
