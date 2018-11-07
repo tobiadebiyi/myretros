@@ -8,6 +8,7 @@ namespace Retros.Application.Interfaces
     public interface IRetroReposirotory
     {
         Task<Retro> Get(Guid retroId);
+        Task<Retro> GetByReference(string reference);
         Task<IEnumerable<Retro>> GetByUserId(string userId);
         Task Update(Retro retro);
         Task<Retro> Add(Retro newRetro);

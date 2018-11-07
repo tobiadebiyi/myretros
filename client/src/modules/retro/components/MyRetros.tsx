@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Switch, Route } from "react-router";
 import { LinearProgress } from "@material-ui/core";
-import { DetailedViewContainer } from "../../retroTabs";
+import { MasterDetailViewContainer } from "../../retroTabs";
 
 export interface MyRetrosProps {
   isLoading: boolean;
@@ -12,8 +12,8 @@ export const MyRetros = (props: MyRetrosProps) => {
     <div>
       {props.isLoading && <LinearProgress color="secondary" />}
       <Switch>
-        <Route exact={true} path="/" component={DetailedViewContainer} />
-        <Route path="/retros/:retroId?" component={DetailedViewContainer} />
+        <Route exact={true} path="/" component={MasterDetailViewContainer} />
+        <Route path="/retros/:retroReference?" component={MasterDetailViewContainer} />
       </Switch>
     </div>
   );
