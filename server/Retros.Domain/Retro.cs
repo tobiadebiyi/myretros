@@ -16,6 +16,7 @@ namespace Retros.Domain
             OwnerId = ownerId;
         }
 
+        public string Reference  => this.Id.ToString().Substring(0, 8);
         public string Name { get; protected set; }
         public string OwnerId { get; protected set; }
         public ICollection<Group> Groups { get; protected set; } = new List<Group>();
@@ -38,7 +39,7 @@ namespace Retros.Domain
         {
             this.Groups.Add(new Group("What went well"));
             this.Groups.Add(new Group("Not so well"));
-            this.Groups.Add(new Group("Actions"));
+            this.Groups.Add(new Group("Improvements"));
         }
     }
 }

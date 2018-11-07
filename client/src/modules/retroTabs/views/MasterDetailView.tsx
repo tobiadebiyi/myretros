@@ -7,15 +7,20 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-// import Badge from "@material-ui/core/Badge";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import ToggleButton from "@material-ui/lab/ToggleButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-// import NotificationsIcon from "@material-ui/icons/Notifications";
+import ListTwoTone from "@material-ui/icons/ListTwoTone";
+import Tab from "@material-ui/icons/Tab";
+
 import * as classNames from "classnames";
 import { RetroListContainer } from "../../retroList";
 import { RetroTabsContainer } from "../container";
 import { RouteComponentProps } from "react-router";
 import { Retro } from "../state";
+import SummaryView from "./SummaryView";
+import { Tooltip } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -94,23 +99,50 @@ const styles = theme => createStyles({
   h5: {
     marginBottom: theme.spacing.unit * 2,
   },
+  viewToggleContainer: {
+    height: 56,
+    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    margin: `${theme.spacing.unit}px 0`,
+    background: theme.palette.background.default,
+  },
+  centeredContent: {
+    alignContent: "center",
+    justifyContent: "center",
+    textAlign: "center",
+  },
 });
 
-export interface DetailedViewProps extends RouteComponentProps<{ retroId: string }>, WithStyles<typeof styles> {
+enum RetroViewType {
+  "Tab", "Summary"
+}
+interface RetroRouteParams {
+  retroReference: string;
+}
+
+export interface MasterDetailViewProps extends RouteComponentProps<RetroRouteParams>, WithStyles<typeof styles> {
   retro: Retro;
+  joinRetro: (retroId: string) => void;
 }
 
-interface DetailedViewState {
+interface MasterDetailViewState {
   open: boolean;
+  view: RetroViewType;
 }
 
-class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
-  constructor(props: DetailedViewProps) {
+class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDetailViewState> {
+  constructor(props: MasterDetailViewProps) {
     super(props);
 
     this.state = {
       open: true,
+      view: RetroViewType.Tab,
     };
+
+    if (this.props.match.params.retroReference)
+      this.props.joinRetro(this.props.match.params.retroReference);
   }
 
   handleDrawerOpen = () => {
@@ -119,6 +151,53 @@ class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
 
   handleDrawerClose = () => {
     this.setState({ open: false });
+  }
+
+  componentWillReceiveProps(newProps: MasterDetailViewProps) {
+    if (this.props.match.params.retroReference !== newProps.match.params.retroReference) {
+      this.props.joinRetro(newProps.match.params.retroReference);
+    }
+  }
+
+  handleAlignment = (__, view) => this.setState({ view });
+
+  renderMain() {
+    const { classes, retro } = this.props;
+    const showTabView = this.props.retro && this.state.view === RetroViewType.Tab;
+    const showSummaryView = this.props.retro && this.state.view === RetroViewType.Summary;
+
+    if (!retro) {
+      return (
+        <div className={classes.centeredContent}>
+          <Typography variant="overline">Please create or join a retro</Typography>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <div className={classes.viewToggleContainer}>
+          <ToggleButtonGroup value={this.state.view} exclusive={true} onChange={this.handleAlignment}>
+            <ToggleButton value={RetroViewType.Tab}>
+              <Tooltip title={"Tab view"}>
+                <Tab />
+              </Tooltip>
+            </ToggleButton>
+
+            <ToggleButton value={RetroViewType.Summary}>
+              <Tooltip title={"Summary view"}>
+                <ListTwoTone />
+              </Tooltip>
+            </ToggleButton>
+
+          </ToggleButtonGroup>
+        </div>
+        <div className={classes.chartContainer}>
+          {showTabView && < RetroTabsContainer match={this.props.match} />}
+          {showSummaryView && <SummaryView retro={this.props.retro} />}
+        </div>
+      </div>
+    );
   }
 
   render() {
@@ -145,7 +224,7 @@ class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
                 <MenuIcon />
               </IconButton>
               <Typography
-                variant="title"
+                variant="h6"
                 color="inherit"
                 noWrap={true}
                 className={classes.title}
@@ -153,17 +232,12 @@ class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
                 MyRetros
               </Typography>
               <Typography
-                variant="subheading"
+                variant="subtitle1"
                 color="inherit"
                 style={{ textAlign: "center" }}
               >
                 {retro && retro.name}
               </Typography>
-              {/* <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton> */}
             </Toolbar>
           </AppBar>
           <Drawer
@@ -183,9 +257,7 @@ class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <Typography component="div" className={classes.chartContainer}>
-              {this.props.match.params.retroId && < RetroTabsContainer match={this.props.match} />}
-            </Typography>
+            {this.renderMain()}
           </main>
         </div>
       </React.Fragment>
@@ -193,4 +265,4 @@ class Dashboard extends React.Component<DetailedViewProps, DetailedViewState> {
   }
 }
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(MasterDetailView);

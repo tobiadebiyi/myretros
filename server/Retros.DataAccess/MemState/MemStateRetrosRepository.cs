@@ -39,6 +39,11 @@ namespace Retros.DataAcces.MemState
             return await MemStateEngine.Execute(new GetRetroById(retroId));
         }
 
+        public async Task<Retro> GetByReference(string reference)
+        {
+            return await MemStateEngine.Execute(new GetRetroByReference(reference));
+        }
+
         public Task<IEnumerable<Retro>> GetByUserId(string userId)
         {
             return MemStateEngine.Execute(new GetRetrosByUserId(userId));

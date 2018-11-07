@@ -23,7 +23,7 @@ namespace Retros.DataAccess.MemState.Commands
             model.Retros.TryGetValue(this.Retro.Id, out Retro existingRetro);
 
             if (existingRetro != null)
-                throw new InvalidOperationException("retro already esixts");
+                throw new InvalidOperationException("retro already exists");
 
             model.Retros[this.Retro.Id] = this.Retro;
             return this.Retro;

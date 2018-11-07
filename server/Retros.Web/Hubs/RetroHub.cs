@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.SignalR;
 using Retros.Application;
 using Retros.Application.DTOs;
 using Retros.Application.UseCases.AddComment;
-using Retros.Application.UseCases.GetRetro;
+using Retros.Application.UseCases.GetRetroByReference;
 using Retros.Application.UseCases.GetRetros;
 using Retros.Application.UseCases.UpdateComment;
 
@@ -21,11 +21,11 @@ namespace Retros.Web.Hubs
             this.requestPipelineMediator = requestPipelineMediator;
         }
 
-        public async Task JoinRetro(Guid retroId)
+        public async Task JoinRetro(string reference)
         {
-            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, retroId.ToString());
-            var retros = await this.requestPipelineMediator.Handle<GetRetroRequest, OperationResult<RetroDTO>>(new GetRetroRequest{RetroId = retroId});
-            await this.Clients.Caller.SendAsync("ReceiveRetro", retros.Value);
+            var retro = await this.requestPipelineMediator.Handle<GetRetroByReferenceRequest, OperationResult<RetroDTO>>(new GetRetroByReferenceRequest{Reference = reference});
+            await this.Clients.Caller.SendAsync("ReceiveRetro", retro.Value);
+            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, retro.Value.Id.ToString());
         }
 
         public async Task AddComment(AddCommentRequest request)
