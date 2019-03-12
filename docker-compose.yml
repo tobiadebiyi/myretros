@@ -2,4 +2,21 @@ version: '3.4'
 
 services:
   myretros:
-    image: gcr.io/myretros-github-builds/myretros:df64799b367a7f5da8bc09d1d8dc03d416375491
+    image: tobiadebiyi/myretros:latest
+    ports: 
+      - "8080:80"
+  nginx:
+    image: nginx:1.15-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
