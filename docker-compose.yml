@@ -1,5 +1,36 @@
-version: '3.4'
-
+version: '3.7'
 services:
-  myretros:
-    image: gcr.io/myretros-github-builds/myretros:df64799b367a7f5da8bc09d1d8dc03d416375491
+  spa:
+    build:
+      context: ./client
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "3000:80"
+    networks:
+      - webnet
+  api:
+    build:
+      context: ./server
+    env_file:
+      - ./server/.env
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "4000:80"
+    networks:
+      - webnet
+networks:
+  webnet:
