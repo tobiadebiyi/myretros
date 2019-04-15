@@ -1,6 +1,6 @@
 #!/bin/bash
 
-domains=( "tobiadebiyi.com" "myretros.etobiadebiyi.com" )
+domains=( $domains )
 rsa_key_size=4096
 data_path="./data/certbot"
 email="awedupe07@gmail.com"
@@ -56,6 +56,11 @@ esac
 #Enable staging mode if needed
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
+echo '#### Running compose'
+echo $domain_args
+echo $domains
+echo $MY_RETROS_HOST
+
 docker-compose run --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \
     $staging_arg \
@@ -63,6 +68,9 @@ docker-compose run --rm --entrypoint "\
     $domain_args \
     --rsa-key-size $rsa_key_size \
     --agree-tos \
-    --force-renewal" certbot
+    --force-renewal
+    --config-dir ~/.certbot/config
+    --work-dir ~/.certbot/work
+    --logs-dir ~/.certbot/logs" certbot
 
 docker-compose stop nginx
