@@ -1,16 +1,11 @@
-import {
-  Grid,
-  createStyles,
-  // Toolbar,
-  // Chip, 
-  // Avatar, 
-  // Tooltip 
-} from "@material-ui/core";
 import * as React from "react";
-import CommentCard from "./CommentCard";
+import { createStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
+
+import CommentCard from "./CommentCard";
 import { Group } from "..";
-// import { Add } from "../../../../node_modules/@material-ui/icons";
 import CommentActions from "./CommentActions";
 import { Comment, GroupCommentModel, Action } from "../state";
 import { EditTextDialog } from "../../../components/EditTextDialog";
@@ -111,7 +106,15 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
   }
 
   render() {
-    return (
+    const ClosedForComments = () => (
+      <div>
+        <Typography variant="overline">
+          This group is currently closed for comment by the retro admin.
+        </Typography>
+      </div>
+    );
+
+    return !this.props.group.isOpenForComments ? <ClosedForComments /> : (
       <React.Fragment>
         {this.state.showActions && <CommentActions
           open={this.state.showActions}
@@ -130,18 +133,6 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
         />}
         <Grid container={true} className={this.props.classes.root} alignContent={"center"} justify={"center"}>
           <Grid item={true} xs={10}>
-            {/* <Toolbar >
-              <Avatar color="secondary">
-                <Tooltip title="Add tag">
-                  <Add color="primary" />
-                </Tooltip>
-              </Avatar>
-              {this.props.group.tags.map(t => (
-                <Chip
-                  label={t}
-                />)
-              )}
-            </Toolbar> */}
             <Grid
               container={true}
               direction={"row"}

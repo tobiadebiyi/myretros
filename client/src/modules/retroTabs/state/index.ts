@@ -59,6 +59,7 @@ export interface Group {
   name: string;
   comments: Comment[];
   tags: string[];
+  isOpenForComments: boolean;
 }
 
 export interface Comment {
