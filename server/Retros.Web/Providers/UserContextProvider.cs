@@ -13,6 +13,7 @@ namespace Retros.Web.Providers
             this.httpContextAccessor = httpContextAccessor;
         }
 
+        // TODO Change to property
         public string GetUserId()
         {
             var userId = this.httpContextAccessor.HttpContext.Session.GetString("userId");

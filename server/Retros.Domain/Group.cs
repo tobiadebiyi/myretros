@@ -12,14 +12,14 @@ namespace Retros.Domain
         {
             this.Name = name;
             this.AddTag("First");
-            this.Open = false;
+            this.Public = false;
         }
 
         public string Name { get; protected set; }
         public Retro Retro { get; protected set; }
         public ICollection<Comment> Comments { get; protected set; } = new List<Comment>();
         public ICollection<Tag> Tags { get; protected set; } = new List<Tag>();
-        public bool Open { get; protected set; }
+        public bool Public { get; protected set; }
 
         internal void AddComment(Comment comment)
         {
@@ -34,14 +34,14 @@ namespace Retros.Domain
             this.Tags.Add(new Tag(tagName));
         }
 
-        internal void OpenForComments() 
+        public void MakeCommentsPublic() 
         {
-            this.Open = true;
+            this.Public = true;
         }
 
-        internal void ClodeForComments() 
+        public void MakeCommentsPrivate() 
         {
-            this.Open = true;
+            this.Public = true;
         }
     }
 }

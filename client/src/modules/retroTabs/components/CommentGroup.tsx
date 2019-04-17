@@ -116,7 +116,7 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
 
     return (
       <React.Fragment>
-        {!this.props.group.isOpenForComments && <ClosedForComments />}
+        {!this.props.group.commentsArePublic && <ClosedForComments />}
         {this.state.showActions && <CommentActions
           open={this.state.showActions}
           handleClose={this.handleCloseCommentActions}

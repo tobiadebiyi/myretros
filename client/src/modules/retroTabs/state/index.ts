@@ -59,7 +59,7 @@ export interface Group {
   name: string;
   comments: Comment[];
   tags: string[];
-  isOpenForComments: boolean;
+  commentsArePublic: boolean;
 }
 
 export interface Comment {
