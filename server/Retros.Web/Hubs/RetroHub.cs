@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using Retros.Application;
 using Retros.Application.DTOs;
 using Retros.Application.UseCases.AddComment;
+using Retros.Application.UseCases.GetRetro;
 using Retros.Application.UseCases.GetRetroByReference;
 using Retros.Application.UseCases.GetRetros;
 using Retros.Application.UseCases.UpdateComment;
@@ -35,9 +37,14 @@ namespace Retros.Web.Hubs
 
             await this.Clients.Caller.SendAsync("CommentAdded", payload);
 
-            payload.comment.IsOwner = false;
-            await this.Clients.OthersInGroup(request.RetroId.ToString())
-                      .SendAsync("CommentAdded", payload);
+            var retro = await this.requestPipelineMediator.Handle<GetRetroRequest, OperationResult<RetroDTO>>(new GetRetroRequest {RetroId = request.RetroId});
+            
+            if(retro.Value.Groups.FirstOrDefault(g => g.Id == request.GroupId).IsOpenForComments){
+                payload.comment.IsOwner = false;
+                await this.Clients
+                    .OthersInGroup(request.RetroId.ToString())
+                    .SendAsync("CommentAdded", payload);
+            }
         }
 
         public async Task UpdateComment(UpdateCommentRequest request)

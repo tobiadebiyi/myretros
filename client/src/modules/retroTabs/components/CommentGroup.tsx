@@ -109,13 +109,14 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
     const ClosedForComments = () => (
       <div>
         <Typography variant="overline">
-          This group is currently closed for comment by the retro admin.
+          You will only see your own comments until a retro admin makes other comments public.
         </Typography>
       </div>
     );
 
-    return !this.props.group.isOpenForComments ? <ClosedForComments /> : (
+    return (
       <React.Fragment>
+        {!this.props.group.isOpenForComments && <ClosedForComments />}
         {this.state.showActions && <CommentActions
           open={this.state.showActions}
           handleClose={this.handleCloseCommentActions}
