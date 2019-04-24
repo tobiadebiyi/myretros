@@ -45,6 +45,7 @@ export interface RetroTabsProps extends WithStyles<typeof styles> {
   theme: any;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
   gotoList: () => void;
+  isAdmin: boolean;
 }
 
 interface EditCommentState {
@@ -159,6 +160,7 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
             handleOnEditComment={this.handleOnEditComment}
             saveComment={this.props.saveComment}
             retroId={this.props.retro.id!}
+            isAdmin={this.props.isAdmin}
           />
         </TabContainer>
       </Slide>

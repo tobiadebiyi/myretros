@@ -8,9 +8,12 @@ const mapStateToProps = (
   state: ApplicationState,
   ownProps: RouteComponentProps<{ retroReference: string }>
 ): Partial<RetroTabsProps> => {
+  const retros = state.retroListState.retros;
+  const retro = state.retroState.retro;
   return {
     retro: state.retroState.retro,
     retroReference: ownProps.match.params.retroReference,
+    isAdmin: retros && retro && retros.some(r => r.id === retro.id)
   };
 };
 

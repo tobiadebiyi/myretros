@@ -6,7 +6,7 @@ import { Comment } from "../state";
 
 const styles = () => createStyles({
   card: {
-    minWidth: 275,
+    // minWidth: 275,
   },
   title: {
     marginBottom: 16,

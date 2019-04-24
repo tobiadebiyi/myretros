@@ -81,7 +81,7 @@ namespace Retros.Web.Hubs
                 group.MakeCommentsPublic();
                 await this.retroReposirotory.Update(retro);
                 await this.Clients.OthersInGroup(request.RetroId.ToString())
-                    .SendAsync("GroupIsPublicPublic", request.GroupId);
+                    .SendAsync("GroupMadePublic", request.GroupId);
             }
         }
 

@@ -9,11 +9,32 @@ import { Group } from "..";
 import CommentActions from "./CommentActions";
 import { Comment, GroupCommentModel, Action } from "../state";
 import { EditTextDialog } from "../../../components/EditTextDialog";
+import { amber } from "@material-ui/core/colors";
 
 const styles = () => createStyles({
   root: {
     flexGrow: 1,
   },
+  groupNotification: {
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    backgroundColor: amber[100],
+    color: amber[900],
+    minHeight: "3em",
+    marginBottom: "1em",
+    padding: "1em",
+    "& button": {
+      backgroundColor: amber[600],
+      color: "#ffffff",
+    }
+  },
+  button: {
+    minHeight: "4em",
+    padding: "1em",
+    cursor: "pointer",
+    border: 0,
+  }
 });
 
 export interface CommentGroupProps extends WithStyles<typeof styles> {
@@ -21,6 +42,7 @@ export interface CommentGroupProps extends WithStyles<typeof styles> {
   handleOnEditComment: (commenId: string) => void;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
   retroId: string;
+  isAdmin?: boolean;
 }
 
 interface CommentGroupState {
@@ -106,11 +128,16 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
   }
 
   render() {
+    const { isAdmin } = this.props;
+
     const ClosedForComments = () => (
-      <div>
-        <Typography variant="overline">
-          You will only see your own comments until a retro admin makes other comments public.
+      <div className={this.props.classes.groupNotification}>
+        <Typography>
+          This group is currently private. You will only see your own comments until a retro admin makes it public.
         </Typography>
+        {isAdmin &&
+          <button className={this.props.classes.button} onClick={() => alert("making public")}>Make public</button>
+        }
       </div>
     );
 
