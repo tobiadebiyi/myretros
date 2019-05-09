@@ -43,9 +43,9 @@ export interface RetroTabsProps extends WithStyles<typeof styles> {
   retro: Retro;
   retroReference: string;
   theme: any;
+  isAdmin: boolean;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
   gotoList: () => void;
-  isAdmin: boolean;
 }
 
 interface EditCommentState {
@@ -151,16 +151,19 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
   }
 
   renderCommentGroup = (group: Group, index: number) => {
+    const { isAdmin, retro, saveComment } = this.props;
+    const { tabIndex } = this.state;
+
     if (group === undefined) { return; }
     return (
-      <Slide key={index} direction="right" in={this.state.tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
+      <Slide key={index} direction="right" in={tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
         <TabContainer>
           <CommentGroup
+            isAdmin={isAdmin}
             group={group}
             handleOnEditComment={this.handleOnEditComment}
-            saveComment={this.props.saveComment}
-            retroId={this.props.retro.id!}
-            isAdmin={this.props.isAdmin}
+            saveComment={saveComment}
+            retroId={retro.id}
           />
         </TabContainer>
       </Slide>

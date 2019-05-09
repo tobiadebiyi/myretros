@@ -1,6 +1,12 @@
 import { HubConnectionBuilder } from "../../node_modules/@aspnet/signalr";
 import config from "../config";
-import { RetroActionCreators, Retro, GroupCommentModel } from "../modules/retroTabs";
+import {
+    RetroActionCreators,
+    Retro,
+    GroupCommentModel,
+    Group,
+    UPDATE_GROUP
+} from "../modules/retroTabs";
 
 const hubConnection = new HubConnectionBuilder()
     .withUrl(`${config.apiUrl}/retrohub`)
@@ -9,6 +15,7 @@ const hubConnection = new HubConnectionBuilder()
 export enum SignalRActions {
     JOIN_RETRO = "SIGNALR_JOIN_RETRO",
     SAVE_COMMENT = "SIGNALR_SAVE_COMMENT",
+    TOGGLE_GROUP_VISIBILITY = "SIGNALR_TOGGLE_GROUP_VISIBILITY",
 }
 
 export function signalR(store: any) {
@@ -23,6 +30,9 @@ export function signalR(store: any) {
                 } else {
                     hubConnection.invoke("AddComment", action.payload);
                 }
+                break;
+            case SignalRActions.TOGGLE_GROUP_VISIBILITY:
+                hubConnection.invoke("ToggleRetroGroupVisibility", action.payload);
                 break;
             default:
                 break;
@@ -39,8 +49,13 @@ export function startSignalR(store: any, callback: any) {
     hubConnection.on("CommentAdded", (response: GroupCommentModel) => {
         store.dispatch(RetroActionCreators.addCommentToRetro(response));
     });
+
     hubConnection.on("CommentUpdated", (response: GroupCommentModel) => {
         store.dispatch(RetroActionCreators.addCommentToRetro(response));
+    });
+
+    hubConnection.on("GroupVisibilityChanged", (response: Group) => {
+        store.dispatch({ type: UPDATE_GROUP, payload: response });
     });
 
     hubConnection.start().then(callback);

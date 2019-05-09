@@ -1,4 +1,5 @@
 import { SignalRActions } from "../../../store/signalR";
+import { ApplicationState } from "src/store";
 
 export const FETCH_COMMENTS_START: string = "FETCH_COMMENTS_START";
 export const FETCH_COMMENTS_SUCCESS: string = "FETCH_COMMENTS_SUCCESS";
@@ -9,6 +10,8 @@ export const ADD_COMMENT_SUCCESS: string = "ADD_COMMENT_SUCCESS";
 
 export const UPDATE_RETRO_START: string = "UPDATE_RETRO_START";
 export const UPDATE_RETRO_SUCCESS: string = "UPDATE_RETRO_SUCCESS";
+
+export const UPDATE_GROUP: string = "UPDATE_GROUP";
 
 export const RetroActionCreators = {
   addCommentToRetro: (groupComment: GroupCommentModel) => {
@@ -81,6 +84,11 @@ export interface GroupCommentModel {
   groupId: string;
 }
 
+export interface GroupActionModel {
+  retroId: string;
+  groupId: string;
+}
+
 const initialState: RetroState = {
   isFetchingRetro: false,
 };
@@ -90,9 +98,8 @@ export const RetroReducer = (state: RetroState = initialState, action: any) => {
     case UPDATE_RETRO_SUCCESS:
       return { ...state, retro: action.retro };
     case ADD_COMMENT_SUCCESS:
-      const retro = Object.assign({}, state.retro);
+      let retro = Object.assign({}, state.retro);
       const groupIndex = retro!.groups.findIndex(g => g.id === action.payload.groupId);
-
       const existingCommentIndex = retro.groups[groupIndex].comments.findIndex(c => c.id === action.payload.comment.id);
 
       if (existingCommentIndex === -1) {
@@ -102,7 +109,19 @@ export const RetroReducer = (state: RetroState = initialState, action: any) => {
       }
 
       return { ...state, retro };
+    case UPDATE_GROUP:
+      const retro2 = Object.assign({}, state.retro);
+      retro2.groups = retro2.groups.filter(g => g.id !== action.payload.id);
+      retro2.groups.push(action.payload);
+
+      return { ...state, retro: retro2 };
     default:
       return state;
   }
+};
+
+export const Selectors = {
+  getGroup: (state: ApplicationState) => (groupId) => {
+    return state.retroState.retro!.groups.find(g => g.id === groupId);
+  },
 };

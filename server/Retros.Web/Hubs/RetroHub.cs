@@ -71,17 +71,17 @@ namespace Retros.Web.Hubs
             }
         }
 
-        public async Task MakeGroupPublic(RetroGroupActionRequest request) 
+        public async Task ToggleRetroGroupVisibility(RetroGroupActionRequest request) 
         {
             var retro = await this.retroReposirotory.Get(request.RetroId);
             var userId = this.userContextProvider.GetUserId();
 
             if(userId == retro.OwnerId) {
                 var group = retro.Groups.SingleOrDefault(g => g.Id == request.GroupId);
-                group.MakeCommentsPublic();
+                group.ToggleVisibility();
                 await this.retroReposirotory.Update(retro);
-                await this.Clients.OthersInGroup(request.RetroId.ToString())
-                    .SendAsync("GroupMadePublic", request.GroupId);
+                await this.Clients.Clients(request.RetroId.ToString())
+                    .SendAsync("GroupVisibilityChanged", group);
             }
         }
 

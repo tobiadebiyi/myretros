@@ -13,17 +13,15 @@ const mapStateToProps = (
   return {
     retro: state.retroState.retro,
     retroReference: ownProps.match.params.retroReference,
-    isAdmin: retros && retro && retros.some(r => r.id === retro.id)
+    isAdmin: retros && retro && retros.some(r => r.id === retro.id),
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partial<RetroTabsProps> => {
-  return {
-    saveComment: (retroId: string, model: GroupCommentModel) =>
-      dispatch(RetroActionCreators.saveComment(retroId, model)),
-    gotoList: () => ownProps.history.push("/")
-  };
-};
+const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partial<RetroTabsProps> => ({
+  saveComment: (retroId: string, model: GroupCommentModel) =>
+    dispatch(RetroActionCreators.saveComment(retroId, model)),
+  gotoList: () => ownProps.history.push("/"),
+});
 
 export const RetroTabsContainer = connect(
   mapStateToProps,

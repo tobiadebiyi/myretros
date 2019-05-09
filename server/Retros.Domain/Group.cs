@@ -21,6 +21,11 @@ namespace Retros.Domain
         public ICollection<Tag> Tags { get; protected set; } = new List<Tag>();
         public bool Public { get; protected set; }
 
+        public void ToggleVisibility() 
+        {
+            this.Public = !this.Public;
+        }
+
         internal void AddComment(Comment comment)
         {
             this.Comments.Add(comment);
@@ -32,16 +37,6 @@ namespace Retros.Domain
                 return;
 
             this.Tags.Add(new Tag(tagName));
-        }
-
-        public void MakeCommentsPublic() 
-        {
-            this.Public = true;
-        }
-
-        public void MakeCommentsPrivate() 
-        {
-            this.Public = true;
         }
     }
 }

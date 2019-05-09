@@ -29,7 +29,7 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ALLOWED_ORIGINS": "http://localhost:3000,https://localhost:3000"
+                "ALLOWED_ORIGINS": "http://localhost:3000,http://localhost:3001"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"

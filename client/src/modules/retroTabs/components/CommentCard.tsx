@@ -5,9 +5,6 @@ import Typography from "@material-ui/core/Typography";
 import { Comment } from "../state";
 
 const styles = () => createStyles({
-  card: {
-    // minWidth: 275,
-  },
   title: {
     marginBottom: 16,
     fontSize: 14,
@@ -25,7 +22,7 @@ interface CommentCardProps extends WithStyles<typeof styles> {
 
 export const CommentCard: React.SFC<CommentCardProps> = (props) => {
   return (
-    <Card className={props.classes.card}>
+    <Card>
       <CardContent>
         <Typography className={props.classes.title} color="default">
           {props.comment.text}

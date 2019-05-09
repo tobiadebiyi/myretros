@@ -4,11 +4,11 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 
-import CommentCard from "./CommentCard";
-import { Group } from "..";
-import CommentActions from "./CommentActions";
-import { Comment, GroupCommentModel, Action } from "../state";
-import { EditTextDialog } from "../../../components/EditTextDialog";
+import CommentCard from "../CommentCard";
+import { Group } from "../..";
+import CommentActions from "../CommentActions";
+import { Comment, GroupCommentModel, Action } from "../../state";
+import { EditTextDialog } from "../../../../components/EditTextDialog";
 import { amber } from "@material-ui/core/colors";
 
 const styles = () => createStyles({
@@ -20,10 +20,10 @@ const styles = () => createStyles({
     justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: amber[100],
-    color: amber[900],
-    minHeight: "3em",
+    minHeight: "1em",
     marginBottom: "1em",
     padding: "1em",
+    "& p": { color: amber[900] },
     "& button": {
       backgroundColor: amber[600],
       color: "#ffffff",
@@ -39,10 +39,11 @@ const styles = () => createStyles({
 
 export interface CommentGroupProps extends WithStyles<typeof styles> {
   group: Group;
+  retroId: string;
+  isAdmin: boolean;
   handleOnEditComment: (commenId: string) => void;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
-  retroId: string;
-  isAdmin?: boolean;
+  toggleGroupVisibility?: (retroId: string, groupId: string) => void;
 }
 
 interface CommentGroupState {
@@ -128,7 +129,7 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
   }
 
   render() {
-    const { isAdmin } = this.props;
+    const { isAdmin, toggleGroupVisibility, group, retroId } = this.props;
 
     const ClosedForComments = () => (
       <div className={this.props.classes.groupNotification}>
@@ -136,7 +137,12 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
           This group is currently private. You will only see your own comments until a retro admin makes it public.
         </Typography>
         {isAdmin &&
-          <button className={this.props.classes.button} onClick={() => alert("making public")}>Make public</button>
+          <button
+            className={this.props.classes.button}
+            onClick={() => toggleGroupVisibility!(retroId, group.id)}
+          >
+            Make public
+          </button>
         }
       </div>
     );
@@ -144,21 +150,25 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
     return (
       <React.Fragment>
         {!this.props.group.commentsArePublic && <ClosedForComments />}
-        {this.state.showActions && <CommentActions
-          open={this.state.showActions}
-          handleClose={this.handleCloseCommentActions}
-          comment={this.state.comment!}
-          handleSaveComment={this.handleOnSaveComment}
-          handelAddNewAction={this.handelAddNewAction}
-          handleEditAction={this.handleOnUpdateAction}
-        />}
-        {this.state.editAction && <EditTextDialog
-          handleOnSave={this.handleOnSaveAction}
-          open={this.state.action !== undefined}
-          handleClose={this.handleCloseDialog}
-          text={this.state.action!.text}
-          name="action"
-        />}
+        {this.state.showActions &&
+          <CommentActions
+            open={this.state.showActions}
+            handleClose={this.handleCloseCommentActions}
+            comment={this.state.comment!}
+            handleSaveComment={this.handleOnSaveComment}
+            handelAddNewAction={this.handelAddNewAction}
+            handleEditAction={this.handleOnUpdateAction}
+          />
+        }
+        {this.state.editAction &&
+          <EditTextDialog
+            handleOnSave={this.handleOnSaveAction}
+            open={this.state.action !== undefined}
+            handleClose={this.handleCloseDialog}
+            text={this.state.action!.text}
+            name="action"
+          />
+        }
         <Grid container={true} className={this.props.classes.root} alignContent={"center"} justify={"center"}>
           <Grid item={true} xs={10}>
             <Grid
