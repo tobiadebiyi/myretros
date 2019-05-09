@@ -80,8 +80,8 @@ namespace Retros.Web.Hubs
                 var group = retro.Groups.SingleOrDefault(g => g.Id == request.GroupId);
                 group.ToggleVisibility();
                 await this.retroReposirotory.Update(retro);
-                await this.Clients.Clients(request.RetroId.ToString())
-                    .SendAsync("GroupVisibilityChanged", group);
+                await this.Clients.Group(request.RetroId.ToString())
+                    .SendAsync("GroupVisibilityChanged", new GroupDTO(group, userId));
             }
         }
 

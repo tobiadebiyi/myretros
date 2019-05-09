@@ -95,12 +95,15 @@ const initialState: RetroState = {
 };
 
 export const RetroReducer = (state: RetroState = initialState, action: any) => {
+  let groupIndex: number;
+  let retro: Retro;
+
   switch (action.type) {
     case UPDATE_RETRO_SUCCESS:
       return { ...state, retro: action.retro };
     case ADD_COMMENT_SUCCESS:
-      let retro = deepcopy(state.retro);
-      const groupIndex = retro!.groups.findIndex(g => g.id === action.payload.groupId);
+      retro = deepcopy(state.retro);
+      groupIndex = getGroupIndex(retro!.groups, action.payload.groupId);
       const comments = retro.groups[groupIndex].comments;
       const existingCommentIndex = comments.findIndex(c => c.id === action.payload.comment.id);
 
@@ -112,11 +115,11 @@ export const RetroReducer = (state: RetroState = initialState, action: any) => {
 
       return { ...state, retro };
     case UPDATE_GROUP:
-      const retro2 = Object.assign({}, state.retro);
-      retro2.groups = retro2.groups.filter(g => g.id !== action.payload.id);
-      retro2.groups.push(action.payload);
-
-      return { ...state, retro: retro2 };
+      retro = deepcopy(state.retro);
+      groupIndex = getGroupIndex(retro!.groups, action.payload.id);
+      retro.groups[groupIndex] = action.payload;
+      debugger;
+      return { ...state, retro };
     default:
       return state;
   }
@@ -127,3 +130,7 @@ export const Selectors = {
     return state.retroState.retro!.groups.find(g => g.id === groupId);
   },
 };
+
+function getGroupIndex(groups: Group[], groupId: string) {
+  return groups.findIndex(g => g.id === groupId);
+}
