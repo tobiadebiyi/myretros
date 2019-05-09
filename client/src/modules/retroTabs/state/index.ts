@@ -1,5 +1,6 @@
 import { SignalRActions } from "../../../store/signalR";
 import { ApplicationState } from "src/store";
+import deepcopy from "deepcopy";
 
 export const FETCH_COMMENTS_START: string = "FETCH_COMMENTS_START";
 export const FETCH_COMMENTS_SUCCESS: string = "FETCH_COMMENTS_SUCCESS";
@@ -98,14 +99,15 @@ export const RetroReducer = (state: RetroState = initialState, action: any) => {
     case UPDATE_RETRO_SUCCESS:
       return { ...state, retro: action.retro };
     case ADD_COMMENT_SUCCESS:
-      let retro = Object.assign({}, state.retro);
+      let retro = deepcopy(state.retro);
       const groupIndex = retro!.groups.findIndex(g => g.id === action.payload.groupId);
-      const existingCommentIndex = retro.groups[groupIndex].comments.findIndex(c => c.id === action.payload.comment.id);
+      const comments = retro.groups[groupIndex].comments;
+      const existingCommentIndex = comments.findIndex(c => c.id === action.payload.comment.id);
 
       if (existingCommentIndex === -1) {
-        retro!.groups[groupIndex].comments.push(action.payload.comment);
+        comments.push(action.payload.comment);
       } else {
-        retro!.groups[groupIndex].comments.splice(existingCommentIndex, 1, action.payload.comment);
+        comments.splice(existingCommentIndex, 1, action.payload.comment);
       }
 
       return { ...state, retro };
