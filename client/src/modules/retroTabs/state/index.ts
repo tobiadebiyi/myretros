@@ -118,7 +118,6 @@ export const RetroReducer = (state: RetroState = initialState, action: any) => {
       retro = deepcopy(state.retro);
       groupIndex = getGroupIndex(retro!.groups, action.payload.id);
       retro.groups[groupIndex] = action.payload;
-      debugger;
       return { ...state, retro };
     default:
       return state;

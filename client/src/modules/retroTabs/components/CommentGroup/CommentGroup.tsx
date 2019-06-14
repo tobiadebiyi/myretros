@@ -1,40 +1,19 @@
 import * as React from "react";
 import { createStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 
 import CommentCard from "../CommentCard";
-import { Group } from "../..";
 import CommentActions from "../CommentActions";
 import { Comment, GroupCommentModel, Action } from "../../state";
 import { EditTextDialog } from "../../../../components/EditTextDialog";
-import { amber } from "@material-ui/core/colors";
+import { Group } from "../..";
+import GroupStatus from "./GroupStatus";
 
 const styles = () => createStyles({
   root: {
     flexGrow: 1,
   },
-  groupNotification: {
-    display: "flex",
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: amber[100],
-    minHeight: "1em",
-    marginBottom: "1em",
-    padding: "1em",
-    "& p": { color: amber[900] },
-    "& button": {
-      backgroundColor: amber[600],
-      color: "#ffffff",
-    }
-  },
-  button: {
-    minHeight: "4em",
-    padding: "1em",
-    cursor: "pointer",
-    border: 0,
-  }
 });
 
 export interface CommentGroupProps extends WithStyles<typeof styles> {
@@ -129,27 +108,17 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
   }
 
   render() {
-    const { isAdmin, toggleGroupVisibility, group, retroId } = this.props;
-
-    const ClosedForComments = () => (
-      <div className={this.props.classes.groupNotification}>
-        <Typography>
-          This group is currently private. You will only see your own comments until a retro admin makes it public.
-        </Typography>
-        {isAdmin &&
-          <button
-            className={this.props.classes.button}
-            onClick={() => toggleGroupVisibility!(retroId, group.id)}
-          >
-            Make public
-          </button>
-        }
-      </div>
-    );
+    const { isAdmin, group, retroId, toggleGroupVisibility } = this.props;
 
     return (
       <React.Fragment>
-        {!this.props.group.commentsArePublic && <ClosedForComments />}
+        <GroupStatus
+          isAdmin={isAdmin}
+          group={group}
+          retroId={retroId}
+          toggleGroupVisibility={toggleGroupVisibility}
+        />
+
         {this.state.showActions &&
           <CommentActions
             open={this.state.showActions}
