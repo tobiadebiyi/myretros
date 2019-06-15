@@ -85,7 +85,7 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
 
     this.handleOnSaveAction = (text: string) => {
       const action = { ...this.state.action, text } as Action;
-      debugger;
+
       if (action.id === undefined) {
         this.handleOnAddAction(action);
       } else {

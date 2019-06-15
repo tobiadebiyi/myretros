@@ -8,12 +8,19 @@ import Typography from "@material-ui/core/Typography";
 import * as classNames from "classnames";
 import createStyles from "@material-ui/core/styles/createStyles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const drawerWidth = 240;
 
 const styles = theme => createStyles({
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
+    justifyContent: "space-between",
+  },
+  toolBarLeft: {
+    display: "flex",
+    alignItems: "center",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -41,54 +48,59 @@ const styles = theme => createStyles({
 
 interface TopBarProps extends WithStyles<typeof styles> {
   handleDrawerOpen: () => void;
-  location: string;
+  location?: string;
   open: boolean;
+  retroReference: string;
+  showSnackBar: (message: string) => void;
 }
 
-const TopBar: React.SFC<TopBarProps> = ({ classes, handleDrawerOpen, location: location, open }) => (
-  <AppBar
-    position="absolute"
-    className={classNames(classes.appBar, open && classes.appBarShift)}
-  >
-    <Toolbar disableGutters={!open} className={classes.toolbar}>
-      <IconButton
-        color="inherit"
-        aria-label="Open drawer"
-        onClick={handleDrawerOpen}
-        className={classNames(
-          classes.menuButton,
-          open && classes.menuButtonHidden,
-        )}
-      >
-        <MenuIcon />
-      </IconButton>
-      <Typography
-        variant="h6"
-        color="inherit"
-        noWrap={true}
-      >
-        MyRetros
-      </Typography>
-      <Typography
-        variant="subtitle1"
-        color="inherit"
-        style={{ textAlign: "center", fontSize: "1.1em", marginLeft: "0.4em" }}
-      >
-        {location && <span> > {name}</span>}
-      </Typography>
-      <IconButton
-        color="inherit"
-        aria-label="share retro"
-        onClick={handleDrawerOpen}
-        className={classNames(
-          classes.menuButton,
-          open && classes.menuButtonHidden,
-        )}
-      >
-        <ShareIcon />
-      </IconButton>
-    </Toolbar>
-  </AppBar>
-);
+const TopBar: React.SFC<TopBarProps> = ({
+  classes,
+  handleDrawerOpen,
+  location,
+  open,
+  retroReference,
+  showSnackBar
+}) => (
+    <AppBar
+      position="absolute"
+      className={classNames(classes.appBar, open && classes.appBarShift)}
+    >
+      <Toolbar disableGutters={!open} className={classes.toolbar}>
+        <div className={classes.toolBarLeft}>
+          <IconButton
+            color="inherit"
+            aria-label="Open drawer"
+            onClick={handleDrawerOpen}
+            className={classNames(
+              classes.menuButton,
+              open && classes.menuButtonHidden,
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            color="inherit"
+            noWrap={true}
+          >
+            MyRetros
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            color="inherit"
+            style={{ textAlign: "center", fontSize: "1.1em", marginLeft: "0.4em" }}
+          >
+            {location && <span> > {location}</span>}
+          </Typography>
+        </div>
+        <CopyToClipboard text={retroReference} onCopy={() => showSnackBar("Copied to clipboard")} >
+          <Tooltip title="Copy retro reference">
+            <IconButton color="inherit" aria-label="Copy retro reference"><ShareIcon /></IconButton>
+          </Tooltip>
+        </CopyToClipboard>
+      </Toolbar>
+    </AppBar>
+  );
 
 export default withStyles(styles)(TopBar);

@@ -30,6 +30,7 @@ interface RetroRouteParams {
 export interface MasterDetailViewProps extends RouteComponentProps<RetroRouteParams>, WithStyles<typeof styles> {
   retro: Retro;
   joinRetro: (retroId: string) => void;
+  showSnackBar: (message: string) => void;
 }
 
 interface MasterDetailViewState {
@@ -67,14 +68,20 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
   handleAlignment = (__, view) => this.setState({ view });
 
   render() {
-    const { classes, retro, match } = this.props;
+    const { classes, retro, match, showSnackBar } = this.props;
     const { view, open } = this.state;
 
     return (
       <React.Fragment>
         <CssBaseline />
         <div className={classes.root}>
-          <TopBar open={open} location={retro && retro.name} handleDrawerOpen={this.handleDrawerOpen} />
+          <TopBar
+            open={open}
+            location={retro ? retro.name : undefined}
+            handleDrawerOpen={this.handleDrawerOpen}
+            retroReference={retro ? retro.reference : ""}
+            showSnackBar={showSnackBar}
+          />
           <Master open={open} handleDrawerClose={this.handleDrawerClose} />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
