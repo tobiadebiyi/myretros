@@ -74,7 +74,7 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
       <React.Fragment>
         <CssBaseline />
         <div className={classes.root}>
-          <TopBar open={open} retro={retro} handleDrawerOpen={this.handleDrawerOpen} />
+          <TopBar open={open} location={retro && retro.name} handleDrawerOpen={this.handleDrawerOpen} />
           <Master open={open} handleDrawerClose={this.handleDrawerClose} />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />

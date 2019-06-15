@@ -2,11 +2,10 @@ import * as React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
+import ShareIcon from "@material-ui/icons/Share";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import * as classNames from "classnames";
-
-import { Retro } from "../state";
 import createStyles from "@material-ui/core/styles/createStyles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 
@@ -42,11 +41,11 @@ const styles = theme => createStyles({
 
 interface TopBarProps extends WithStyles<typeof styles> {
   handleDrawerOpen: () => void;
-  retro: Retro;
+  location: string;
   open: boolean;
 }
 
-const TopBar: React.SFC<TopBarProps> = ({ classes, handleDrawerOpen, retro, open }) => (
+const TopBar: React.SFC<TopBarProps> = ({ classes, handleDrawerOpen, location: location, open }) => (
   <AppBar
     position="absolute"
     className={classNames(classes.appBar, open && classes.appBarShift)}
@@ -75,8 +74,19 @@ const TopBar: React.SFC<TopBarProps> = ({ classes, handleDrawerOpen, retro, open
         color="inherit"
         style={{ textAlign: "center", fontSize: "1.1em", marginLeft: "0.4em" }}
       >
-        {retro && <span> > {retro.name}</span>}
+        {location && <span> > {name}</span>}
       </Typography>
+      <IconButton
+        color="inherit"
+        aria-label="share retro"
+        onClick={handleDrawerOpen}
+        className={classNames(
+          classes.menuButton,
+          open && classes.menuButtonHidden,
+        )}
+      >
+        <ShareIcon />
+      </IconButton>
     </Toolbar>
   </AppBar>
 );
