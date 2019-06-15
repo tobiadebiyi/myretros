@@ -1,15 +1,6 @@
 import * as React from "react";
-import {
-  withStyles,
-  Tabs,
-  Tab,
-  WithStyles,
-  createStyles
-} from "@material-ui/core";
-
 import { Group, Retro, Comment } from "..";
 import Slide from "@material-ui/core/Slide";
-
 import green from "@material-ui/core/colors/green";
 import AddIcon from "@material-ui/icons/Add";
 import Mood from "@material-ui/icons/Mood";
@@ -19,9 +10,12 @@ import * as classNames from "classnames";
 import { EditTextDialog } from "../../../components/EditTextDialog";
 import ScreenActionButton from "../../../components/ScreenActionButton";
 import { TabContainer } from "../components/TabContainer";
-
 import CommentGroup from "../components/CommentGroup";
 import { GroupCommentModel } from "../state";
+import createStyles from "@material-ui/core/styles/createStyles";
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
 
 const styles = theme => createStyles({
   root: {

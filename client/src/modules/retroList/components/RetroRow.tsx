@@ -1,24 +1,20 @@
 import * as React from "react";
-
-import {
-    Menu,
-    MenuItem,
-    MenuList,
-    IconButton,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-} from "@material-ui/core";
-
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { MoreVert, Comment } from "@material-ui/icons/";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuList from "@material-ui/core/MenuList";
+import MenuItem from "@material-ui/core/MenuItem";
 
 interface RetroRowProps {
     retroReference: string;
     retroId: string;
     name: string;
     gotoRetro: (retroId: string) => void;
-    showSnackBar: (test: string) => void;
+    showSnackBar: (text: string) => void;
     deleteRetro: (retroId: string) => void;
 }
 

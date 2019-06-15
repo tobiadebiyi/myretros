@@ -1,21 +1,27 @@
 export interface AppState {
-    isLoading: boolean;
+  isLoading: boolean;
+  snackBar?: { message: string };
 }
 
 const initialState: AppState = {
-    isLoading: false,
+  isLoading: false,
 };
 
-const ASYNC_START = "header/ASYNC_START";
-const ASYNC_END = "header/ASYNC_END";
+const SNACKBAR_START = "app/SNACKBAR_START";
+const SNACKBAR_END = "app/SNACKBAR_END";
 
 export const AppReducer = (state: AppState = initialState, action: any) => {
-    switch (action.type) {
-      case ASYNC_START:
-        return { ...state, isLoading: true };
-      case ASYNC_END:
-        return { ...state, isLoading: false };
-      default:
-        return state;
-    }
+  switch (action.type) {
+    case SNACKBAR_START:
+      return { ...state, snackBar: action.payload };
+    case SNACKBAR_END:
+      return { ...state, snackBar: null };
+    default:
+      return state;
+  }
+};
+
+export const showSnackBar = (dispatch: any, message: string) => {
+  dispatch({ type: SNACKBAR_START, payload: { message } })
+    .then(() => setTimeout(() => { dispatch({ type: SNACKBAR_END }); }, 5000));
 };

@@ -1,7 +1,8 @@
 import * as React from "react";
 import "typeface-roboto/index.css";
-import { CssBaseline } from "@material-ui/core";
 import { MyRetrosContainer } from "../../retro";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import SnackBar from "./SnackBar";
 
 export class App extends React.Component {
   render() {
@@ -9,6 +10,7 @@ export class App extends React.Component {
       <div>
         <CssBaseline />
         <MyRetrosContainer />
+        <SnackBar />
       </div>
     );
   }

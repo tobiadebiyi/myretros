@@ -1,24 +1,20 @@
 import * as React from "react";
-import {
-  Slide,
-  createStyles,
-  withStyles,
-  Dialog,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  Theme,
-} from "@material-ui/core";
-
 import { Close, Add } from "@material-ui/icons";
-import { WithStyles } from "@material-ui/core/styles/withStyles";
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import { Comment, Action } from "..";
 import ScreenActionButton from "../../../components/ScreenActionButton";
+import { Theme } from "@material-ui/core/styles/createMuiTheme";
+import createStyles from "@material-ui/core/styles/createStyles";
+import Dialog from "@material-ui/core/Dialog";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import Toolbar from "@material-ui/core/Toolbar";
+import AppBar from "@material-ui/core/AppBar";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import Slide from "@material-ui/core/Slide";
 
 const styles = (theme: Theme) => createStyles({
   appBar: {
@@ -63,44 +59,42 @@ export class CommentActions extends React.Component<CommentActionsProps, Comment
   render() {
     const { classes, open, handleClose } = this.props;
     return (
-      <div>
-        <Dialog
-          fullScreen={true}
-          open={open}
-          onClose={handleClose}
-          TransitionComponent={Transition}
-        >
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton color="inherit" onClick={handleClose} aria-label="Close">
-                <Close />
-              </IconButton>
-              <Typography variant="h6" color="inherit" className={classes.flex}>
-                Actions
+      <Dialog
+        fullScreen={true}
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar className={classes.appBar}>
+          <Toolbar>
+            <IconButton color="inherit" onClick={handleClose} aria-label="Close">
+              <Close />
+            </IconButton>
+            <Typography variant="h6" color="inherit" className={classes.flex}>
+              Actions
               </Typography>
-            </Toolbar>
-          </AppBar>
-          <List>
-            {this.props.comment.actions.map((a, index) =>
-              (
-                <React.Fragment key={index}>
-                  <ListItem button={true}>
-                    <ListItemText primary={a.text} />
-                  </ListItem>
-                  <Divider />
-                </React.Fragment>
-              )
-            )}
-          </List>
-          <ScreenActionButton
-            color="primary"
-            icon={<Add />}
-            transitionIn={true}
-            handleOnClick={this.props.handelAddNewAction}
-            className={this.props.classes.fab}
-          />
-        </Dialog>
-      </div>
+          </Toolbar>
+        </AppBar>
+        <List>
+          {this.props.comment.actions.map((a, index) =>
+            (
+              <React.Fragment key={index}>
+                <ListItem button={true}>
+                  <ListItemText primary={a.text} />
+                </ListItem>
+                <Divider />
+              </React.Fragment>
+            )
+          )}
+        </List>
+        <ScreenActionButton
+          color="primary"
+          icon={<Add />}
+          transitionIn={true}
+          handleOnClick={this.props.handelAddNewAction}
+          className={this.props.classes.fab}
+        />
+      </Dialog>
     );
   }
 }

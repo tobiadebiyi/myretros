@@ -23,7 +23,7 @@ namespace Retros.DataAccess.MemState.Commands
             model.Retros.TryGetValue(this.Retro.Id, out Retro existingRetro);
 
             if (existingRetro == null)
-                throw new InvalidOperationException("Retro not found");
+                throw new InvalidOperationException($"Could not find a retro with the id: '{this.Retro.Id}'");
 
             model.Retros[this.Retro.Id] = this.Retro;
             return this.Retro;

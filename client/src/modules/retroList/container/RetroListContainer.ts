@@ -6,6 +6,7 @@ import { RouteComponentProps } from "react-router";
 import { CreateRetro } from "../state";
 import { Retro } from "../../retroTabs";
 import { withRouter } from "react-router-dom";
+import { showSnackBar } from "src/modules/app/AppState";
 
 const mapStateToProps = (state: ApplicationState, ownProps): Partial<RetroListProps> => {
   return {
@@ -20,6 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partia
     createRetro: (request: CreateRetro) => dispatch(RetroListActionCreators.createRetro(request)),
     deleteRetro: (retroId: string) => dispatch(RetroListActionCreators.deleteRetro(retroId)),
     updateRetros: (retros: Retro[]) => dispatch(RetroListActionCreators.updateRetros(retros)),
+    showSnackBar: (message: string) => showSnackBar(dispatch, message),
   };
 };
 

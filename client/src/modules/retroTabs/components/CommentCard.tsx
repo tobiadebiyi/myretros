@@ -1,8 +1,12 @@
 import * as React from "react";
-import { Card, CardActions, CardContent, createStyles, withStyles, WithStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Comment } from "../state";
+import createStyles from "@material-ui/core/styles/createStyles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
+import CardActions from "@material-ui/core/CardActions";
 
 const styles = () => createStyles({
   title: {

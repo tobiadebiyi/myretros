@@ -35,9 +35,15 @@ namespace Retros.Web.Hubs
 
         public async Task JoinRetro(string reference)
         {
-            var retro = await this.requestPipelineMediator.Handle<GetRetroByReferenceRequest, OperationResult<RetroDTO>>(new GetRetroByReferenceRequest{Reference = reference});
-            await this.Clients.Caller.SendAsync("ReceiveRetro", retro.Value);
-            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, retro.Value.Id.ToString());
+            var getRetroResult = await this.requestPipelineMediator
+                .Handle<GetRetroByReferenceRequest, OperationResult<RetroDTO>>(new GetRetroByReferenceRequest{Reference = reference});
+            if(getRetroResult.Succeded) {
+                await this.Clients.Caller.SendAsync("ReceiveRetro", getRetroResult.Value);
+                await this.Groups.AddToGroupAsync(this.Context.ConnectionId, getRetroResult.Value.Id.ToString());
+            }
+            else {
+                await this.Clients.Caller.SendAsync("FailedToJoinRetro", getRetroResult.Errors.FirstOrDefault());
+            }
         }
 
         public async Task AddComment(AddCommentRequest request)

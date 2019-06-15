@@ -1,7 +1,9 @@
 import * as React from "react";
-import { Button, createStyles, Theme } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
+import Button from "@material-ui/core/Button";
+import { Theme } from "@material-ui/core/styles/createMuiTheme";
+import createStyles from "@material-ui/core/styles/createStyles";
 
 const styles = (theme: Theme) => createStyles({
   fab: {

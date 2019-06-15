@@ -6,7 +6,8 @@ import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import * as classNames from "classnames";
 import { RetroListContainer } from "../../retroList";
-import { WithStyles, createStyles, withStyles } from "@material-ui/core";
+import createStyles from "@material-ui/core/styles/createStyles";
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 
 const drawerWidth = 240;
 

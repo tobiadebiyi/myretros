@@ -1,13 +1,11 @@
 import * as React from "react";
 import Button from "@material-ui/core/Button";
-import { Input } from "@material-ui/core";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import Input from "@material-ui/core/Input";
+import DialogActions from "@material-ui/core/DialogActions";
 
 export interface EditTextDialogProps {
   open: boolean;

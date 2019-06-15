@@ -1,7 +1,5 @@
 import * as React from "react";
-import { withStyles, WithStyles, createStyles } from "@material-ui/core";
 import SummaryView from "./SummaryView";
-import { Tooltip } from "@material-ui/core";
 import { RetroTabsContainer } from "../container";
 import ListTwoTone from "@material-ui/icons/ListTwoTone";
 import Tab from "@material-ui/icons/Tab";
@@ -10,6 +8,9 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import Typography from "@material-ui/core/Typography";
 import { Retro } from "../state";
 import { ViewType } from "./ViewType";
+import createStyles from "@material-ui/core/styles/createStyles";
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const styles = theme => createStyles({
     viewToggleContainer: {

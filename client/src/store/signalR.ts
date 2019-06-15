@@ -7,6 +7,7 @@ import {
     Group,
     UPDATE_GROUP
 } from "../modules/retroTabs";
+import { showSnackBar } from "src/modules/app";
 
 const hubConnection = new HubConnectionBuilder()
     .withUrl(`${config.apiUrl}/retrohub`)
@@ -44,6 +45,10 @@ export function signalR(store: any) {
 export function startSignalR(store: any, callback: any) {
     hubConnection.on("ReceiveRetro", (retro: Retro) => {
         store.dispatch(RetroActionCreators.updateRetro(retro));
+    });
+
+    hubConnection.on("FailedToJoinRetro", (reason: string) => {
+        showSnackBar(store.dispatch, reason);
     });
 
     hubConnection.on("CommentAdded", (response: GroupCommentModel) => {

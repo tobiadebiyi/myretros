@@ -5,9 +5,10 @@ import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import * as classNames from "classnames";
-import { withStyles, WithStyles, createStyles } from "@material-ui/core";
 
 import { Retro } from "../state";
+import createStyles from "@material-ui/core/styles/createStyles";
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 
 const drawerWidth = 240;
 
