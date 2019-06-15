@@ -43,9 +43,10 @@ const styles = theme => createStyles({
 interface TopBarProps extends WithStyles<typeof styles> {
   handleDrawerOpen: () => void;
   retro: Retro;
+  open: boolean;
 }
 
-const TopBar: React.SFC<TopBarProps> = ({ classes, handleDrawerOpen, retro }) => (
+const TopBar: React.SFC<TopBarProps> = ({ classes, handleDrawerOpen, retro, open }) => (
   <AppBar
     position="absolute"
     className={classNames(classes.appBar, open && classes.appBarShift)}
