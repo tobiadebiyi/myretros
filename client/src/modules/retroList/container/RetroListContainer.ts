@@ -5,6 +5,7 @@ import { RetroListActionCreators } from "..";
 import { RouteComponentProps } from "react-router";
 import { CreateRetro } from "../state";
 import { Retro } from "../../retroTabs";
+import { withRouter } from "react-router-dom";
 
 const mapStateToProps = (state: ApplicationState, ownProps): Partial<RetroListProps> => {
   return {
@@ -22,7 +23,7 @@ const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partia
   };
 };
 
-export const RetroListContainer = connect(
+export const RetroListContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(RetroList);
+)(RetroList));
