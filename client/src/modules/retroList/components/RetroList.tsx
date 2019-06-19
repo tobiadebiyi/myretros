@@ -45,9 +45,7 @@ export class RetroList extends React.Component<RetroListProps,
     this.state = {};
 
     this.handleOnSaveRetro = (retroName: string) => {
-      this
-        .props
-        .createRetro({ retroName, withDefaultGroups: true })
+      this.props.createRetro({ retroName, withDefaultGroups: true })
         .then(() => this.props.showSnackBar("Retro Created"));
 
       this.setState({ dialogProps: undefined, activeRetro: undefined });
@@ -87,7 +85,6 @@ export class RetroList extends React.Component<RetroListProps,
         open: true,
         text: "",
         name: "Name",
-        title: retro.id ? "Edit Retro" : "Create Retro",
         handleOnSave: this.handleOnSaveRetro,
         handleClose: this.handleCloseDialog,
         submitButtonName: "Save"
@@ -99,7 +96,6 @@ export class RetroList extends React.Component<RetroListProps,
     this.setState({
       dialogProps: {
         name: "Retro Ref#",
-        title: "Enter reference",
         handleOnSave: this.handleJoinRetro,
         text: "",
         handleClose: this.handleCloseDialog,

@@ -15,10 +15,12 @@ const mapStateToProps = (state: ApplicationState, ownProps): Partial<RetroListPr
 };
 
 const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partial<RetroListProps> => {
+  const { history: { push } } = ownProps;
   return {
-    gotoRetro: (retroReference: string) => ownProps.history.push(`/retros/${retroReference}`),
+    gotoRetro: (retroReference: string) => push(`/retros/${retroReference}`),
     fetchRetros: () => dispatch(RetroListActionCreators.fetchRetros()),
-    createRetro: (request: CreateRetro) => dispatch(RetroListActionCreators.createRetro(request)),
+    createRetro: (request: CreateRetro) => dispatch(RetroListActionCreators.createRetro(request))
+      .then((reference) => push(`/retros/${reference}`)),
     deleteRetro: (retroId: string) => dispatch(RetroListActionCreators.deleteRetro(retroId)),
     updateRetros: (retros: Retro[]) => dispatch(RetroListActionCreators.updateRetros(retros)),
     showSnackBar: (message: string) => showSnackBar(dispatch, message),
