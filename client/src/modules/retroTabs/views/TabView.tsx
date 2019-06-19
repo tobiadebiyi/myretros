@@ -164,7 +164,7 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
     );
   }
 
-  handleChangeIndex = (event, tabIndex) => {
+  handleChangeIndex = (__: any, tabIndex: any) => {
     this.setState({ tabIndex });
   }
 
@@ -180,6 +180,7 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
         name="comment"
         message={`Please enter your comment here.`}
         multiline={true}
+        maxLength={100}
       />
     );
   }

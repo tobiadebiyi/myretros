@@ -16,6 +16,7 @@ export interface EditTextDialogProps {
   multiline?: boolean;
   message?: string;
   submitButtonName?: string;
+  maxLength?: number;
 }
 
 interface EditTextDialogState {
@@ -24,6 +25,8 @@ interface EditTextDialogState {
 }
 
 export class EditTextDialog extends React.Component<EditTextDialogProps, EditTextDialogState> {
+  public static defaultProps = { maxLength: 50 };
+
   handleKeyPress: (ev: any) => void;
   constructor(props: EditTextDialogProps, context: any) {
     super(props);
@@ -50,8 +53,13 @@ export class EditTextDialog extends React.Component<EditTextDialogProps, EditTex
   }
 
   handleOnCommentChange = (event: any) => {
+    const { maxLength } = this.props;
+    const { target: { value } } = event;
+
+    if (value.length >= maxLength!) return;
+
     this.setState({
-      commentText: event.target.value,
+      commentText: value,
       isDirty: true,
     });
   }
@@ -74,7 +82,8 @@ export class EditTextDialog extends React.Component<EditTextDialogProps, EditTex
   }
 
   render() {
-    const { message, submitButtonName } = this.props;
+    const { message, submitButtonName, multiline, name, maxLength } = this.props;
+    const { commentText, isDirty } = this.state;
     return (
       <div>
         <Dialog
@@ -83,7 +92,7 @@ export class EditTextDialog extends React.Component<EditTextDialogProps, EditTex
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">
-            {this.props.text ? `Edit ${this.props.name}` : `Add ${this.props.name}`}
+            {this.props.text ? `Edit ${name}` : `Add ${name}`}
           </DialogTitle>
           <DialogContent style={{ minWidth: "400px" }}>
             {message &&
@@ -95,24 +104,25 @@ export class EditTextDialog extends React.Component<EditTextDialogProps, EditTex
               autoFocus={true}
               margin="dense"
               id={this.props.name}
-              multiline={this.props.multiline}
+              multiline={multiline}
               rows={5}
               rowsMax={10}
               type="text"
               fullWidth={true}
               onChange={this.handleOnCommentChange}
-              value={this.state.commentText}
+              value={commentText}
               onKeyPress={this.handleKeyPress}
             />
           </DialogContent>
           <DialogActions>
+            <span>{commentText && `Characters left: ${maxLength! - commentText.length}`}</span>
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
             <Button
               onClick={this.saveComment}
               color="primary"
-              disabled={!this.state.isDirty}
+              disabled={!isDirty}
             >
               {submitButtonName ? submitButtonName : "Save"}
             </Button>
