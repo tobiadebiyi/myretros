@@ -59,7 +59,7 @@ interface ButtonStyle {
   icon: any;
 }
 
-export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
+export class TabView extends React.Component<RetroTabsProps, RetroTabsState> {
   buttons: ButtonStyle[] = [
     {
       color: "primary",
@@ -209,7 +209,7 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
             index={tabIndex}
             onChangeIndex={this.handleChangeIndex}
           >
-            {retro.groups.map((group, index) => (
+            {retro.groups.map((__, index) => (
               this.renderCommentGroup(retro.groups[tabIndex], index)
             ))}
           </SwipeableViews>
@@ -245,4 +245,4 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(RetroTabs);
+export default withStyles(styles, { withTheme: true })(TabView);
