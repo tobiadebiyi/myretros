@@ -1,12 +1,11 @@
 ﻿using System;
 using Retros.Application.DTOs;
+using Retros.Application.UseCases.Common;
 
 namespace Retros.Application.UseCases.AddComment
 {
-    public class AddCommentRequest
+    public class AddCommentRequest : RetroGroupActionRequest
     {
-        public Guid RetroId { get; set; }
-        public Guid GroupId { get; set; }
         public CommentDTO Comment { get; set; }
     }
 }

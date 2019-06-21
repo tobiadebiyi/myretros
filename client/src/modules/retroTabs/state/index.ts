@@ -1,4 +1,6 @@
 import { SignalRActions } from "../../../store/signalR";
+import { ApplicationState } from "src/store";
+import deepcopy from "deepcopy";
 
 export const FETCH_COMMENTS_START: string = "FETCH_COMMENTS_START";
 export const FETCH_COMMENTS_SUCCESS: string = "FETCH_COMMENTS_SUCCESS";
@@ -9,6 +11,8 @@ export const ADD_COMMENT_SUCCESS: string = "ADD_COMMENT_SUCCESS";
 
 export const UPDATE_RETRO_START: string = "UPDATE_RETRO_START";
 export const UPDATE_RETRO_SUCCESS: string = "UPDATE_RETRO_SUCCESS";
+
+export const UPDATE_GROUP: string = "UPDATE_GROUP";
 
 export const RetroActionCreators = {
   addCommentToRetro: (groupComment: GroupCommentModel) => {
@@ -59,6 +63,7 @@ export interface Group {
   name: string;
   comments: Comment[];
   tags: string[];
+  commentsArePublic: boolean;
 }
 
 export interface Comment {
@@ -80,28 +85,51 @@ export interface GroupCommentModel {
   groupId: string;
 }
 
+export interface GroupActionModel {
+  retroId: string;
+  groupId: string;
+}
+
 const initialState: RetroState = {
   isFetchingRetro: false,
 };
 
 export const RetroReducer = (state: RetroState = initialState, action: any) => {
+  let groupIndex: number;
+  let retro: Retro;
+
   switch (action.type) {
     case UPDATE_RETRO_SUCCESS:
       return { ...state, retro: action.retro };
     case ADD_COMMENT_SUCCESS:
-      const retro = Object.assign({}, state.retro);
-      const groupIndex = retro!.groups.findIndex(g => g.id === action.payload.groupId);
-
-      const existingCommentIndex = retro.groups[groupIndex].comments.findIndex(c => c.id === action.payload.comment.id);
+      retro = deepcopy(state.retro);
+      groupIndex = getGroupIndex(retro!.groups, action.payload.groupId);
+      const comments = retro.groups[groupIndex].comments;
+      const existingCommentIndex = comments.findIndex(c => c.id === action.payload.comment.id);
 
       if (existingCommentIndex === -1) {
-        retro!.groups[groupIndex].comments.push(action.payload.comment);
+        comments.push(action.payload.comment);
       } else {
-        retro!.groups[groupIndex].comments.splice(existingCommentIndex, 1, action.payload.comment);
+        comments.splice(existingCommentIndex, 1, action.payload.comment);
       }
 
+      return { ...state, retro };
+    case UPDATE_GROUP:
+      retro = deepcopy(state.retro);
+      groupIndex = getGroupIndex(retro!.groups, action.payload.id);
+      retro.groups[groupIndex] = action.payload;
       return { ...state, retro };
     default:
       return state;
   }
 };
+
+export const Selectors = {
+  getGroup: (state: ApplicationState) => (groupId) => {
+    return state.retroState.retro!.groups.find(g => g.id === groupId);
+  },
+};
+
+function getGroupIndex(groups: Group[], groupId: string) {
+  return groups.findIndex(g => g.id === groupId);
+}

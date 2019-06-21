@@ -1,19 +1,14 @@
-import {
-  Grid,
-  createStyles,
-  // Toolbar,
-  // Chip, 
-  // Avatar, 
-  // Tooltip 
-} from "@material-ui/core";
 import * as React from "react";
-import CommentCard from "./CommentCard";
+import { createStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
-import { Group } from "..";
-// import { Add } from "../../../../node_modules/@material-ui/icons";
-import CommentActions from "./CommentActions";
-import { Comment, GroupCommentModel, Action } from "../state";
-import { EditTextDialog } from "../../../components/EditTextDialog";
+
+import CommentCard from "../CommentCard";
+import CommentActions from "../CommentActions";
+import { Comment, GroupCommentModel, Action } from "../../state";
+import { EditTextDialog } from "../../../../components/EditTextDialog";
+import { Group } from "../..";
+import GroupStatus from "./GroupStatus";
 
 const styles = () => createStyles({
   root: {
@@ -23,9 +18,11 @@ const styles = () => createStyles({
 
 export interface CommentGroupProps extends WithStyles<typeof styles> {
   group: Group;
+  retroId: string;
+  isAdmin: boolean;
   handleOnEditComment: (commenId: string) => void;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
-  retroId: string;
+  toggleGroupVisibility?: (retroId: string, groupId: string) => void;
 }
 
 interface CommentGroupState {
@@ -88,7 +85,7 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
 
     this.handleOnSaveAction = (text: string) => {
       const action = { ...this.state.action, text } as Action;
-      debugger;
+
       if (action.id === undefined) {
         this.handleOnAddAction(action);
       } else {
@@ -111,43 +108,44 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
   }
 
   render() {
+    const { isAdmin, group, retroId, toggleGroupVisibility } = this.props;
+
     return (
       <React.Fragment>
-        {this.state.showActions && <CommentActions
-          open={this.state.showActions}
-          handleClose={this.handleCloseCommentActions}
-          comment={this.state.comment!}
-          handleSaveComment={this.handleOnSaveComment}
-          handelAddNewAction={this.handelAddNewAction}
-          handleEditAction={this.handleOnUpdateAction}
-        />}
-        {this.state.editAction && <EditTextDialog
-          handleOnSave={this.handleOnSaveAction}
-          open={this.state.action !== undefined}
-          handleClose={this.handleCloseDialog}
-          text={this.state.action!.text}
-          name="action"
-        />}
+        <GroupStatus
+          isAdmin={isAdmin}
+          group={group}
+          retroId={retroId}
+          toggleGroupVisibility={toggleGroupVisibility}
+        />
+
+        {this.state.showActions &&
+          <CommentActions
+            open={this.state.showActions}
+            handleClose={this.handleCloseCommentActions}
+            comment={this.state.comment!}
+            handleSaveComment={this.handleOnSaveComment}
+            handelAddNewAction={this.handelAddNewAction}
+            handleEditAction={this.handleOnUpdateAction}
+          />
+        }
+        {this.state.editAction &&
+          <EditTextDialog
+            handleOnSave={this.handleOnSaveAction}
+            open={this.state.action !== undefined}
+            handleClose={this.handleCloseDialog}
+            text={this.state.action!.text}
+            name="action"
+          />
+        }
         <Grid container={true} className={this.props.classes.root} alignContent={"center"} justify={"center"}>
           <Grid item={true} xs={10}>
-            {/* <Toolbar >
-              <Avatar color="secondary">
-                <Tooltip title="Add tag">
-                  <Add color="primary" />
-                </Tooltip>
-              </Avatar>
-              {this.props.group.tags.map(t => (
-                <Chip
-                  label={t}
-                />)
-              )}
-            </Toolbar> */}
             <Grid
               container={true}
               direction={"row"}
               alignItems={"center"}
               justify={"center"}
-              spacing={24}
+              spacing={10}
             >
               {this.props.group.comments.map((comment, index) => (
                 <Grid key={index} item={true} md={4}>

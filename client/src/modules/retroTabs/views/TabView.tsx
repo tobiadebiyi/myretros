@@ -1,27 +1,20 @@
 import * as React from "react";
-import {
-  withStyles,
-  Tabs,
-  Tab,
-  WithStyles,
-  createStyles
-} from "@material-ui/core";
-
 import { Group, Retro, Comment } from "..";
 import Slide from "@material-ui/core/Slide";
-
 import green from "@material-ui/core/colors/green";
 import AddIcon from "@material-ui/icons/Add";
 import Mood from "@material-ui/icons/Mood";
 import MoodBad from "@material-ui/icons/MoodBad";
-import SwipeableViews from "react-swipeable-views";
 import * as classNames from "classnames";
 import { EditTextDialog } from "../../../components/EditTextDialog";
 import ScreenActionButton from "../../../components/ScreenActionButton";
 import { TabContainer } from "../components/TabContainer";
-
 import CommentGroup from "../components/CommentGroup";
 import { GroupCommentModel } from "../state";
+import createStyles from "@material-ui/core/styles/createStyles";
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
 
 const styles = theme => createStyles({
   root: {
@@ -30,8 +23,8 @@ const styles = theme => createStyles({
   },
   fab: {
     position: "absolute",
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   } as any,
   fabGreen: {
     color: theme.palette.common.white,
@@ -43,6 +36,7 @@ export interface RetroTabsProps extends WithStyles<typeof styles> {
   retro: Retro;
   retroReference: string;
   theme: any;
+  isAdmin: boolean;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
   gotoList: () => void;
 }
@@ -64,7 +58,7 @@ interface ButtonStyle {
   icon: any;
 }
 
-export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
+export class TabView extends React.Component<RetroTabsProps, RetroTabsState> {
   buttons: ButtonStyle[] = [
     {
       color: "primary",
@@ -150,22 +144,28 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
   }
 
   renderCommentGroup = (group: Group, index: number) => {
+    const { isAdmin, retro, saveComment } = this.props;
+    const { tabIndex } = this.state;
+
     if (group === undefined) { return; }
     return (
-      <Slide key={index} direction="right" in={this.state.tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
-        <TabContainer>
-          <CommentGroup
-            group={group}
-            handleOnEditComment={this.handleOnEditComment}
-            saveComment={this.props.saveComment}
-            retroId={this.props.retro.id!}
-          />
-        </TabContainer>
+      <Slide key={index} direction="right" in={tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
+        <div>
+          <TabContainer>
+            <CommentGroup
+              isAdmin={isAdmin}
+              group={group}
+              handleOnEditComment={this.handleOnEditComment}
+              saveComment={saveComment}
+              retroId={retro.id}
+            />
+          </TabContainer>
+        </div>
       </Slide>
     );
   }
 
-  handleChangeIndex = (event, tabIndex) => {
+  handleChangeIndex = (__: any, tabIndex: any) => {
     this.setState({ tabIndex });
   }
 
@@ -181,55 +181,47 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
         name="comment"
         message={`Please enter your comment here.`}
         multiline={true}
+        maxLength={100}
       />
     );
   }
 
   renderRetro() {
-    const { theme, retro } = this.props;
+    const { retro } = this.props;
     const { tabIndex } = this.state;
 
     return (
       <div>
         <React.Fragment>
-          <React.Fragment>
-            <Tabs
-              value={tabIndex}
-              onChange={this.handleChangeIndex}
-              centered={true}
-              color="default"
-            >
-              {this.props.retro.groups.map((g, i) => (
-                <Tab key={i} label={g.name} />
-              ))}
-            </Tabs>
-          </React.Fragment>
-          <SwipeableViews
-            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-            index={tabIndex}
-            onChangeIndex={this.handleChangeIndex}
+          <Tabs
+            value={tabIndex}
+            onChange={this.handleChangeIndex}
+            centered={true}
+            color="default"
           >
-            {retro.groups.map((group, index) => (
-              this.renderCommentGroup(retro.groups[tabIndex], index)
+            {retro.groups.map((g, i) => (
+              <Tab key={i} label={g.name} />
             ))}
-          </SwipeableViews>
-          <div>
-            {this.buttons.map((button: ButtonStyle, index: number) => (
-              <ScreenActionButton
-                key={index}
-                {...button}
-                transitionIn={this.state.tabIndex === index}
-                handleOnClick={() => {
-                  const newComment = {
-                    isOwner: true,
-                    text: "",
-                    actions: [],
-                  };
-                  this.handleOpenCommentDialog(retro.groups[tabIndex].id, newComment);
-                }}
-              />
-            ))}
-          </div>
+          </Tabs>
+          {retro.groups.map((__, index) => (
+            this.renderCommentGroup(retro.groups[tabIndex], index)
+          ))}
+
+          {this.buttons.map((button: ButtonStyle, index: number) => (
+            <ScreenActionButton
+              key={index}
+              {...button}
+              transitionIn={this.state.tabIndex === index}
+              handleOnClick={() => {
+                const newComment = {
+                  isOwner: true,
+                  text: "",
+                  actions: [],
+                };
+                this.handleOpenCommentDialog(retro.groups[tabIndex].id, newComment);
+              }}
+            />
+          ))}
         </React.Fragment>
         {this.renderEditCommentDialog()}
       </div>
@@ -245,4 +237,4 @@ export class RetroTabs extends React.Component<RetroTabsProps, RetroTabsState> {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(RetroTabs);
+export default withStyles(styles, { withTheme: true })(TabView);

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Switch, Route } from "react-router";
-import { LinearProgress } from "@material-ui/core";
 import { MasterDetailViewContainer } from "../../retroTabs";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 export interface MyRetrosProps {
   isLoading: boolean;

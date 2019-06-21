@@ -24,7 +24,7 @@ namespace Retros.Application.UseCases.UpdateComment
         public async Task<OperationResult<UpdateCommentResponse>> Handle(UpdateCommentRequest request)
         {
             var retro = await this.retroReposirotory.Get(request.RetroId);
-            if (retro == null) return OperationResultCreator.Failed<UpdateCommentResponse>("Retro not found");
+            if (retro == null) return OperationResultCreator.Failed<UpdateCommentResponse>($"Could not find a retro with the id: '{request.RetroId}'");
 
             var comment = retro.Groups
                                .SingleOrDefault(g => g.Id == request.GroupId)?

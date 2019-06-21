@@ -31,7 +31,10 @@ export const RetroListActionCreators = {
     return (dispatch: any) => {
       dispatch({ type: CREATE_RETRO_STARTED });
       return RetroApi.createRetro(request)
-        .then(retro => dispatch({ type: CREATE_RETRO_SUCCESS, retro }))
+        .then(retro => {
+          dispatch({ type: CREATE_RETRO_SUCCESS, retro });
+          return retro.reference;
+        })
         .catch((error) => {
           alert(error);
         });

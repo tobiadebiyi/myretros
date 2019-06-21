@@ -5,6 +5,8 @@ import { RetroListActionCreators } from "..";
 import { RouteComponentProps } from "react-router";
 import { CreateRetro } from "../state";
 import { Retro } from "../../retroTabs";
+import { withRouter } from "react-router-dom";
+import { showSnackBar } from "src/modules/app/AppState";
 
 const mapStateToProps = (state: ApplicationState, ownProps): Partial<RetroListProps> => {
   return {
@@ -13,16 +15,19 @@ const mapStateToProps = (state: ApplicationState, ownProps): Partial<RetroListPr
 };
 
 const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partial<RetroListProps> => {
+  const { history: { push } } = ownProps;
   return {
-    gotoRetro: (retroReference: string) => ownProps.history.push(`/retros/${retroReference}`),
+    gotoRetro: (retroReference: string) => push(`/retros/${retroReference}`),
     fetchRetros: () => dispatch(RetroListActionCreators.fetchRetros()),
-    createRetro: (request: CreateRetro) => dispatch(RetroListActionCreators.createRetro(request)),
+    createRetro: (request: CreateRetro) => dispatch(RetroListActionCreators.createRetro(request))
+      .then((reference) => push(`/retros/${reference}`)),
     deleteRetro: (retroId: string) => dispatch(RetroListActionCreators.deleteRetro(retroId)),
     updateRetros: (retros: Retro[]) => dispatch(RetroListActionCreators.updateRetros(retros)),
+    showSnackBar: (message: string) => showSnackBar(dispatch, message),
   };
 };
 
-export const RetroListContainer = connect(
+export const RetroListContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(RetroList);
+)(RetroList));

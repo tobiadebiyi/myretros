@@ -23,7 +23,7 @@ namespace Retros.Application.UseCases.GetRetroByReference
         public async Task<OperationResult<RetroDTO>> Handle(GetRetroByReferenceRequest request)
         {
             var result = await this.retroRepository.GetByReference(request.Reference);
-            if (result == null) return OperationResultCreator.Failed<RetroDTO>("Retro not found");
+            if (result == null) return OperationResultCreator.Failed<RetroDTO>($"Could not find a retro with the reference: '{request.Reference}'");
 
             return OperationResultCreator.Suceeded(new RetroDTO(result, this.userContextProvider.GetUserId()));
         }

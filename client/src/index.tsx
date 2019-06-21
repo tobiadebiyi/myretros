@@ -8,12 +8,18 @@ import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { startSignalR } from "./store/signalR";
 import { App } from "./modules/app/";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+
+const theme = createMuiTheme();
 
 startSignalR(store, () => {
   ReactDOM.render(
     <Provider store={store}>
       <Router history={createBrowserHistory()} >
-        <App />
+        <MuiThemeProvider theme={theme}>
+          <App />
+        </MuiThemeProvider>
       </Router>
     </Provider>,
     document.getElementById("root") as HTMLElement

@@ -1,22 +1,17 @@
-import {
-  Snackbar,
-  SnackbarContent,
-  LinearProgress,
-  List,
-  ListSubheader,
-  Divider,
-  ListItem,
-  ListItemIcon,
-  Tooltip,
-  ListItemText,
-} from "@material-ui/core";
-
 import { AddCircle, Group } from "@material-ui/icons";
 import * as React from "react";
 import { Retro } from "../../retroTabs";
 import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog";
 import { RetroRow } from ".";
 import { CreateRetro } from "..";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import List from "@material-ui/core/List";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import ListItem from "@material-ui/core/ListItem";
+import Tooltip from "@material-ui/core/Tooltip";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
 
 export interface RetroListProps {
   retros: Retro[];
@@ -26,12 +21,12 @@ export interface RetroListProps {
   fetchRetros: () => void;
   deleteRetro: (retroId: string) => Promise<void>;
   updateRetros: (retros: Retro[]) => void;
+  showSnackBar: (message: string) => void;
 }
 
 interface RetroListState {
   dialogProps?: EditTextDialogProps;
   activeRetro?: Retro;
-  showSnackBar: boolean;
   snackBarMessage?: string;
   onSaveTextHandler?: (text: string) => void;
 }
@@ -40,7 +35,6 @@ export class RetroList extends React.Component<RetroListProps,
   RetroListState> {
   handleOnSaveRetro: (retroName: string) => void;
   handleDeleteRetro: (retroId: string) => void;
-  showSnackBar: (message: string) => void;
   handleCloseDialog: () => void;
   handleJoinRetro: (retroId: string) => void;
   handleReceivedRetros: (retros: Retro[]) => void;
@@ -48,27 +42,18 @@ export class RetroList extends React.Component<RetroListProps,
   constructor(props: RetroListProps, context?: any) {
     super(props);
 
-    this.state = {
-      showSnackBar: false
-    };
-
-    this.showSnackBar = (message: string) => {
-      this.setState({ showSnackBar: true, snackBarMessage: message });
-      setInterval(() => this.setState({ showSnackBar: false }), 3000);
-    };
+    this.state = {};
 
     this.handleOnSaveRetro = (retroName: string) => {
-      this
-        .props
-        .createRetro({ retroName, withDefaultGroups: true })
-        .then(() => this.showSnackBar("Retro Created"));
+      this.props.createRetro({ retroName, withDefaultGroups: true })
+        .then(() => this.props.showSnackBar("Retro Created"));
 
       this.setState({ dialogProps: undefined, activeRetro: undefined });
     };
 
     this.handleDeleteRetro = (retroId: string) => {
       this.props.deleteRetro(retroId).then(() => {
-        this.showSnackBar("Retro Deleted");
+        this.props.showSnackBar("Retro Deleted");
         this
           .props
           .fetchRetros();
@@ -100,7 +85,6 @@ export class RetroList extends React.Component<RetroListProps,
         open: true,
         text: "",
         name: "Name",
-        title: retro.id ? "Edit Retro" : "Create Retro",
         handleOnSave: this.handleOnSaveRetro,
         handleClose: this.handleCloseDialog,
         submitButtonName: "Save"
@@ -112,7 +96,6 @@ export class RetroList extends React.Component<RetroListProps,
     this.setState({
       dialogProps: {
         name: "Retro Ref#",
-        title: "Enter reference",
         handleOnSave: this.handleJoinRetro,
         text: "",
         handleClose: this.handleCloseDialog,
@@ -124,38 +107,30 @@ export class RetroList extends React.Component<RetroListProps,
 
   render() {
     const { retros, gotoRetro } = this.props;
-
-    if (!retros)
-      return <LinearProgress color="secondary" />;
-
+    if (!retros) return <LinearProgress color="secondary" />;
     const defaultRetro = { name: "", id: "", groups: [], reference: "" };
 
     return (
       <div>
-        <Snackbar open={this.state.showSnackBar} title={this.state.snackBarMessage}>
-          <SnackbarContent message={this.state.snackBarMessage!} />
-        </Snackbar>
-
         {this.state.dialogProps && <EditTextDialog {...this.state.dialogProps} />}
         <List>
           <ListSubheader inset={true}>Actions</ListSubheader>
-
           <ListItem button={true} onClick={() => this.handleCreateRetroButtonClick(defaultRetro)}>
             <Tooltip title="Create Retro">
               <ListItemIcon>
                 <AddCircle />
               </ListItemIcon>
             </Tooltip>
-            <ListItemText inset={false} primary="Create Retro" />
+            <ListItemText primary="Create Retro" />
           </ListItem>
 
-          <ListItem button={true}  onClick={() => this.handleJoinRetroButtonClick()}>
+          <ListItem button={true} onClick={() => this.handleJoinRetroButtonClick()}>
             <Tooltip title="Join Retro">
               <ListItemIcon>
                 <Group />
               </ListItemIcon>
             </Tooltip>
-            <ListItemText inset={true} primary="Join Retro" />
+            <ListItemText primary="Join Retro" />
           </ListItem>
           <Divider />
           {
@@ -166,7 +141,7 @@ export class RetroList extends React.Component<RetroListProps,
                 retroReference={retro.reference}
                 name={retro.name}
                 gotoRetro={gotoRetro}
-                showSnackBar={this.showSnackBar}
+                showSnackBar={this.props.showSnackBar}
                 deleteRetro={this.handleDeleteRetro}
               />))
           }
