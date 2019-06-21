@@ -1,15 +1,15 @@
 import * as React from "react";
 import Zoom from "@material-ui/core/Zoom";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
-import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import createStyles from "@material-ui/core/styles/createStyles";
 
 const styles = (theme: Theme) => createStyles({
   fab: {
     position: "absolute",
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   },
 });
 
@@ -39,14 +39,13 @@ export const ScreenActionButton: React.SFC<ScreenActionProps> = (props: ScreenAc
       }}
       unmountOnExit={true}
     >
-      <Button
-        variant="fab"
+      <Fab
         className={className}
         color={color}
         onClick={handleOnClick}
       >
         {icon}
-      </Button>
+      </Fab>
     </Zoom>
   );
 };

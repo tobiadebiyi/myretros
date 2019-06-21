@@ -15,11 +15,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 const styles = theme => createStyles({
     viewToggleContainer: {
         height: 56,
-        padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+        padding: `${theme.spacing()}px ${theme.spacing(2)}px`,
         display: "flex",
         alignItems: "center",
         justifyContent: "flex-end",
-        margin: `${theme.spacing.unit}px 0`,
+        margin: `${theme.spacing()}px 0`,
         background: theme.palette.background.default,
     },
     centeredContent: {

@@ -5,7 +5,6 @@ import green from "@material-ui/core/colors/green";
 import AddIcon from "@material-ui/icons/Add";
 import Mood from "@material-ui/icons/Mood";
 import MoodBad from "@material-ui/icons/MoodBad";
-import SwipeableViews from "react-swipeable-views";
 import * as classNames from "classnames";
 import { EditTextDialog } from "../../../components/EditTextDialog";
 import ScreenActionButton from "../../../components/ScreenActionButton";
@@ -24,8 +23,8 @@ const styles = theme => createStyles({
   },
   fab: {
     position: "absolute",
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   } as any,
   fabGreen: {
     color: theme.palette.common.white,
@@ -151,15 +150,17 @@ export class TabView extends React.Component<RetroTabsProps, RetroTabsState> {
     if (group === undefined) { return; }
     return (
       <Slide key={index} direction="right" in={tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
-        <TabContainer>
-          <CommentGroup
-            isAdmin={isAdmin}
-            group={group}
-            handleOnEditComment={this.handleOnEditComment}
-            saveComment={saveComment}
-            retroId={retro.id}
-          />
-        </TabContainer>
+        <div>
+          <TabContainer>
+            <CommentGroup
+              isAdmin={isAdmin}
+              group={group}
+              handleOnEditComment={this.handleOnEditComment}
+              saveComment={saveComment}
+              retroId={retro.id}
+            />
+          </TabContainer>
+        </div>
       </Slide>
     );
   }
@@ -186,50 +187,41 @@ export class TabView extends React.Component<RetroTabsProps, RetroTabsState> {
   }
 
   renderRetro() {
-    const { theme, retro } = this.props;
+    const { retro } = this.props;
     const { tabIndex } = this.state;
 
     return (
       <div>
         <React.Fragment>
-          <React.Fragment>
-            <Tabs
-              value={tabIndex}
-              onChange={this.handleChangeIndex}
-              centered={true}
-              color="default"
-            >
-              {this.props.retro.groups.map((g, i) => (
-                <Tab key={i} label={g.name} />
-              ))}
-            </Tabs>
-          </React.Fragment>
-          <SwipeableViews
-            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-            index={tabIndex}
-            onChangeIndex={this.handleChangeIndex}
+          <Tabs
+            value={tabIndex}
+            onChange={this.handleChangeIndex}
+            centered={true}
+            color="default"
           >
-            {retro.groups.map((__, index) => (
-              this.renderCommentGroup(retro.groups[tabIndex], index)
+            {retro.groups.map((g, i) => (
+              <Tab key={i} label={g.name} />
             ))}
-          </SwipeableViews>
-          <div>
-            {this.buttons.map((button: ButtonStyle, index: number) => (
-              <ScreenActionButton
-                key={index}
-                {...button}
-                transitionIn={this.state.tabIndex === index}
-                handleOnClick={() => {
-                  const newComment = {
-                    isOwner: true,
-                    text: "",
-                    actions: [],
-                  };
-                  this.handleOpenCommentDialog(retro.groups[tabIndex].id, newComment);
-                }}
-              />
-            ))}
-          </div>
+          </Tabs>
+          {retro.groups.map((__, index) => (
+            this.renderCommentGroup(retro.groups[tabIndex], index)
+          ))}
+
+          {this.buttons.map((button: ButtonStyle, index: number) => (
+            <ScreenActionButton
+              key={index}
+              {...button}
+              transitionIn={this.state.tabIndex === index}
+              handleOnClick={() => {
+                const newComment = {
+                  isOwner: true,
+                  text: "",
+                  actions: [],
+                };
+                this.handleOpenCommentDialog(retro.groups[tabIndex].id, newComment);
+              }}
+            />
+          ))}
         </React.Fragment>
         {this.renderEditCommentDialog()}
       </div>

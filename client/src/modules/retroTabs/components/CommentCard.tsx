@@ -28,7 +28,7 @@ export const CommentCard: React.SFC<CommentCardProps> = (props) => {
   return (
     <Card>
       <CardContent>
-        <Typography className={props.classes.title} color="default">
+        <Typography className={props.classes.title}>
           {props.comment.text}
         </Typography>
       </CardContent>

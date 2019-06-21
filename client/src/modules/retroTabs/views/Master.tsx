@@ -12,56 +12,54 @@ import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 const drawerWidth = 240;
 
 const styles = theme => createStyles({
-    toolbarIcon: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        padding: "0 8px",
-        ...theme.mixins.toolbar,
+  toolbarIcon: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
+    ...theme.mixins.toolbar,
+  },
+  drawerPaper: {
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(7),
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(7),
     },
-    drawerPaper: {
-        position: "relative",
-        whiteSpace: "nowrap",
-        width: drawerWidth,
-        transition: theme.transitions.create("width", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerPaperClose: {
-        overflowX: "hidden",
-        transition: theme.transitions.create("width", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing.unit * 7,
-        [theme.breakpoints.up("sm")]: {
-            width: theme.spacing.unit * 9,
-        },
-    },
+  },
 });
 
 interface MasterProps extends WithStyles<typeof styles> {
-    open: boolean;
-    handleDrawerClose: () => void;
+  open: boolean;
+  handleDrawerClose: () => void;
 }
 
 const Master: React.SFC<MasterProps> = ({ classes, open, handleDrawerClose }) => (
-    <Drawer
-        variant="permanent"
-        classes={{
-            paper: classNames(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-    >
-        <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
-                <ChevronLeftIcon />
-            </IconButton>
-        </div>
-        <Divider />
-        <RetroListContainer />
-    </Drawer>
+  <Drawer
+    variant="permanent"
+    classes={{ paper: classNames(classes.drawerPaper, !open && classes.drawerPaperClose) }}
+    open={open}
+  >
+    <div className={classes.toolbarIcon}>
+      <IconButton onClick={handleDrawerClose}>
+        <ChevronLeftIcon />
+      </IconButton>
+    </div>
+    <Divider />
+    <RetroListContainer />
+  </Drawer>
 );
 
 export default withStyles(styles)(Master);

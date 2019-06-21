@@ -145,7 +145,7 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
               direction={"row"}
               alignItems={"center"}
               justify={"center"}
-              spacing={24}
+              spacing={10}
             >
               {this.props.group.comments.map((comment, index) => (
                 <Grid key={index} item={true} md={4}>

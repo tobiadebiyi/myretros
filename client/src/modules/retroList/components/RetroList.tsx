@@ -121,7 +121,7 @@ export class RetroList extends React.Component<RetroListProps,
                 <AddCircle />
               </ListItemIcon>
             </Tooltip>
-            <ListItemText inset={false} primary="Create Retro" />
+            <ListItemText primary="Create Retro" />
           </ListItem>
 
           <ListItem button={true} onClick={() => this.handleJoinRetroButtonClick()}>
@@ -130,7 +130,7 @@ export class RetroList extends React.Component<RetroListProps,
                 <Group />
               </ListItemIcon>
             </Tooltip>
-            <ListItemText inset={true} primary="Join Retro" />
+            <ListItemText primary="Join Retro" />
           </ListItem>
           <Divider />
           {

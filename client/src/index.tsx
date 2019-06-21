@@ -11,11 +11,7 @@ import { App } from "./modules/app/";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 
-const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true,
-  },
-});
+const theme = createMuiTheme();
 
 startSignalR(store, () => {
   ReactDOM.render(
