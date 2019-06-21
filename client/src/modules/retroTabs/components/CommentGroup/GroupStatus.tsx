@@ -5,7 +5,6 @@ import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import createStyles from "@material-ui/core/styles/createStyles";
 import { amber } from "@material-ui/core/colors";
 import Switch from "@material-ui/core/Switch";
-import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
 
 const styles = () => createStyles({
   root: {
@@ -13,12 +12,12 @@ const styles = () => createStyles({
   },
   groupNotification: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "flex-end",
+    alignItems: "center",
     minHeight: "1em",
     marginBottom: "1em",
     "& p": { color: amber[900], alignSelf: "center", padding: "1em", },
   },
-  allowComments: { padding: "1em" }
 });
 
 export interface GroupStatusProps extends WithStyles<typeof styles> {
@@ -40,17 +39,13 @@ const GroupStatus: React.SFC<GroupStatusProps> = ({ isAdmin, toggleGroupVisibili
     }
     {isAdmin &&
       <div className={classes.groupNotification}>
-        <FormControlLabel
-          className={classes.allowComments}
-          control={
-            <Switch
-              checked={group.commentsArePublic}
-              onChange={() => toggleGroupVisibility!(retroId, group.id)}
-              inputProps={{ "aria-label": "Share comments" }}
-            />
-          }
-          label="Share comments"
+        <span>Private</span>
+        <Switch
+          checked={group.commentsArePublic}
+          onChange={() => toggleGroupVisibility!(retroId, group.id)}
+          inputProps={{ "aria-label": "Share comments" }}
         />
+        <span>Public</span>
       </div>
     }
   </React.Fragment >
