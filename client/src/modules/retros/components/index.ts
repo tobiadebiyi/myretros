@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { ApplicationState } from "../../../store";
-import { RetroListProps, RetroList } from "./RetroList";
+import Retros, { RetroListProps } from "./Retros";
 import { RetroListActionCreators } from "..";
 import { RouteComponentProps } from "react-router";
 import { CreateRetro } from "../state";
@@ -30,4 +30,4 @@ const mapDispatchToProps = (dispatch, ownProps: RouteComponentProps<{}>): Partia
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(RetroList));
+)(Retros));

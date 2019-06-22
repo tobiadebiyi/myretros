@@ -13,6 +13,8 @@ import GroupStatus from "./GroupStatus";
 const styles = () => createStyles({
   root: {
     flexGrow: 1,
+    overflowY: "scroll",
+    height: "100%",
   },
 });
 
@@ -108,10 +110,10 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
   }
 
   render() {
-    const { isAdmin, group, retroId, toggleGroupVisibility } = this.props;
+    const { isAdmin, group, retroId, toggleGroupVisibility, classes } = this.props;
 
     return (
-      <React.Fragment>
+      <div className={classes.root}>
         <GroupStatus
           isAdmin={isAdmin}
           group={group}
@@ -159,7 +161,7 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
             </Grid>
           </Grid>
         </Grid>
-      </React.Fragment>
+      </div>
     );
   }
 }

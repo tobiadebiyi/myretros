@@ -4,7 +4,7 @@ import "./App.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import SnackBar from "./SnackBar";
 import { Switch, Route } from "react-router";
-import MasterDetail from "src/modules/views";
+import MasterDetail from "src/modules/views/masterDetail";
 
 export class App extends React.Component {
   render() {

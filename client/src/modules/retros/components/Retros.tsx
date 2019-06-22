@@ -32,7 +32,7 @@ interface RetroListState {
   onSaveTextHandler?: (text: string) => void;
 }
 
-export class RetroList extends React.Component<RetroListProps,
+export default class Retros extends React.Component<RetroListProps,
   RetroListState> {
   handleOnSaveRetro: (retroName: string) => void;
   handleDeleteRetro: (retroId: string) => void;

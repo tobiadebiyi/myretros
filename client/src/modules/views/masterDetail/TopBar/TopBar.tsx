@@ -14,13 +14,14 @@ import Tooltip from "@material-ui/core/Tooltip";
 const drawerWidth = 240;
 
 const styles = theme => createStyles({
+  root: { position: "fixed" },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
     justifyContent: "space-between",
   },
   toolBarLeft: {
     display: "flex",
-    alignItems: "flex-end",
+    alignItems: "center",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -67,6 +68,7 @@ const TopBar: React.SFC<TopBarProps> = ({
     <AppBar
       position="absolute"
       className={classNames(classes.appBar, open && classes.appBarShift)}
+      classes={{ root: classes.root }}
     >
       <Toolbar disableGutters={!open} className={classes.toolbar}>
         <div className={classes.toolBarLeft}>

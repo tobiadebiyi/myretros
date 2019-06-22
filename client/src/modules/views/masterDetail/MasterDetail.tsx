@@ -1,15 +1,17 @@
 import * as React from "react";
 import { withStyles, WithStyles, createStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import { RouteComponentProps } from "react-router";
 
-import { Retro, TopBar } from "../retro";
+import { Retro } from "../../retro";
 import { ViewType } from "./ViewType";
+import TopBar from "./TopBar";
 import Detail from "./Detail";
 import Master from "./Master";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-const styles = theme => createStyles({
+const styles = (theme: Theme) => createStyles({
   root: {
     display: "flex",
   },
@@ -17,7 +19,7 @@ const styles = theme => createStyles({
   content: {
     flexGrow: 1,
     padding: theme.spacing(2),
-    height: "100vh",
+    minHeight: "100vh",
     overflow: "hidden",
   },
 });

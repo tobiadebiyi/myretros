@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
-import { ApplicationState } from "../../store";
+import { ApplicationState } from "../../../store";
 import MasterDetail, { MasterDetailViewProps } from "./MasterDetail";
-import { RetroActionCreators } from "../retro/state";
+import { RetroActionCreators } from "../../retro/state";
 import { showSnackBar } from "src/modules/app";
 
 const mapStateToProps = (state: ApplicationState): Partial<MasterDetailViewProps> => {
