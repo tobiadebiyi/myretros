@@ -15,7 +15,13 @@ const styles = () => createStyles({
     overflowY: "scroll",
     height: "100%",
   },
-  comments: { flexGrow: 1 },
+  comments: { flexGrow: 1, padding: "0 1em" },
+  comment: { width: "auto" },
+  "@media (max-width: 450px)": {
+    comment: {
+      width: "100%",
+    },
+  }
 });
 
 export interface CommentGroupProps extends WithStyles<typeof styles> {
@@ -141,24 +147,22 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
           />
         }
         <Grid container={true} className={classes.comments} alignContent={"center"} justify={"center"}>
-          <Grid item={true} xs={10}>
-            <Grid
-              container={true}
-              direction={"row"}
-              alignItems={"center"}
-              justify={"center"}
-              spacing={10}
-            >
-              {group.comments.map((c, index) => (
-                <Grid key={index} item={true} md={4}>
-                  <CommentCard
-                    comment={c}
-                    handleOnEditComment={handleOnEditComment}
-                    showCommentActions={(_: Comment) => this.setState({ showActions: true, comment: _ })}
-                  />
-                </Grid>
-              ))}
-            </Grid>
+          <Grid
+            container={true}
+            direction={"row"}
+            alignItems={"center"}
+            justify={"center"}
+            spacing={5}
+          >
+            {group.comments.map((c, index) => (
+              <Grid key={index} item={true} xs={12} sm={6} md={4} className={classes.comment}>
+                <CommentCard
+                  comment={c}
+                  handleOnEditComment={handleOnEditComment}
+                  showCommentActions={(_: Comment) => this.setState({ showActions: true, comment: _ })}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </div>

@@ -13,7 +13,6 @@ import * as classNames from "classnames";
 import EditTextDialog from "src/components/EditTextDialog";
 import ScreenActionButton from "src/components/ScreenActionButton";
 
-import { TabContainer } from "../TabContainer";
 import CommentGroup from "../CommentGroup";
 import { GroupCommentModel } from "../../state";
 
@@ -149,16 +148,14 @@ export class TabView extends React.Component<RetroTabsProps, RetroTabsState> {
     if (group === undefined) { return; }
     return (
       <Slide key={index} direction="right" in={tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
-        <div>
-          <TabContainer>
-            <CommentGroup
-              isAdmin={isAdmin}
-              group={group}
-              handleOnEditComment={this.handleOnEditComment}
-              saveComment={saveComment}
-              retroId={retro.id}
-            />
-          </TabContainer>
+        <div style={{ padding: 8 * 3, height: "600px" }}>
+          <CommentGroup
+            isAdmin={isAdmin}
+            group={group}
+            handleOnEditComment={this.handleOnEditComment}
+            saveComment={saveComment}
+            retroId={retro.id}
+          />
         </div>
       </Slide>
     );
