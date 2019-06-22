@@ -28,6 +28,7 @@ const styles = theme => createStyles({
   },
   chartContainer: {
     marginLeft: -22,
+    height: "100vh",
   },
 });
 

@@ -12,10 +12,10 @@ import GroupStatus from "./GroupStatus";
 
 const styles = () => createStyles({
   root: {
-    flexGrow: 1,
     overflowY: "scroll",
     height: "100%",
   },
+  comments: { flexGrow: 1 },
 });
 
 export interface CommentGroupProps extends WithStyles<typeof styles> {
@@ -110,8 +110,8 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
   }
 
   render() {
-    const { isAdmin, group, retroId, toggleGroupVisibility, classes } = this.props;
-
+    const { isAdmin, group, retroId, toggleGroupVisibility, classes, handleOnEditComment } = this.props;
+    const { showActions, comment, editAction, action } = this.state;
     return (
       <div className={classes.root}>
         <GroupStatus
@@ -121,26 +121,26 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
           toggleGroupVisibility={toggleGroupVisibility}
         />
 
-        {this.state.showActions &&
+        {showActions &&
           <CommentActions
-            open={this.state.showActions}
+            open={showActions}
             handleClose={this.handleCloseCommentActions}
-            comment={this.state.comment!}
+            comment={comment!}
             handleSaveComment={this.handleOnSaveComment}
             handelAddNewAction={this.handelAddNewAction}
             handleEditAction={this.handleOnUpdateAction}
           />
         }
-        {this.state.editAction &&
+        {editAction &&
           <EditTextDialog
             handleOnSave={this.handleOnSaveAction}
-            open={this.state.action !== undefined}
+            open={action !== undefined}
             handleClose={this.handleCloseDialog}
-            text={this.state.action!.text}
+            text={action!.text}
             name="action"
           />
         }
-        <Grid container={true} className={this.props.classes.root} alignContent={"center"} justify={"center"}>
+        <Grid container={true} className={classes.comments} alignContent={"center"} justify={"center"}>
           <Grid item={true} xs={10}>
             <Grid
               container={true}
@@ -149,12 +149,12 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
               justify={"center"}
               spacing={10}
             >
-              {this.props.group.comments.map((comment, index) => (
+              {group.comments.map((c, index) => (
                 <Grid key={index} item={true} md={4}>
                   <CommentCard
-                    comment={comment}
-                    handleOnEditComment={this.props.handleOnEditComment}
-                    showCommentActions={(c: Comment) => this.setState({ showActions: true, comment: c })}
+                    comment={c}
+                    handleOnEditComment={handleOnEditComment}
+                    showCommentActions={(_: Comment) => this.setState({ showActions: true, comment: _ })}
                   />
                 </Grid>
               ))}

@@ -21,6 +21,7 @@ const styles = (theme: Theme) => createStyles({
     padding: theme.spacing(2),
     minHeight: "100vh",
     overflow: "hidden",
+    marginLeft: "56px",
   },
 });
 
