@@ -12,12 +12,15 @@ const styles = () => createStyles({
   },
   groupNotification: {
     display: "flex",
-    justifyContent: "flex-end",
+    flexDirection: "column",
     alignItems: "center",
     minHeight: "1em",
     marginBottom: "1em",
     "& p": { color: amber[900], alignSelf: "center", padding: "1em", },
   },
+  adminSwitch: {
+    alignSelf: "flex-end",
+  }
 });
 
 export interface GroupStatusProps extends WithStyles<typeof styles> {
@@ -39,13 +42,15 @@ const GroupStatus: React.SFC<GroupStatusProps> = ({ isAdmin, toggleGroupVisibili
     }
     {isAdmin &&
       <div className={classes.groupNotification}>
-        <span>Private</span>
-        <Switch
-          checked={group.commentsArePublic}
-          onChange={() => toggleGroupVisibility!(retroId, group.id)}
-          inputProps={{ "aria-label": "Share comments" }}
-        />
-        <span>Public</span>
+        <div className={classes.adminSwitch}>
+          <span>Private</span>
+          <Switch
+            checked={group.commentsArePublic}
+            onChange={() => toggleGroupVisibility!(retroId, group.id)}
+            inputProps={{ "aria-label": "Share comments" }}
+          />
+          <span>Public</span>
+        </div>
       </div>
     }
   </React.Fragment >
