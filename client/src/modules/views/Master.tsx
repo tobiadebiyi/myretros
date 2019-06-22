@@ -5,7 +5,8 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import * as classNames from "classnames";
-import { RetroListContainer } from "../../retroList";
+
+import { Retros } from "../retros";
 import createStyles from "@material-ui/core/styles/createStyles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 
@@ -58,7 +59,7 @@ const Master: React.SFC<MasterProps> = ({ classes, open, handleDrawerClose }) =>
       </IconButton>
     </div>
     <Divider />
-    <RetroListContainer />
+    <Retros />
   </Drawer>
 );
 

@@ -1,16 +1,20 @@
 import * as React from "react";
 import "typeface-roboto/index.css";
 import "./App.css";
-import { MyRetrosContainer } from "../../retro";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import SnackBar from "./SnackBar";
+import { Switch, Route } from "react-router";
+import MasterDetail from "src/modules/views";
 
 export class App extends React.Component {
   render() {
     return (
       <div>
         <CssBaseline />
-        <MyRetrosContainer />
+        <Switch>
+          <Route exact={true} path="/" component={MasterDetail} />
+          <Route path="/retros/:retroReference?" component={MasterDetail} />
+        </Switch>
         <SnackBar />
       </div>
     );

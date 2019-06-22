@@ -7,10 +7,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import { createStyles, WithStyles, withStyles } from "@material-ui/core/styles";
-import { Retro } from "src/modules/retroTabs";
-import { Group, Action, Comment } from "../state";
 import grey from "@material-ui/core/colors/grey";
 import Slide from "@material-ui/core/Slide";
+
+import { Retro } from "src/modules/retroTabs";
+import { Group, Action, Comment } from "../../state";
 
 const styles = () => createStyles({
     summaryHeaderRow: {

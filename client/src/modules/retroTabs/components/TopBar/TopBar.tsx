@@ -20,7 +20,7 @@ const styles = theme => createStyles({
   },
   toolBarLeft: {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-end",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -52,6 +52,7 @@ interface TopBarProps extends WithStyles<typeof styles> {
   open: boolean;
   retroReference: string;
   showSnackBar: (message: string) => void;
+  isAdmin: boolean;
 }
 
 const TopBar: React.SFC<TopBarProps> = ({
@@ -60,7 +61,8 @@ const TopBar: React.SFC<TopBarProps> = ({
   location,
   open,
   retroReference,
-  showSnackBar
+  showSnackBar,
+  isAdmin,
 }) => (
     <AppBar
       position="absolute"
@@ -94,11 +96,13 @@ const TopBar: React.SFC<TopBarProps> = ({
             {location && <span> > {location}</span>}
           </Typography>
         </div>
-        <CopyToClipboard text={retroReference} onCopy={() => showSnackBar("Copied to clipboard")} >
-          <Tooltip title="Copy retro reference">
-            <IconButton color="inherit" aria-label="Copy retro reference"><ShareIcon /></IconButton>
-          </Tooltip>
-        </CopyToClipboard>
+        {isAdmin &&
+          (<CopyToClipboard text={retroReference} onCopy={() => showSnackBar("Copied to clipboard")} >
+            <Tooltip title="Copy retro reference">
+              <IconButton color="inherit" aria-label="Copy retro reference"><ShareIcon /></IconButton>
+            </Tooltip>
+          </CopyToClipboard>
+          )}
       </Toolbar>
     </AppBar>
   );

@@ -6,7 +6,7 @@ import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import CommentCard from "../CommentCard";
 import CommentActions from "../CommentActions";
 import { Comment, GroupCommentModel, Action } from "../../state";
-import { EditTextDialog } from "../../../../components/EditTextDialog";
+import EditTextDialog from "src/components/EditTextDialog";
 import { Group } from "../..";
 import GroupStatus from "./GroupStatus";
 

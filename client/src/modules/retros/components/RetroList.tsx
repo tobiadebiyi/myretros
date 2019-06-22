@@ -1,9 +1,5 @@
-import { AddCircle, Group } from "@material-ui/icons";
 import * as React from "react";
-import { Retro } from "../../retroTabs";
-import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog";
-import { RetroRow } from ".";
-import { CreateRetro } from "..";
+import { AddCircle, Group } from "@material-ui/icons";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import List from "@material-ui/core/List";
 import ListSubheader from "@material-ui/core/ListSubheader";
@@ -12,6 +8,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
+import EditTextDialog, { EditTextDialogProps } from "src/components/EditTextDialog";
+
+import { Retro } from "../../retroTabs";
+import { RetroRow } from "./RetroRow";
+import { CreateRetro } from "../state";
 
 export interface RetroListProps {
   retros: Retro[];

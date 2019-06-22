@@ -1,14 +1,13 @@
 import * as React from "react";
 import { withStyles, WithStyles, createStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
 import { RouteComponentProps } from "react-router";
-import { Retro } from "../state";
 
-import TopBar from "./TopBar";
+import { Retro, TopBar } from "../retroTabs";
 import { ViewType } from "./ViewType";
 import Detail from "./Detail";
 import Master from "./Master";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const styles = theme => createStyles({
   root: {
@@ -31,6 +30,7 @@ export interface MasterDetailViewProps extends RouteComponentProps<RetroRoutePar
   retro: Retro;
   joinRetro: (retroId: string) => void;
   showSnackBar: (message: string) => void;
+  isLoading: boolean;
 }
 
 interface MasterDetailViewState {
@@ -68,18 +68,17 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
   handleAlignment = (__, view) => this.setState({ view });
 
   render() {
-    const { classes, retro, match, showSnackBar } = this.props;
+    const { classes, retro, match, showSnackBar, isLoading } = this.props;
     const { view, open } = this.state;
 
     return (
       <React.Fragment>
         <CssBaseline />
+        {isLoading && <LinearProgress color="secondary" />}
         <div className={classes.root}>
           <TopBar
             open={open}
-            location={retro ? retro.name : undefined}
             handleDrawerOpen={this.handleDrawerOpen}
-            retroReference={retro ? retro.reference : ""}
             showSnackBar={showSnackBar}
           />
           <Master open={open} handleDrawerClose={this.handleDrawerClose} />

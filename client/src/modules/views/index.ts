@@ -1,12 +1,13 @@
 import { connect } from "react-redux";
-import { ApplicationState } from "../../../store";
-import DetailedView, { MasterDetailViewProps } from "../views/MasterDetailView";
-import { RetroActionCreators } from "../state";
+import { ApplicationState } from "../../store";
+import MasterDetail, { MasterDetailViewProps } from "./MasterDetail";
+import { RetroActionCreators } from "../retroTabs/state";
 import { showSnackBar } from "src/modules/app";
 
 const mapStateToProps = (state: ApplicationState): Partial<MasterDetailViewProps> => {
   return {
     retro: state.retroState.retro,
+    isLoading: state.appState.isLoading,
   };
 };
 
@@ -17,6 +18,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export const MasterDetailViewContainer = connect(
-  mapStateToProps, mapDispatchToProps
-)(DetailedView);
+export default connect(mapStateToProps, mapDispatchToProps)(MasterDetail);

@@ -24,7 +24,7 @@ interface EditTextDialogState {
   isDirty: boolean;
 }
 
-export class EditTextDialog extends React.Component<EditTextDialogProps, EditTextDialogState> {
+export default class EditTextDialog extends React.Component<EditTextDialogProps, EditTextDialogState> {
   public static defaultProps = { maxLength: 50 };
 
   handleKeyPress: (ev: any) => void;
