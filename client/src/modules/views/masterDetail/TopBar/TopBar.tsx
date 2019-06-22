@@ -10,6 +10,11 @@ import createStyles from "@material-ui/core/styles/createStyles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Tooltip from "@material-ui/core/Tooltip";
+import FormControl from "@material-ui/core/FormControl";
+// import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import FilledInput from "@material-ui/core/FilledInput";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const drawerWidth = 240;
 
@@ -45,25 +50,30 @@ const styles = theme => createStyles({
   menuButtonHidden: {
     display: "none",
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 });
 
-interface TopBarProps extends WithStyles<typeof styles> {
+export interface TopBarProps extends WithStyles<typeof styles> {
   handleDrawerOpen: () => void;
-  location?: string;
   open: boolean;
   retroReference: string;
   showSnackBar: (message: string) => void;
   isAdmin: boolean;
+  retros: Map<string, string>;
+  gotoRetro: (retroReference: string) => void;
 }
 
 const TopBar: React.SFC<TopBarProps> = ({
   classes,
   handleDrawerOpen,
-  location,
   open,
   retroReference,
   showSnackBar,
   isAdmin,
+  retros
 }) => (
     <AppBar
       position="absolute"
@@ -95,7 +105,19 @@ const TopBar: React.SFC<TopBarProps> = ({
             color="inherit"
             style={{ textAlign: "center", fontSize: "1.1em", marginLeft: "0.4em" }}
           >
-            {location && <span> > {location}</span>}
+            <FormControl variant="filled" className={classes.formControl}>
+              {/* <InputLabel htmlFor="filled-age">Age</InputLabel> */}
+              <Select
+                value={retroReference}
+                onChange={(e) => { debugger; }}
+                input={<FilledInput name="retro" id="filled-retro" />}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {Array.from(retros.entries()).map(([k, v]) => <MenuItem key={k} value={k}>{v}</MenuItem>)}
+              </Select>
+            </FormControl>
           </Typography>
         </div>
         {isAdmin &&
