@@ -1,4 +1,4 @@
-import { RetroState } from "../modules/retroTabs";
+import { RetroState } from "../modules/retro";
 import { RetroListState } from "../modules/retros";
 import { AppState } from "../modules/app";
 

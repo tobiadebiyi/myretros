@@ -8,7 +8,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import createStyles from "@material-ui/core/styles/createStyles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 
-import { Retro, Summary, Tabs } from "../retroTabs";
+import { Retro, Summary, Tabs } from "../retro";
 import { ViewType } from "./ViewType";
 
 const styles = theme => createStyles({

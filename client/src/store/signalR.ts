@@ -6,7 +6,7 @@ import {
     GroupCommentModel,
     Group,
     UPDATE_GROUP
-} from "../modules/retroTabs";
+} from "../modules/retro";
 import { showSnackBar } from "src/modules/app";
 
 const hubConnection = new HubConnectionBuilder()

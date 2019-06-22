@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { RetroReducer } from "../modules/retroTabs";
+import { RetroReducer } from "../modules/retro";
 import { RetroListReducer } from "../modules/retros";
 import { AppReducer } from "../modules/app";
 

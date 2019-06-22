@@ -10,7 +10,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import EditTextDialog, { EditTextDialogProps } from "src/components/EditTextDialog";
 
-import { Retro } from "../../retroTabs";
+import { Retro } from "../../retro";
 import { RetroRow } from "./RetroRow";
 import { CreateRetro } from "../state";
 

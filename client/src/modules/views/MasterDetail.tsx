@@ -3,7 +3,7 @@ import { withStyles, WithStyles, createStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { RouteComponentProps } from "react-router";
 
-import { Retro, TopBar } from "../retroTabs";
+import { Retro, TopBar } from "../retro";
 import { ViewType } from "./ViewType";
 import Detail from "./Detail";
 import Master from "./Master";

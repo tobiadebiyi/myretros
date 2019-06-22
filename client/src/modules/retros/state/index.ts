@@ -1,4 +1,4 @@
-import { Retro } from "../../retroTabs";
+import { Retro } from "../../retro";
 import { RetroApi } from "../../../apis/retroApi";
 
 export const SAVE_RETRO_STARTED: string = "retolist/SAVE_RETRO_STARTED";

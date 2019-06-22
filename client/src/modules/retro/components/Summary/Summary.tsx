@@ -10,7 +10,7 @@ import { createStyles, WithStyles, withStyles } from "@material-ui/core/styles";
 import grey from "@material-ui/core/colors/grey";
 import Slide from "@material-ui/core/Slide";
 
-import { Retro } from "src/modules/retroTabs";
+import { Retro } from "src/modules/retro";
 import { Group, Action, Comment } from "../../state";
 
 const styles = () => createStyles({

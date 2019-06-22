@@ -4,7 +4,7 @@ import { RetroListProps, RetroList } from "./RetroList";
 import { RetroListActionCreators } from "..";
 import { RouteComponentProps } from "react-router";
 import { CreateRetro } from "../state";
-import { Retro } from "../../retroTabs";
+import { Retro } from "../../retro";
 import { withRouter } from "react-router-dom";
 import { showSnackBar } from "src/modules/app/AppState";
 
