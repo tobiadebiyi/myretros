@@ -1,20 +1,20 @@
 import * as React from "react";
-import { Group, Retro, Comment } from "..";
+import { Group, Retro, Comment } from "../..";
 import Slide from "@material-ui/core/Slide";
 import green from "@material-ui/core/colors/green";
 import AddIcon from "@material-ui/icons/Add";
 import Mood from "@material-ui/icons/Mood";
 import MoodBad from "@material-ui/icons/MoodBad";
-import * as classNames from "classnames";
-import { EditTextDialog } from "../../../components/EditTextDialog";
-import ScreenActionButton from "../../../components/ScreenActionButton";
-import { TabContainer } from "../components/TabContainer";
-import CommentGroup from "../components/CommentGroup";
-import { GroupCommentModel } from "../state";
 import createStyles from "@material-ui/core/styles/createStyles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
+import * as classNames from "classnames";
+import EditTextDialog from "src/components/EditTextDialog";
+import ScreenActionButton from "src/components/ScreenActionButton";
+
+import CommentGroup from "../CommentGroup";
+import { GroupCommentModel } from "../../state";
 
 const styles = theme => createStyles({
   root: {
@@ -34,8 +34,6 @@ const styles = theme => createStyles({
 
 export interface RetroTabsProps extends WithStyles<typeof styles> {
   retro: Retro;
-  retroReference: string;
-  theme: any;
   isAdmin: boolean;
   saveComment: (retroId: string, model: GroupCommentModel) => void;
   gotoList: () => void;
@@ -150,16 +148,14 @@ export class TabView extends React.Component<RetroTabsProps, RetroTabsState> {
     if (group === undefined) { return; }
     return (
       <Slide key={index} direction="right" in={tabIndex === index} mountOnEnter={true} unmountOnExit={true}>
-        <div>
-          <TabContainer>
-            <CommentGroup
-              isAdmin={isAdmin}
-              group={group}
-              handleOnEditComment={this.handleOnEditComment}
-              saveComment={saveComment}
-              retroId={retro.id}
-            />
-          </TabContainer>
+        <div style={{ padding: 8 * 3, height: "600px" }}>
+          <CommentGroup
+            isAdmin={isAdmin}
+            group={group}
+            handleOnEditComment={this.handleOnEditComment}
+            saveComment={saveComment}
+            retroId={retro.id}
+          />
         </div>
       </Slide>
     );

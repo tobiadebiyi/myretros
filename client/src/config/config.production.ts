@@ -1,7 +1,7 @@
 import { Config } from "./config";
-
+var url = process.env.REACT_APP_SERVER_URL;
 const config: Config = {
-    apiUrl: `https://${window.location.host}`
+    apiUrl: url ? url : window.location.origin,
 };
 
 export default config;

@@ -6,14 +6,22 @@ import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import CommentCard from "../CommentCard";
 import CommentActions from "../CommentActions";
 import { Comment, GroupCommentModel, Action } from "../../state";
-import { EditTextDialog } from "../../../../components/EditTextDialog";
+import EditTextDialog from "src/components/EditTextDialog";
 import { Group } from "../..";
 import GroupStatus from "./GroupStatus";
 
 const styles = () => createStyles({
   root: {
-    flexGrow: 1,
+    overflowY: "scroll",
+    height: "100%",
   },
+  comments: { flexGrow: 1, padding: "0 1em" },
+  comment: { width: "auto" },
+  "@media (max-width: 450px)": {
+    comment: {
+      width: "100%",
+    },
+  }
 });
 
 export interface CommentGroupProps extends WithStyles<typeof styles> {
@@ -108,10 +116,10 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
   }
 
   render() {
-    const { isAdmin, group, retroId, toggleGroupVisibility } = this.props;
-
+    const { isAdmin, group, retroId, toggleGroupVisibility, classes, handleOnEditComment } = this.props;
+    const { showActions, comment, editAction, action } = this.state;
     return (
-      <React.Fragment>
+      <div className={classes.root}>
         <GroupStatus
           isAdmin={isAdmin}
           group={group}
@@ -119,47 +127,45 @@ class CommentGroup extends React.Component<CommentGroupProps, CommentGroupState>
           toggleGroupVisibility={toggleGroupVisibility}
         />
 
-        {this.state.showActions &&
+        {showActions &&
           <CommentActions
-            open={this.state.showActions}
+            open={showActions}
             handleClose={this.handleCloseCommentActions}
-            comment={this.state.comment!}
+            comment={comment!}
             handleSaveComment={this.handleOnSaveComment}
             handelAddNewAction={this.handelAddNewAction}
             handleEditAction={this.handleOnUpdateAction}
           />
         }
-        {this.state.editAction &&
+        {editAction &&
           <EditTextDialog
             handleOnSave={this.handleOnSaveAction}
-            open={this.state.action !== undefined}
+            open={action !== undefined}
             handleClose={this.handleCloseDialog}
-            text={this.state.action!.text}
+            text={action!.text}
             name="action"
           />
         }
-        <Grid container={true} className={this.props.classes.root} alignContent={"center"} justify={"center"}>
-          <Grid item={true} xs={10}>
-            <Grid
-              container={true}
-              direction={"row"}
-              alignItems={"center"}
-              justify={"center"}
-              spacing={10}
-            >
-              {this.props.group.comments.map((comment, index) => (
-                <Grid key={index} item={true} md={4}>
-                  <CommentCard
-                    comment={comment}
-                    handleOnEditComment={this.props.handleOnEditComment}
-                    showCommentActions={(c: Comment) => this.setState({ showActions: true, comment: c })}
-                  />
-                </Grid>
-              ))}
-            </Grid>
+        <Grid container={true} className={classes.comments} alignContent={"center"} justify={"center"}>
+          <Grid
+            container={true}
+            direction={"row"}
+            alignItems={"center"}
+            justify={"center"}
+            spacing={5}
+          >
+            {group.comments.map((c, index) => (
+              <Grid key={index} item={true} xs={12} sm={6} md={4} className={classes.comment}>
+                <CommentCard
+                  comment={c}
+                  handleOnEditComment={handleOnEditComment}
+                  showCommentActions={(_: Comment) => this.setState({ showActions: true, comment: _ })}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
-      </React.Fragment>
+      </div>
     );
   }
 }

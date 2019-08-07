@@ -14,6 +14,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 const drawerWidth = 240;
 
 const styles = theme => createStyles({
+  root: { position: "fixed" },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
     justifyContent: "space-between",
@@ -46,25 +47,28 @@ const styles = theme => createStyles({
   },
 });
 
-interface TopBarProps extends WithStyles<typeof styles> {
+export interface TopBarProps extends WithStyles<typeof styles> {
   handleDrawerOpen: () => void;
-  location?: string;
   open: boolean;
   retroReference: string;
+  retroName: string;
   showSnackBar: (message: string) => void;
+  isAdmin: boolean;
 }
 
 const TopBar: React.SFC<TopBarProps> = ({
   classes,
   handleDrawerOpen,
-  location,
   open,
   retroReference,
-  showSnackBar
+  retroName,
+  showSnackBar,
+  isAdmin,
 }) => (
     <AppBar
       position="absolute"
       className={classNames(classes.appBar, open && classes.appBarShift)}
+      classes={{ root: classes.root }}
     >
       <Toolbar disableGutters={!open} className={classes.toolbar}>
         <div className={classes.toolBarLeft}>
@@ -84,21 +88,16 @@ const TopBar: React.SFC<TopBarProps> = ({
             color="inherit"
             noWrap={true}
           >
-            MyRetros
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            color="inherit"
-            style={{ textAlign: "center", fontSize: "1.1em", marginLeft: "0.4em" }}
-          >
-            {location && <span> > {location}</span>}
+            {`MyRetros ${retroReference ? " >" : ""} ${retroName}`}
           </Typography>
         </div>
-        <CopyToClipboard text={retroReference} onCopy={() => showSnackBar("Copied to clipboard")} >
-          <Tooltip title="Copy retro reference">
-            <IconButton color="inherit" aria-label="Copy retro reference"><ShareIcon /></IconButton>
-          </Tooltip>
-        </CopyToClipboard>
+        {isAdmin &&
+          (<CopyToClipboard text={retroReference} onCopy={() => showSnackBar("Copied to clipboard")} >
+            <Tooltip title="Copy retro reference">
+              <IconButton color="inherit" aria-label="Copy retro reference"><ShareIcon /></IconButton>
+            </Tooltip>
+          </CopyToClipboard>
+          )}
       </Toolbar>
     </AppBar>
   );

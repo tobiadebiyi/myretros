@@ -1,10 +1,5 @@
-import { AddCircle, Group } from "@material-ui/icons";
 import * as React from "react";
-import { Retro } from "../../retroTabs";
-import { EditTextDialog, EditTextDialogProps } from "../../../components/EditTextDialog";
-import { RetroRow } from ".";
-import { CreateRetro } from "..";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import { AddCircle, Group } from "@material-ui/icons";
 import List from "@material-ui/core/List";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItem from "@material-ui/core/ListItem";
@@ -12,34 +7,29 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
+import EditTextDialog, { EditTextDialogProps } from "src/components/EditTextDialog";
 
-export interface RetroListProps {
-  retros: Retro[];
-  classes?: any;
+import { CreateRetro } from "../state";
+
+export interface ActionsProps {
   createRetro: (request: CreateRetro) => Promise<void>;
   gotoRetro: (retroReference: string) => void;
-  fetchRetros: () => void;
-  deleteRetro: (retroId: string) => Promise<void>;
-  updateRetros: (retros: Retro[]) => void;
   showSnackBar: (message: string) => void;
 }
 
 interface RetroListState {
   dialogProps?: EditTextDialogProps;
-  activeRetro?: Retro;
   snackBarMessage?: string;
   onSaveTextHandler?: (text: string) => void;
 }
 
-export class RetroList extends React.Component<RetroListProps,
+export default class Retros extends React.Component<ActionsProps,
   RetroListState> {
   handleOnSaveRetro: (retroName: string) => void;
-  handleDeleteRetro: (retroId: string) => void;
   handleCloseDialog: () => void;
   handleJoinRetro: (retroId: string) => void;
-  handleReceivedRetros: (retros: Retro[]) => void;
 
-  constructor(props: RetroListProps, context?: any) {
+  constructor(props: ActionsProps, context?: any) {
     super(props);
 
     this.state = {};
@@ -48,39 +38,21 @@ export class RetroList extends React.Component<RetroListProps,
       this.props.createRetro({ retroName, withDefaultGroups: true })
         .then(() => this.props.showSnackBar("Retro Created"));
 
-      this.setState({ dialogProps: undefined, activeRetro: undefined });
-    };
-
-    this.handleDeleteRetro = (retroId: string) => {
-      this.props.deleteRetro(retroId).then(() => {
-        this.props.showSnackBar("Retro Deleted");
-        this
-          .props
-          .fetchRetros();
-      });
+      this.setState({ dialogProps: undefined });
     };
 
     this.handleJoinRetro = (retroReference: string) => {
       this.props.gotoRetro(retroReference);
-      this.setState({ dialogProps: undefined, activeRetro: undefined });
+      this.setState({ dialogProps: undefined });
     };
 
     this.handleCloseDialog = () => {
       this.setState({ dialogProps: undefined });
     };
-
-    this.handleReceivedRetros = (retros: Retro[]) => {
-      this.props.updateRetros(retros);
-    };
   }
 
-  componentDidMount() {
-    this.props.fetchRetros();
-  }
-
-  handleCreateRetroButtonClick(retro: Retro) {
+  handleCreateRetroButtonClick() {
     this.setState({
-      activeRetro: retro,
       dialogProps: {
         open: true,
         text: "",
@@ -106,16 +78,12 @@ export class RetroList extends React.Component<RetroListProps,
   }
 
   render() {
-    const { retros, gotoRetro } = this.props;
-    if (!retros) return <LinearProgress color="secondary" />;
-    const defaultRetro = { name: "", id: "", groups: [], reference: "" };
-
     return (
       <div>
         {this.state.dialogProps && <EditTextDialog {...this.state.dialogProps} />}
         <List>
           <ListSubheader inset={true}>Actions</ListSubheader>
-          <ListItem button={true} onClick={() => this.handleCreateRetroButtonClick(defaultRetro)}>
+          <ListItem button={true} onClick={() => this.handleCreateRetroButtonClick()}>
             <Tooltip title="Create Retro">
               <ListItemIcon>
                 <AddCircle />
@@ -133,20 +101,8 @@ export class RetroList extends React.Component<RetroListProps,
             <ListItemText primary="Join Retro" />
           </ListItem>
           <Divider />
-          {
-            retros.map((retro, index) => (
-              <RetroRow
-                key={index}
-                retroId={retro.id!}
-                retroReference={retro.reference}
-                name={retro.name}
-                gotoRetro={gotoRetro}
-                showSnackBar={this.props.showSnackBar}
-                deleteRetro={this.handleDeleteRetro}
-              />))
-          }
         </List>
-      </div >
+      </div>
     );
   }
 }

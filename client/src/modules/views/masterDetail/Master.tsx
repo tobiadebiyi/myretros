@@ -5,13 +5,15 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import * as classNames from "classnames";
-import { RetroListContainer } from "../../retroList";
+
+import { Retros } from "../../retros";
 import createStyles from "@material-ui/core/styles/createStyles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 
 const drawerWidth = 240;
 
 const styles = theme => createStyles({
+  root: { position: "fixed", zIndex: 1 },
   toolbarIcon: {
     display: "flex",
     alignItems: "center",
@@ -27,6 +29,7 @@ const styles = theme => createStyles({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    height: "100vh",
   },
   drawerPaperClose: {
     overflowX: "hidden",
@@ -49,7 +52,10 @@ interface MasterProps extends WithStyles<typeof styles> {
 const Master: React.SFC<MasterProps> = ({ classes, open, handleDrawerClose }) => (
   <Drawer
     variant="permanent"
-    classes={{ paper: classNames(classes.drawerPaper, !open && classes.drawerPaperClose) }}
+    classes={{
+      root: classes.root,
+      paper: classNames(classes.drawerPaper, !open && classes.drawerPaperClose)
+    }}
     open={open}
   >
     <div className={classes.toolbarIcon}>
@@ -58,7 +64,7 @@ const Master: React.SFC<MasterProps> = ({ classes, open, handleDrawerClose }) =>
       </IconButton>
     </div>
     <Divider />
-    <RetroListContainer />
+    <Retros />
   </Drawer>
 );
 

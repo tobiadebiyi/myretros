@@ -1,6 +1,6 @@
-import { Retro } from "../modules/retroTabs";
+import { Retro } from "../modules/retro";
 import { get, post, remove } from "../services/HttpService";
-import { CreateRetro } from "../modules/retroList";
+import { CreateRetro } from "../modules/retros";
 import config from "../config";
 
 const getRetros = (): Promise<Retro[]> => {
