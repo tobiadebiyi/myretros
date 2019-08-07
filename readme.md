@@ -12,3 +12,4 @@
 ### Docker: Client/Server Deployment
 - You can clone the repo and create separate docker images for ./client && ./server.
 - Server: To allow connections from the client, you will need to pass the `ALLOWED_ORIGINS` environment variable to your server container.
+- Client: `REACT_APP_SERVER_URL` environment variable should be set to the server's url
