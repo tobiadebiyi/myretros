@@ -46,7 +46,7 @@ class MasterDetailView extends React.Component<MasterDetailViewProps, MasterDeta
     super(props);
 
     this.state = {
-      open: true,
+      open: false,
       view: ViewType.Tab,
     };
 
