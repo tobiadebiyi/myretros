@@ -1,7 +1,7 @@
 # MyRetros
 
 ## Use
-- If you simply want to use MyReytros with your team, click <a href="http://myretros.tobiadebiyi.com/">here</a>
+- If you simply want to use MyReytros with your team, click <a href="https://myretros.azurewebsites.net">here</a>
 - We're always open to new ideas and improvements, so don't forget to leave feedback and comments here on git hub.
 
 ## Deployment
