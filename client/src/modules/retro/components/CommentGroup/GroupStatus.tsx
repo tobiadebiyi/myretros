@@ -15,7 +15,7 @@ const styles = () => createStyles({
     flexDirection: "column",
     alignItems: "center",
     minHeight: "1em",
-    marginBottom: "1em",
+    margin: "0 1em 1em 0;",
     "& p": { color: amber[900], alignSelf: "center", padding: "1em", },
   },
   adminSwitch: {

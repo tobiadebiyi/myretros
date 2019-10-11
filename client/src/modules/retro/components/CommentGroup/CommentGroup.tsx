@@ -12,7 +12,7 @@ import GroupStatus from "./GroupStatus";
 
 const styles = () => createStyles({
   root: {
-    overflowY: "scroll",
+    overflowX: "hidden",
     height: "100%",
   },
   comments: { flexGrow: 1, padding: "0 1em" },
