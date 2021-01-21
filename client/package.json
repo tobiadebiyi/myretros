@@ -48,7 +48,7 @@
     "react-swipeable-views": "^0.12.18",
     "redux": "3.7.2",
     "redux-thunk": "2.2.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.2.0",
     "source-map-loader": "^0.2.4",
     "style-loader": "0.19.0",
